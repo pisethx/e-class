@@ -4,4 +4,4 @@ package-lock.json
 /build
 /Documentation
 
-/context
+/src/context
