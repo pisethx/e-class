@@ -35,8 +35,8 @@ import { MY_COMMENTS_QUERY } from 'constants/forum'
 const Dashboard = (props) => {
   const authContext = useContext(AuthContext)
   const client = useApolloClient()
-  const [myForums, setMyForums] = useState([])
-  const [myComments, setMyComments] = useState([])
+  const [myForums, setMyForums] = useState(null)
+  const [myComments, setMyComments] = useState(null)
 
   useEffect(() => {
     async function myForumsQuery() {
@@ -79,6 +79,43 @@ const Dashboard = (props) => {
     })
   }, [])
 
+  const renderClasses = (classes) => {
+    return classes.map((class_) => {
+      return (
+        <tr key={class_.id}>
+          <td>
+            <a href="#">{class_.name}</a>
+          </td>
+          <td>{class_.code}</td>
+          <td>
+            {class_.schedules.map((schedule) => {
+              return (
+                <Row>
+                  {console.log(schedule)}
+                  <Col lg="6" md="12" className="text-strong">
+                    {schedule.day}
+                  </Col>
+                  <Col lg="6" md="12">
+                    {schedule.sessions &&
+                      schedule.sessions.map((session) => {
+                        return (
+                          <tr>
+                            <td>{session.start_time}</td>
+                            <td>-</td>
+                            <td>{session.end_time}</td>
+                          </tr>
+                        )
+                      })}
+                  </Col>
+                </Row>
+              )
+            })}
+          </td>
+        </tr>
+      )
+    });
+  }
+
   const ele = {
     classes: (
       <Col>
@@ -97,40 +134,9 @@ const Dashboard = (props) => {
               </thead>
               <tbody>
                 {authContext.user.learnings &&
-                  authContext.user.learnings.map((class_) => {
-                    return (
-                      <tr>
-                        <td>
-                          <a href="#">{class_.name}</a>
-                        </td>
-                        <td>{class_.code}</td>
-                        <td>
-                          {class_.schedules.map((schedule) => {
-                            return (
-                              <Row>
-                                {console.log(schedule)}
-                                <Col lg="6" md="12" className="text-strong">
-                                  {schedule.day}
-                                </Col>
-                                <Col lg="6" md="12">
-                                  {schedule.sessions &&
-                                    schedule.sessions.map((session) => {
-                                      return (
-                                        <tr>
-                                          <td>{session.start_time}</td>
-                                          <td>-</td>
-                                          <td>{session.end_time}</td>
-                                        </tr>
-                                      )
-                                    })}
-                                </Col>
-                              </Row>
-                            )
-                          })}
-                        </td>
-                      </tr>
-                    )
-                  })}
+                  renderClasses(authContext.user.learnings)}
+                {authContext.user.teachings &&
+                renderClasses(authContext.user.teachings)}
               </tbody>
             </Table>
           </CardBody>
@@ -152,7 +158,7 @@ const Dashboard = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {myForums.data &&
+                {myForums &&
                   myForums.data.map((forum) => {
                     return (
                       <tr>
@@ -184,7 +190,7 @@ const Dashboard = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {myComments.data &&
+                {myComments &&
                   myComments.data.map((comment) => {
                     return (
                       <tr>

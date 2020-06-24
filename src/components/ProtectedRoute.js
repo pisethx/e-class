@@ -21,8 +21,6 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
   const [isRefreshingToken, setIsRefreshingToken] = useState(false)
 
   useEffect(() => {
-    const ac = new AbortController()
-
     async function queryMe() {
       try {
         const res = await client.query({
