@@ -78,36 +78,30 @@ export const CLASS_QUERY = gql`
 // `
 
 export const CREATE_CLASS_CONTENT_MUTATION = gql`
-	mutation CREATE_CLASS_CONTENT_MUTATION(
-		$name: String!,
-    $description: String!,
-    $classId: Int!,
-	) {
-		mutation createClassContent (input: {
-			name: $name,
-			description: $description,
-			class_id: $classId,
-		}) {
-			id
-			name
-			code
-		}
-	}
+  mutation CREATE_CLASS_CONTENT_MUTATION(
+    $name: String!
+    $description: String!
+    $classId: Int!
+  ) {
+    mutation
+    createClassContent(
+      input: { name: $name, description: $description, class_id: $classId }
+    ) {
+      id
+      name
+      code
+    }
+  }
 `
 
 export const SYNC_STUDENTS_MUTATION = gql`
-	mutation SYNC_STUDENTS_MUTATION(
-		$classId: Int!,
-		$studentIds: [Int!]
-	) {
-		mutation syncStudents(input: {
-			class_id: $classId,
-			students: {
-				sync: $studentIds
-			}
-		}) {
-			id
-			students {
+  mutation SYNC_STUDENTS_MUTATION($classId: Int!, $studentIds: [Int!]) {
+    mutation
+    syncStudents(
+      input: { class_id: $classId, students: { sync: $studentIds } }
+    ) {
+      id
+      students {
         id
         identity {
           first_name
@@ -115,6 +109,6 @@ export const SYNC_STUDENTS_MUTATION = gql`
           photo_url
         }
       }
-		}
-	}
+    }
+  }
 `

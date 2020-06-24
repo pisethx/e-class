@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import useForm from '../../lib/useForm'
 import { FormWrapper, H3 } from './Styled'
-import { USER_LOGIN_MUTATION } from './Api'
 import Error from './ErrorMessage'
 
 import { AuthContext } from '../../contexts/auth'
@@ -25,6 +24,7 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import { USER_LOGIN_MUTATION } from 'constants/auth'
 
 const Login = (props) => {
   const { inputs, handleChange, resetForm } = useForm({
@@ -40,7 +40,7 @@ const Login = (props) => {
 
   const authContext = useContext(AuthContext)
 
-  const [refreshToken, { }] = useMutation(REFRESH_TOKEN_MUTATION)
+  const [refreshToken, {}] = useMutation(REFRESH_TOKEN_MUTATION)
 
   return (
     <FormWrapper>
@@ -60,10 +60,10 @@ const Login = (props) => {
                   try {
                     await authContext.login(login, authContext, refreshToken)
                   } catch (e) {
-                    console.log(e);
+                    console.log(e)
                   }
 
-                  props.history.goBack()
+                  props.history.push('/')
                 }}
               >
                 <Row className="p-3">

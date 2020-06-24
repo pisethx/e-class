@@ -22,7 +22,7 @@ const App = () => {
   const authContext = useContext(AuthContext)
 
   const client = new ApolloClient({
-    uri: 'https://api.raymond.digital/graphql',
+    uri: 'https://e-class-api.app/graphql',
     fetchOptions: {
       credentials: 'include',
     },
@@ -74,7 +74,6 @@ const App = () => {
             path="/class/create"
             render={(props) => <AdminLayout {...props} />}
           />
-
 
           <Redirect from="*" to="/" />
         </Switch>
