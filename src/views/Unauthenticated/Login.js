@@ -58,6 +58,8 @@ const Login = (props) => {
                   setIsButtonDisabled(true)
                   // setValidation(true)
                   try {
+                    console.log(inputs);
+                    
                     await authContext.login(login, authContext, refreshToken)
                   } catch (e) {
                     console.log(e)

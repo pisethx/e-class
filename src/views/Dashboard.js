@@ -25,18 +25,21 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
+  Spinner,
 } from 'reactstrap'
 
 import { AuthContext } from 'contexts/auth'
 import { useApolloClient, useQuery } from 'react-apollo'
 import { MY_FORUMS_QUERY } from 'constants/forum'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
+import { CLASSES_QUERY } from 'constants/class'
 
 const Dashboard = (props) => {
   const authContext = useContext(AuthContext)
   const client = useApolloClient()
   const [myForums, setMyForums] = useState(null)
   const [myComments, setMyComments] = useState(null)
+  const [classes, setClasses] = useState(null)
 
   useEffect(() => {
     async function myForumsQuery() {
@@ -69,6 +72,22 @@ const Dashboard = (props) => {
       }
     }
 
+    async function getClasses() {
+      try {
+        const res = await client.query({
+          query: CLASSES_QUERY,
+          variables: {
+            first: 10,
+            page: 1
+          }
+        })
+
+        return res.data.classes
+      }catch (e) {
+        console.log(e)
+      }
+    }
+
     myForumsQuery().then((forums) => {
       setMyForums(forums)
     })
@@ -77,9 +96,18 @@ const Dashboard = (props) => {
       setMyComments(comments)
       console.log(comments)
     })
+
+    if(authContext.users.roles[0].name === 'teacher') {
+      setClasses(authContext.users.teachings);
+    } else if(authContext.users.roles[0].name === 'student') {
+      setClasses(authContext.users.learnings);
+    }
   }, [])
 
   const renderClasses = (classes) => {
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+    if(!classes) return <Spinner />
+    
     return classes.map((class_) => {
       return (
         <tr key={class_.id}>
@@ -100,9 +128,11 @@ const Dashboard = (props) => {
                       schedule.sessions.map((session) => {
                         return (
                           <tr>
-                            <td>{session.start_time}</td>
+                            <td>{
+                                zeroPad(session.start_time, 4).slice(0, 2) + ':' + zeroPad(session.start_time, 4).slice(2)
+                              }</td>
                             <td>-</td>
-                            <td>{session.end_time}</td>
+                            <td>{zeroPad(session.end_time, 4).slice(0, 2) + ':' + zeroPad(session.end_time, 4).slice(2)}</td>
                           </tr>
                         )
                       })}
@@ -133,10 +163,11 @@ const Dashboard = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {authContext.user.learnings &&
+                {/* {authContext.user.learnings &&
                   renderClasses(authContext.user.learnings)}
                 {authContext.user.teachings &&
-                renderClasses(authContext.user.teachings)}
+                renderClasses(authContext.user.teachings)} */}
+                {renderClasses(classes)}
               </tbody>
             </Table>
           </CardBody>

@@ -36,6 +36,39 @@ export const CLASS_QUERY = gql`
   }
 `
 
+export const CLASSES_QUERY = gql`
+  query CLASSES_QUERY(
+    $first: Int!
+    $page: Int!
+  ) {
+    classes(first: $first, page: $page) {
+      data {
+        id
+        name
+        code
+        teacher {
+          id
+          identity {
+            first_name
+            last_name
+            photo_url
+          }
+        }
+      }
+      paginatorInfo {
+        count
+        currentPage
+        hasMorePages
+        lastPage
+        total
+        perPage
+        lastItem
+        firstItem
+      }
+    }
+  }
+`
+
 // export const CREATE_CLASS_MUTATION = gql`
 // 	mutation CREATE_CLASS_MUTATION(
 // 		$name: String!,
