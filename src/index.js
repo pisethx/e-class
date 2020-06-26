@@ -75,7 +75,6 @@ const App = () => {
             render={(props) => <AdminLayout {...props} />}
           />
 
-
           <Redirect from="*" to="/" />
         </Switch>
       </Router>

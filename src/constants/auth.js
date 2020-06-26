@@ -61,10 +61,28 @@ export const USER_LOGIN_MUTATION = gql`
           photo_url
         }
         learnings {
+          id
           code
+          name
+          schedules {
+            day
+            sessions {
+              start_time
+              end_time
+            }
+          }
         }
         teachings {
+          id
           code
+          name
+          schedules {
+            day
+            sessions {
+              start_time
+              end_time
+            }
+          }
         }
       }
     }
