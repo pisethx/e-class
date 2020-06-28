@@ -19,9 +19,13 @@ const ErrorStyles = styled.div`
 `
 
 const DisplayError = ({ error }) => {
-  console.log(error, 1)
-
-  if (!error || !error.message) return null
+  if (!error) return null
+  if (!error.message)
+    return (
+      <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+        Something went wrong
+      </Alert>
+    )
   if (
     error.networkError &&
     error.networkError.result &&

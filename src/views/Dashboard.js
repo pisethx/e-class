@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import classNames from 'classnames'
 // react plugin used to create charts
 import { Line, Bar } from 'react-chartjs-2'
-
+import { H3 } from './Styled/index'
 import { Redirect } from 'react-router-dom'
 
 // reactstrap components
@@ -33,7 +33,7 @@ import { AuthContext } from 'contexts/auth'
 import { useApolloClient, useQuery } from 'react-apollo'
 import { MY_FORUMS_QUERY } from 'constants/forum'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
-import { CLASSES_QUERY } from 'constants/class'
+import { CLASS_QUERY } from 'constants/class'
 import MyForums from '../components/Cards/MyForums'
 import MyComments from 'components/Cards/MyComments'
 
@@ -45,11 +45,11 @@ const Dashboard = (props) => {
     async function getClasses() {
       try {
         const res = await client.query({
-          query: CLASSES_QUERY,
+          query: CLASS_QUERY,
           variables: {
             first: 10,
-            page: 1
-          }
+            page: 1,
+          },
         })
 
         return res.data.classes
@@ -66,7 +66,9 @@ const Dashboard = (props) => {
       return (
         <tr key={class_.id}>
           <td>
-            <a href="#">{class_.name}</a>
+            <a style={{ fontWeight: 'bold' }} href={`class/${class_.id}`}>
+              {class_.name}
+            </a>
           </td>
           <td>{class_.code}</td>
           <td width="min-content">
@@ -81,7 +83,7 @@ const Dashboard = (props) => {
                       {schedule.sessions &&
                         schedule.sessions.map((session) => {
                           return (
-                            <tr>
+                            <tr key={session.id}>
                               <td>{session.start_time}</td>
                               <td>-</td>
                               <td>{session.end_time}</td>
@@ -96,7 +98,7 @@ const Dashboard = (props) => {
           </td>
         </tr>
       )
-    });
+    })
   }
 
   const ele = {
@@ -104,7 +106,9 @@ const Dashboard = (props) => {
       <Col>
         <Card>
           <CardHeader>
-            <CardTitle tag="h3">Classes</CardTitle>
+            <CardTitle>
+              <H3>Classes</H3>
+            </CardTitle>
           </CardHeader>
           <CardBody>
             <Table className="tablesorter">
@@ -134,9 +138,7 @@ const Dashboard = (props) => {
         <MyForums />
         <MyComments />
       </Row>
-      <Row>
-        {ele.classes}
-      </Row>
+      <Row>{ele.classes}</Row>
     </div>
   )
 }

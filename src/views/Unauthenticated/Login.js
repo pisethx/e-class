@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import useForm from '../../lib/useForm'
-import { FormWrapper, H3 } from './Styled'
-import Error from './ErrorMessage'
+import { FormWrapper, H3 } from '../Styled/index'
+import Error from '../shared/ErrorMessage'
 
 import { AuthContext } from '../../contexts/auth'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
@@ -58,8 +58,8 @@ const Login = (props) => {
                   setIsButtonDisabled(true)
                   // setValidation(true)
                   try {
-                    console.log(inputs);
-                    
+                    console.log(inputs)
+
                     await authContext.login(login, authContext, refreshToken)
                   } catch (e) {
                     console.log(e)

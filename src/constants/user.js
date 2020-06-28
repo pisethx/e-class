@@ -22,6 +22,12 @@ export const ME_QUERY = gql`
         id
         code
         name
+        teacher {
+          identity {
+            first_name
+            last_name
+          }
+        }
         schedules {
           day
           sessions {
@@ -34,6 +40,12 @@ export const ME_QUERY = gql`
         id
         code
         name
+        teacher {
+          identity {
+            first_name
+            last_name
+          }
+        }
         schedules {
           day
           sessions {
@@ -68,6 +80,12 @@ export const USER_QUERY = gql`
         id
         code
         name
+        teacher {
+          identity {
+            first_name
+            last_name
+          }
+        }
         schedules {
           day
           sessions {
@@ -80,6 +98,12 @@ export const USER_QUERY = gql`
         id
         code
         name
+        teacher {
+          identity {
+            first_name
+            last_name
+          }
+        }
         schedules {
           day
           sessions {

@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from '@apollo/react-hooks'
 import useForm from '../../lib/useForm'
-import { FormWrapper, H3 } from './Styled'
+import { FormWrapper, H3 } from '../Styled/index'
 import { GET_ENUM_QUERY, USER_REGISTER_MUTATION } from './Api'
-import Error from './ErrorMessage'
+import Error from '../shared/ErrorMessage'
 
 import {
   Alert,

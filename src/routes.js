@@ -10,9 +10,12 @@ import Login from 'views/Unauthenticated/Login.js'
 import Register from 'views/Unauthenticated/Register.js'
 import ForgotPassword from 'views/Unauthenticated/ForgotPassword.js'
 import ResetPassword from 'views/Unauthenticated/ResetPassword.js'
-import Table from 'views/Users/Table.js'
-import ClassDashboard from 'views/Class/Dashboard.js'
+import UserTable from 'views/Users/Table.js'
+import ClassCreate from 'views/Class/Create.js'
+import ClassDashboard from 'views/Class/Table'
 
+import EachClass from 'views/Class/_id/Class'
+import MyClass from 'views/Class/MyClass'
 
 var routes = [
   {
@@ -118,21 +121,36 @@ var routes = [
     path: '/users',
     name: 'Users',
     icon: 'tim-icons icon-single-02',
-    component: Table,
+    component: UserTable,
+    layout: '/admin',
+  },
+  {
+    path: '/classes',
+    name: 'Classes',
+    icon: 'tim-icons icon-single-02',
+    component: ClassDashboard,
+    layout: '/admin',
+  },
+  {
+    path: '/classes/create',
+    name: 'Create Class',
+    icon: 'tim-icons icon-single-02',
+    component: ClassCreate,
+    layout: '/admin',
+  },
+
+  {
+    path: '/class',
+    name: 'My Class',
+    icon: 'tim-icons icon-single-02',
+    component: MyClass,
     layout: '/admin',
   },
   // {
-  //   path: '/class',
-  //   name: 'Classroom System',
+  //   path: '/class/:slug',
+  //   name: 'Go to Class',
   //   icon: 'tim-icons icon-single-02',
-  //   component: ClassDashboard,
-  //   layout: '/admin',
-  // },
-  // {
-  //   path: '/class/create',
-  //   name: 'Create Class',
-  //   icon: 'tim-icons icon-single-02',
-  //   component: Class,
+  //   component: EachClass,
   //   layout: '/admin',
   // },
 ]

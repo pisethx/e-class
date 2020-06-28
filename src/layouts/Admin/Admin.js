@@ -9,6 +9,8 @@ import Footer from 'components/Footer/Footer.js'
 import Sidebar from 'components/Sidebar/Sidebar.js'
 import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js'
 
+import EachClass from '../../views/Class/_id/Class'
+
 import routes from 'routes.js'
 
 import logo from 'assets/img/react-logo.png'
@@ -61,15 +63,20 @@ class Admin extends React.Component {
     this.setState({ sidebarOpened: !this.state.sidebarOpened })
   }
   getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === '/admin') {
-        return (
-          <Route exact path={prop.path} component={prop.component} key={key} />
-        )
-      } else {
-        return null
-      }
+    const allRoutes = routes.map((prop, key) => {
+      return (
+        <Route exact path={prop.path} component={prop.component} key={key} />
+      )
     })
+
+    allRoutes.push(
+      <EachClass
+        id={this.props.match.params.slug}
+        key={this.props.match.params.slug}
+      />
+    )
+
+    return allRoutes
   }
   handleBgClick = (color) => {
     this.setState({ backgroundColor: color })

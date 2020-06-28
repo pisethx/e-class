@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
-import { useApolloClient } from 'react-apollo';
+import { useApolloClient } from 'react-apollo'
+import { H3 } from '../../views/Styled/index'
 
 // reactstrap components
 import {
@@ -12,13 +13,13 @@ import {
   Col,
   Spinner,
 } from 'reactstrap'
-import CustomPagination from 'components/CustomPagination';
-import { MY_COMMENTS_QUERY } from 'constants/forum';
+import CustomPagination from 'components/CustomPagination'
+import { MY_COMMENTS_QUERY } from 'constants/forum'
 
-const MyComments = props => {
+const MyComments = (props) => {
   const client = useApolloClient()
   const [myComments, setMyComments] = useState(null)
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function myCommentsQuery() {
@@ -42,13 +43,15 @@ const MyComments = props => {
     })
   }, [page])
 
-  if(!myComments) return <Spinner />;
+  if (!myComments) return <Spinner />
 
   return (
     <Col lg="6" md="12">
       <Card>
         <CardHeader>
-          <CardTitle tag="h4">Recent Comments</CardTitle>
+          <CardTitle tag="h4">
+            <H3>Recent Comments</H3>
+          </CardTitle>
         </CardHeader>
         <CardBody>
           <Table className="tablesorter">
@@ -73,14 +76,17 @@ const MyComments = props => {
                   )
                 })}
               <tr>
-                <CustomPagination paginator={myComments.paginatorInfo} onPageChanged={setPage} />
+                <CustomPagination
+                  paginator={myComments.paginatorInfo}
+                  onPageChanged={setPage}
+                />
               </tr>
             </tbody>
           </Table>
         </CardBody>
       </Card>
     </Col>
-  );
-};
+  )
+}
 
-export default MyComments;
+export default MyComments

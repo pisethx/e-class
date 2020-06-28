@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 // reactstrap components
 import {
@@ -10,15 +10,16 @@ import {
   Col,
   Spinner,
 } from 'reactstrap'
+import { H3 } from '../../views/Styled/index'
 
-import CustomPagination from 'components/CustomPagination';
-import { useApolloClient } from 'react-apollo';
-import { MY_FORUMS_QUERY } from 'constants/forum';
+import CustomPagination from 'components/CustomPagination'
+import { useApolloClient } from 'react-apollo'
+import { MY_FORUMS_QUERY } from 'constants/forum'
 
 const MyForums = (props) => {
   const client = useApolloClient()
   const [myForums, setMyForums] = useState(null)
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function myForumsQuery() {
@@ -38,18 +39,19 @@ const MyForums = (props) => {
 
     myForumsQuery().then((forums) => {
       setMyForums(forums)
-      console.log(forums);
-      
+      console.log(forums)
     })
-  }, [page]);
+  }, [page])
 
-  if(!myForums) return <Spinner />;
+  if (!myForums) return <Spinner />
 
   return (
     <Col lg="6" md="12">
       <Card>
         <CardHeader>
-          <CardTitle tag="h4">Recent Forums</CardTitle>
+          <CardTitle>
+            <H3>Recent Forums</H3>
+          </CardTitle>
         </CardHeader>
         <CardBody>
           <Table className="tablesorter m-2">
@@ -72,14 +74,17 @@ const MyForums = (props) => {
                   )
                 })}
               <tr>
-                <CustomPagination paginator={myForums.paginatorInfo} onPageChanged={setPage} />
+                <CustomPagination
+                  paginator={myForums.paginatorInfo}
+                  onPageChanged={setPage}
+                />
               </tr>
             </tbody>
           </Table>
         </CardBody>
       </Card>
     </Col>
-  );
+  )
 }
 
-export default MyForums;
+export default MyForums

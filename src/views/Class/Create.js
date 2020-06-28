@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import useForm from '../../lib/useForm'
-import { FormWrapper, H3 } from './Styled'
-import { CREATE_CLASS_MUTATION } from './Api'
-import Error from './ErrorMessage'
+import { FormWrapper, H3 } from '../Styled/index'
+import { CREATE_CLASS_MUTATION } from '../../constants/class'
+import Error from '../shared/ErrorMessage'
+import Success from '../shared/SuccessMessage'
 
 import { AuthContext } from '../../contexts/auth'
 import { REFRESH_TOKEN } from 'views/Unauthenticated/Api'
@@ -27,6 +28,7 @@ import {
 } from 'reactstrap'
 
 const CreateClass = (props) => {
+  const [success, setSuccess] = useState('')
   const { inputs, handleChange, resetForm } = useForm({
     name: '',
     code: '',
@@ -41,14 +43,15 @@ const CreateClass = (props) => {
   })
 
   return (
-    <FormWrapper>
-      <Row style={{ width: 700 }}>
+    <div className="content">
+      <Row>
         <Col md="12">
           <Card>
             <CardHeader>
-              <H3 className="title">Login</H3>
+              <H3 className="title">Create Class</H3>
             </CardHeader>
             <Error error={error} />
+            <Success success={success} />
             <CardBody>
               <Form
                 onSubmit={async (e) => {
@@ -57,11 +60,15 @@ const CreateClass = (props) => {
                   // setValidation(true)
                   try {
                     await createClass(inputs)
+                    setSuccess('Success')
+                    resetForm()
                   } catch (err) {
                     console.log(err)
                   }
 
-                  props.history.goBack()
+                  setIsButtonDisabled(false)
+
+                  // props.history.goBack()
                 }}
               >
                 <Row className="p-3">
@@ -92,6 +99,20 @@ const CreateClass = (props) => {
                     </FormGroup>
                   </Col>
 
+                  <Col md="12">
+                    <FormGroup>
+                      <label>Teacher</label>
+                      <Input
+                        placeholder="Teacher"
+                        type="text"
+                        name="teacher"
+                        value={inputs.teacher}
+                        onChange={handleChange}
+                        required
+                      />
+                    </FormGroup>
+                  </Col>
+
                   <Col md="12" className="mt-1">
                     <Button
                       type="submit"
@@ -99,7 +120,7 @@ const CreateClass = (props) => {
                       color="primary"
                       disabled={isButtonDisabled}
                     >
-                      Login
+                      Create Class
                     </Button>
                   </Col>
                 </Row>
@@ -108,7 +129,7 @@ const CreateClass = (props) => {
           </Card>
         </Col>
       </Row>
-    </FormWrapper>
+    </div>
   )
 }
 

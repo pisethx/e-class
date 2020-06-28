@@ -11,7 +11,7 @@ const setAuthContext = (context, data, refreshTokenGql) => {
   context.accessToken = data.access_token
   context.user = data.user
 
-  console.log(context);
+  console.log(context)
 
   // setTimeout(
   //   context.refreshToken,
@@ -53,10 +53,10 @@ const AuthContext = createContext({
       setAuthContext(context, res.data.refreshToken, refreshTokenGql)
       console.log('done refresh token')
     } catch (e) {
+      console.log(e)
       localStorage.removeItem('refreshToken')
-      return;
+      return
     }
-
   },
 })
 

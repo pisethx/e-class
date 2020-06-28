@@ -27,13 +27,12 @@ const UserProfile = (props) => {
   // if (loading) return <p>Loading...</p>
   // if (error) return `Error! ${error}`
   useEffect(() => {
-    console.log(authContext.user);
-    setUser(user => (authContext.user))
+    setUser(() => authContext.user)
   }, [authContext])
 
   return (
     <div className="content">
-      {Object.values(user).length > 0 &&
+      {Object.values(user).length > 0 && (
         <Row>
           <Col md="12">
             <Card className="card-user">
@@ -53,7 +52,9 @@ const UserProfile = (props) => {
                     <h3 className="title my-1">{`${user.identity.first_name} ${user.identity.last_name}`}</h3>
                     <h5 className="title mb-4">{user.email}</h5>
                   </a>
-                  <p className="description">{authContext.user.roles[0].name}</p>
+                  <p className="description">
+                    {authContext.user.roles[0].name}
+                  </p>
                 </div>
                 <div className="card-description my-6 mx-3">
                   <Row style={{ lineHeight: 2.53 }}>
@@ -87,7 +88,7 @@ const UserProfile = (props) => {
             </Card>
           </Col>
         </Row>
-      }
+      )}
     </div>
   )
 }

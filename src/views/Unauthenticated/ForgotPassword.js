@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import useFrom from '../../lib/useForm'
-import { FormWrapper, H3 } from './Styled'
+import { FormWrapper, H3 } from '../Styled/index'
 import { FORGOT_PASSWORD_MUTATION } from './Api'
-import Error from './ErrorMessage'
+import Error from '../shared/ErrorMessage'
 
 // reactstrap components
 import {

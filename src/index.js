@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { render } from 'react-dom'
 import { createBrowserHistory } from 'history'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
@@ -27,14 +27,16 @@ const App = () => {
       credentials: 'include',
     },
     request: (operation) => {
-      const token = authContext.accessToken
-      console.log(authContext)
-
-      operation.setContext({
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      if (authContext?.accessToken) {
+        operation.setContext({
+          headers: {
+            authorization: `Bearer ${authContext.accessToken}`,
+          },
+        })
+      } else {
+        return '<p>Loading...</p>'
+        // return hist.push('/login')
+      }
     },
   })
 
@@ -45,6 +47,11 @@ const App = () => {
           <ProtectedRoute
             exact
             path="/"
+            render={(props) => <AdminLayout {...props} />}
+          />
+          <ProtectedRoute
+            exact
+            path="/users"
             render={(props) => <AdminLayout {...props} />}
           />
           <ProtectedRoute
@@ -64,17 +71,27 @@ const App = () => {
             path="/register"
             render={(props) => <UnauthenticatedLayout {...props} />}
           />
-          <Route
+          <ProtectedRoute
+            exact
+            path="/classes"
+            render={(props) => <AdminLayout {...props} />}
+          />
+          <ProtectedRoute
+            exact
+            path="/classes/create"
+            render={(props) => <AdminLayout {...props} />}
+          />
+
+          <ProtectedRoute
             exact
             path="/class"
             render={(props) => <AdminLayout {...props} />}
           />
           <Route
             exact
-            path="/class/create"
+            path="/class/:slug"
             render={(props) => <AdminLayout {...props} />}
           />
-
           <Redirect from="*" to="/" />
         </Switch>
       </Router>

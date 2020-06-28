@@ -37,10 +37,7 @@ export const CLASS_QUERY = gql`
 `
 
 export const CLASSES_QUERY = gql`
-  query CLASSES_QUERY(
-    $first: Int!
-    $page: Int!
-  ) {
+  query CLASSES_QUERY($first: Int!, $page: Int!) {
     classes(first: $first, page: $page) {
       data {
         id
@@ -69,46 +66,21 @@ export const CLASSES_QUERY = gql`
   }
 `
 
-// export const CREATE_CLASS_MUTATION = gql`
-// 	mutation CREATE_CLASS_MUTATION(
-// 		$name: String!,
-//     $code: String!,
-//     $teacher: {
-//       create: {
-//         username: String!,
-//         password: String!,
-//         email: String!,
-// 				uuid: String,
-//         identity: {
-//           create: {
-//             first_name: String!,
-//             last_name: String!,
-//             gender: Gender!,
-//           }
-//         }
-//       }
-// 			connect: Int!
-//     }
-// 	) {
-// 		mutation createClass(
-// 			name: $name,
-// 			code: $code,
-// 			teacher: $teacher
-// 		) {
-// 			id
-// 			name
-// 			code
-// 			teacher {
-// 				id
-// 				identity {
-// 					first_name
-// 					last_name
-// 					photo_url
-// 				}
-// 			}
-// 		}
-// 	}
-// `
+export const CREATE_CLASS_MUTATION = gql`
+  mutation CREATE_CLASS_MUTATION(
+    $name: String!
+    $code: String!
+    $teacher: ID!
+  ) {
+    createClass(
+      input: { name: $name, code: $code, teacher: { connect: $teacher } }
+    ) {
+      id
+      name
+      code
+    }
+  }
+`
 
 export const CREATE_CLASS_CONTENT_MUTATION = gql`
   mutation CREATE_CLASS_CONTENT_MUTATION(
