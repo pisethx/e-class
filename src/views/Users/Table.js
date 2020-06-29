@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from '../Styled/index'
 import { USERS_QUERY } from '../../constants/user'
+import { NavLink } from 'react-router-dom'
 
 // reactstrap components
 import {
@@ -65,13 +66,15 @@ const UserTable = (props) => {
                               : 'No Name'}
                           </td>
                           <td>
-                            <Button
-                              size="sm"
-                              className="mr-3 my-1"
-                              color="info"
-                            >
-                              Show
-                            </Button>
+                            <NavLink to={`/user/${user.id}`}>
+                              <Button
+                                size="sm"
+                                className="mr-3 my-1"
+                                color="info"
+                              >
+                                Show
+                              </Button>
+                            </NavLink>
                             <Button
                               size="sm"
                               className="mr-3 my-1"

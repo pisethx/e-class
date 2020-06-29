@@ -9,8 +9,6 @@ import Footer from 'components/Footer/Footer.js'
 import Sidebar from 'components/Sidebar/Sidebar.js'
 import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js'
 
-import routes from 'routes.js'
-
 import logo from 'assets/img/react-logo.png'
 
 var ps
@@ -22,17 +20,17 @@ class Unauthenticated extends React.Component {
       backgroundColor: 'red',
     }
   }
-  getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === '/unauthenticated') {
-        return (
-          <Route exact path={prop.path} component={prop.component} key={key} />
-        )
-      } else {
-        return null
-      }
-    })
-  }
+  // getRoutes = (routes) => {
+  //   return routes.map((prop, key) => {
+  //     if (prop.layout === '/unauthenticated') {
+  //       return (
+  //         <Route exact path={prop.path} component={prop.component} key={key} />
+  //       )
+  //     } else {
+  //       return null
+  //     }
+  //   })
+  // }
   render() {
     return (
       <>
@@ -42,10 +40,11 @@ class Unauthenticated extends React.Component {
             ref="mainPanel"
             data={this.state.backgroundColor}
           >
-            <Switch>
+            {this.props.children}
+            {/* <Switch>
               {this.getRoutes(routes)}
               <Redirect from="*" to="/login" />
-            </Switch>
+            </Switch> */}
           </div>
         </div>
         {/* <FixedPlugin

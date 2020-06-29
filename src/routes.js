@@ -5,19 +5,96 @@ import Notifications from 'views/Notifications.js'
 import Rtl from 'views/Rtl.js'
 import TableList from 'views/TableList.js'
 import Typography from 'views/Typography.js'
-import UserProfile from 'views/UserProfile.js'
+import MyProfile from 'views/Users/MyProfile.js'
 import Login from 'views/Unauthenticated/Login.js'
 import Register from 'views/Unauthenticated/Register.js'
 import ForgotPassword from 'views/Unauthenticated/ForgotPassword.js'
 import ResetPassword from 'views/Unauthenticated/ResetPassword.js'
 import UserTable from 'views/Users/Table.js'
 import ClassCreate from 'views/Class/Create.js'
-import ClassDashboard from 'views/Class/Table'
+import ClassTable from 'views/Class/Table'
 
-import EachClass from 'views/Class/_id/Class'
+import ClassShow from 'views/Class/_id/Show'
+import ClassEdit from 'views/Class/_id/Edit'
 import MyClass from 'views/Class/MyClass'
 
-var routes = [
+import AdminLayout from './layouts/Admin/Admin'
+import UnauthenticatedLayout from './layouts/Unauthenticated/Unauthenticated'
+
+const routes = [
+  {
+    layout: 'admin',
+    subRoutes: [
+      {
+        exact: true,
+        path: '/',
+        name: 'Dashboard',
+        component: Dashboard,
+      },
+      {
+        exact: true,
+        path: '/user',
+        name: 'My Profile',
+        component: MyProfile,
+      },
+      {
+        exact: true,
+        path: '/class',
+        name: 'My Class',
+        component: MyClass,
+      },
+      {
+        exact: true,
+        path: '/users',
+        name: 'Users',
+        component: UserTable,
+      },
+      {
+        exact: true,
+        path: '/classes',
+        name: 'Classes',
+        component: ClassTable,
+      },
+      {
+        exact: true,
+        path: '/classes/create',
+        name: 'Create Class',
+        component: ClassCreate,
+      },
+    ],
+  },
+  {
+    layout: 'unauthenticated',
+    subRoutes: [
+      {
+        exact: true,
+        path: '/login',
+        name: 'Login',
+        component: Login,
+      },
+      {
+        exact: true,
+        path: '/register',
+        name: 'Register',
+        component: Register,
+      },
+      {
+        exact: true,
+        path: '/forgot-password',
+        name: 'Forgot Password',
+        component: ForgotPassword,
+      },
+      {
+        exact: true,
+        path: '/reset-password',
+        name: 'Reset Password',
+        component: ResetPassword,
+      },
+    ],
+  },
+]
+
+var routes1 = [
   {
     path: '/',
     name: 'Dashboard',
@@ -55,7 +132,7 @@ var routes = [
   //   name: 'User Profile',
   //   rtlName: 'ملف تعريفي للمستخدم',
   //   icon: 'tim-icons icon-single-02',
-  //   component: UserProfile,
+  //   component: MyProfile,
   //   layout: '/admin',
   // },
   // {
@@ -82,70 +159,69 @@ var routes = [
   //   component: Rtl,
   //   layout: '/rtl',
   // },
-  {
-    path: '/login',
-    name: 'Login',
-    icon: 'tim-icons icon-atom',
-    component: Login,
-    layout: '/unauthenticated',
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    icon: 'tim-icons icon-atom',
-    component: Register,
-    layout: '/unauthenticated',
-  },
-  {
-    path: '/login/forgot-password',
-    name: 'Forgot Password',
-    icon: 'tim-icons icon-atom',
-    component: ForgotPassword,
-    layout: '/unauthenticated',
-  },
-  {
-    path: '/login/reset-password',
-    name: 'Reset Password',
-    icon: 'tim-icons icon-atom',
-    component: ResetPassword,
-    layout: '/unauthenticated',
-  },
-  {
-    path: '/user-profile',
-    name: 'User Profile',
-    icon: 'tim-icons icon-single-02',
-    component: UserProfile,
-    layout: '/admin',
-  },
-  {
-    path: '/users',
-    name: 'Users',
-    icon: 'tim-icons icon-single-02',
-    component: UserTable,
-    layout: '/admin',
-  },
-  {
-    path: '/classes',
-    name: 'Classes',
-    icon: 'tim-icons icon-single-02',
-    component: ClassDashboard,
-    layout: '/admin',
-  },
-  {
-    path: '/classes/create',
-    name: 'Create Class',
-    icon: 'tim-icons icon-single-02',
-    component: ClassCreate,
-    layout: '/admin',
-  },
-
-  {
-    path: '/class',
-    name: 'My Class',
-    icon: 'tim-icons icon-single-02',
-    component: MyClass,
-    layout: '/admin',
-  },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   icon: 'tim-icons icon-atom',
+  //   component: Login,
+  //   layout: '/unauthenticated',
+  // },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   icon: 'tim-icons icon-atom',
+  //   component: Register,
+  //   layout: '/unauthenticated',
+  // },
+  // {
+  //   path: '/login/forgot-password',
+  //   name: 'Forgot Password',
+  //   icon: 'tim-icons icon-atom',
+  //   component: ForgotPassword,
+  //   layout: '/unauthenticated',
+  // },
+  // {
+  //   path: '/login/reset-password',
+  //   name: 'Reset Password',
+  //   icon: 'tim-icons icon-atom',
+  //   component: ResetPassword,
+  //   layout: '/unauthenticated',
+  // },
+  // {
+  //   path: '/user-profile',
+  //   name: 'User Profile',
+  //   icon: 'tim-icons icon-single-02',
+  //   component: MyProfile,
+  //   layout: '/admin',
+  // },
+  // {
+  //   path: '/users',
+  //   name: 'Users',
+  //   icon: 'tim-icons icon-single-02',
+  //   component: UserTable,
+  //   layout: '/admin',
+  // },
+  // {
+  //   path: '/classes',
+  //   name: 'Classes',
+  //   icon: 'tim-icons icon-single-02',
+  //   component: ClassDashboard,
+  //   layout: '/admin',
+  // },
+  // {
+  //   path: '/classes/create',
+  //   name: 'Create Class',
+  //   icon: 'tim-icons icon-single-02',
+  //   component: ClassCreate,
+  //   layout: '/admin',
+  // },
+  // {
+  //   path: '/class',
+  //   name: 'My Class',
+  //   icon: 'tim-icons icon-single-02',
+  //   component: MyClass,
+  //   layout: '/admin',
+  // },
   // {
   //   path: '/class/:slug',
   //   name: 'Go to Class',

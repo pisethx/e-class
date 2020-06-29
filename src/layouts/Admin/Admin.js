@@ -9,9 +9,8 @@ import Footer from 'components/Footer/Footer.js'
 import Sidebar from 'components/Sidebar/Sidebar.js'
 import FixedPlugin from 'components/FixedPlugin/FixedPlugin.js'
 
-import EachClass from '../../views/Class/_id/Class'
-
-import routes from 'routes.js'
+import ClassShow from '../../views/Class/_id/Show'
+import ClassEdit from '../../views/Class/_id/Edit'
 
 import logo from 'assets/img/react-logo.png'
 
@@ -45,7 +44,7 @@ class Admin extends React.Component {
     }
   }
   componentDidUpdate(e) {
-    if (e.history.action === 'PUSH') {
+    if (e.action === 'PUSH') {
       if (navigator.platform.indexOf('Win') > -1) {
         let tables = document.querySelectorAll('.table-responsive')
         for (let i = 0; i < tables.length; i++) {
@@ -62,31 +61,32 @@ class Admin extends React.Component {
     document.documentElement.classList.toggle('nav-open')
     this.setState({ sidebarOpened: !this.state.sidebarOpened })
   }
-  getRoutes = (routes) => {
-    const allRoutes = routes.map((prop, key) => {
-      return (
-        <Route exact path={prop.path} component={prop.component} key={key} />
-      )
-    })
+  // getRoutes = (routes) => {
+  //   const allRoutes = routes.map((prop, key) => {
+  //     return (
+  //       <Route exact path={prop.path} component={prop.component} key={key} />
+  //     )
+  //   })
 
-    allRoutes.push(
-      <EachClass
-        id={this.props.match.params.slug}
-        key={this.props.match.params.slug}
-      />
-    )
+  //   allRoutes.push(
+  //     <Route path="class/:slug" key={'show' + this.props.match.params.slug}>
+  //       <ClassShow id={this.props.match.params.slug} />
+  //     </Route>
+  //   )
 
-    return allRoutes
-  }
-  handleBgClick = (color) => {
-    this.setState({ backgroundColor: color })
-  }
+  //   allRoutes.push(
+  //     <Route
+  //       path="class/edit/:slug"
+  //       // key={'edit' + this.props.match.params.slug}
+  //       render={(props) => (
+  //         <ClassEdit {...props} id={props.match.params.slug} />
+  //       )}
+  //     />
+  //   )
+
+  //   return allRoutes
+  // }
   getBrandText = (path) => {
-    // for (let i = 0; i < routes.length; i++) {
-    //   if (this.props.location.pathname.indexOf(routes[i].path) !== -1) {
-    //     return routes[i].name
-    //   }
-    // }
     return 'E-Class'
   }
   render() {
@@ -95,7 +95,6 @@ class Admin extends React.Component {
         <div className="wrapper">
           <Sidebar
             {...this.props}
-            routes={routes}
             bgColor={this.state.backgroundColor}
             logo={{
               innerLink: '/',
@@ -111,26 +110,19 @@ class Admin extends React.Component {
           >
             <AdminNavbar
               {...this.props}
-              brandText={this.getBrandText(this.props.location.pathname)}
+              brandText="E-Class"
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
             />
-            <Switch>
+            {this.props.children}
+            {/* <Switch>
               {this.getRoutes(routes)}
+              <Route exact path="class/edit/:slug" component={ClassEdit} />
               <Redirect from="*" to="/" />
-            </Switch>
-            {
-              // we don't want the Footer to be rendered on map page
-              this.props.location.pathname.indexOf('maps') !== -1 ? null : (
-                <Footer fluid />
-              )
-            }
+            </Switch> */}
+            <Footer fluid />
           </div>
         </div>
-        {/* <FixedPlugin
-          bgColor={this.state.backgroundColor}
-          handleBgClick={this.handleBgClick}
-        /> */}
       </>
     )
   }

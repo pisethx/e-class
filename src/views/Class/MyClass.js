@@ -18,7 +18,9 @@ const ClassDashboard = (props) => {
     return setClasses(() => myClass)
   }, [authContext.user])
 
-  return <>{classes.length && <ClassTable classes={classes} />}</>
+  return (
+    <>{classes.length && <ClassTable classes={classes} title="My Class" />}</>
+  )
 }
 
 export default ClassDashboard

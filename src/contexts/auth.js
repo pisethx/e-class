@@ -1,4 +1,8 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
+
+export function useAuthContext() {
+  return useContext(AuthContext)
+}
 
 const setAuthContext = (context, data, refreshTokenGql) => {
   console.log('try set authContext')

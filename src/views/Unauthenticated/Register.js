@@ -101,7 +101,9 @@ const Register = (props) => {
                         onChange={(e) => setGender(e.target.value)}
                         required
                       >
-                        <option default>Select a Gender</option>
+                        <option value="" defaultValue>
+                          Select a Gender
+                        </option>
                         {GENDERS.data.__type.enumValues.map(({ name }) => (
                           <option key={name} value={name}>
                             {name}

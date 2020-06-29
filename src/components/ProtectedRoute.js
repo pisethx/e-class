@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
-import { setAuthContext, AuthContext } from '../contexts/auth'
+import { setAuthContext, AuthContext, useAuthContext } from '../contexts/auth'
 import {
   useMutation,
   Mutation,
@@ -11,26 +11,12 @@ import {
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
 import { ME_QUERY } from '../constants/user'
 
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Spinner,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Spinner } from 'reactstrap'
 
 const ProtectedRoute = ({ render: Render, ...rest }) => {
   const client = useApolloClient()
   const authContext = useContext(AuthContext)
+  const auth = useAuthContext()
   const { error, loading, data } = useQuery(ME_QUERY) // data is undefined because theres no token yet
 
   const [refreshToken, {}] = useMutation(REFRESH_TOKEN_MUTATION)
@@ -50,6 +36,7 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
     }
 
     async function refresh() {
+      console.log(rest)
       if (!authContext.isLogin) {
         if (localStorage.getItem('refreshToken')) {
           try {
@@ -58,7 +45,6 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
             const me = await queryMe()
             // console.log(token);
             // console.log(refreshTokenGql);
-            console.log(me)
             setAuthContext(
               authContext,
               { access_token: authContext.accessToken, user: me },
@@ -75,12 +61,13 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
       }
     }
 
-    refresh()
+    console.log(auth)
+    if (!auth.isLogin) refresh()
   }, [authContext])
 
-  if (authContext.isLogin && authContext.user !== undefined) {
+  if (auth.isLogin && auth.user !== undefined) {
     return <Route {...rest} render={Render} />
-  } else return <Spinner />
+  } else return <p>Loading..</p>
 }
 
 export default withRouter(ProtectedRoute)

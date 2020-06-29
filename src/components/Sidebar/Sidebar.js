@@ -25,7 +25,8 @@ class Sidebar extends React.Component {
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
-    return this.props.location.pathname === routeName ? 'active' : ''
+    // return this.props.location.pathname === routeName ? 'active' : ''
+    return ''
   }
   componentDidMount() {
     if (navigator.platform.indexOf('Win') > -1) {
@@ -47,6 +48,8 @@ class Sidebar extends React.Component {
     const { bgColor, routes, rtlActive, logo } = this.props
     let logoImg = null
     let logoText = null
+    let allRoutes = this.props.routes.map((route) => route.subRoutes).flat()
+    console.log(allRoutes)
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
         logoImg = (
@@ -104,7 +107,7 @@ class Sidebar extends React.Component {
             </div>
           ) : null}
           <Nav>
-            {routes.map((prop, key) => {
+            {allRoutes.map((prop, key) => {
               if (prop.redirect) return null
               return (
                 <li

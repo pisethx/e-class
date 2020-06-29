@@ -1,14 +1,12 @@
-import React, { useState, useContext } from 'react'
-import { useMutation } from '@apollo/react-hooks'
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import useForm from '../../lib/useForm'
 import { FormWrapper, H3 } from '../Styled/index'
+import { USERS_QUERY } from '../../constants/user'
 import { CREATE_CLASS_MUTATION } from '../../constants/class'
 import Error from '../shared/ErrorMessage'
 import Success from '../shared/SuccessMessage'
-
-import { AuthContext } from '../../contexts/auth'
-import { REFRESH_TOKEN } from 'views/Unauthenticated/Api'
 
 // reactstrap components
 import {
@@ -23,11 +21,32 @@ import {
   FormFeedback,
   Form,
   Input,
+  Label,
   Row,
   Col,
 } from 'reactstrap'
 
 const CreateClass = (props) => {
+  let users = []
+  let teachers = []
+  let students = []
+  const [selectedStudents, setSelectedStudents] = useState([])
+  const { data } = useQuery(USERS_QUERY, {
+    variables: {
+      first: 30,
+      page: 1,
+    },
+  })
+  if (data) {
+    users = data.users.data
+    students = users.filter((user) =>
+      user.roles.map((role) => role.name).includes('student')
+    )
+    teachers = users.filter((user) =>
+      user.roles.map((role) => role.name).includes('teacher')
+    )
+  }
+
   const [success, setSuccess] = useState('')
   const { inputs, handleChange, resetForm } = useForm({
     name: '',
@@ -41,6 +60,9 @@ const CreateClass = (props) => {
   const [createClass, { error, loading }] = useMutation(CREATE_CLASS_MUTATION, {
     variables: inputs,
   })
+
+  if (loading) return <p>Loading...</p>
+  if (error) return `Error! ${error}`
 
   return (
     <div className="content">
@@ -59,6 +81,7 @@ const CreateClass = (props) => {
                   setIsButtonDisabled(true)
                   // setValidation(true)
                   try {
+                    inputs.students = selectedStudents
                     await createClass(inputs)
                     setSuccess('Success')
                     resetForm()
@@ -74,7 +97,7 @@ const CreateClass = (props) => {
                 <Row className="p-3">
                   <Col md="12">
                     <FormGroup>
-                      <label>Name</label>
+                      <Label>Name</Label>
                       <Input
                         placeholder="name"
                         type="text"
@@ -87,7 +110,7 @@ const CreateClass = (props) => {
                   </Col>
                   <Col md="12">
                     <FormGroup>
-                      <label>Code</label>
+                      <Label>Code</Label>
                       <Input
                         placeholder="code"
                         type="text"
@@ -101,17 +124,62 @@ const CreateClass = (props) => {
 
                   <Col md="12">
                     <FormGroup>
-                      <label>Teacher</label>
+                      <Label>Teacher</Label>
                       <Input
+                        type="select"
                         placeholder="Teacher"
-                        type="text"
                         name="teacher"
                         value={inputs.teacher}
                         onChange={handleChange}
                         required
-                      />
+                      >
+                        <option value="" defaultValue>
+                          - Select a Teacher -
+                        </option>
+                        {teachers.map((user) => (
+                          <option
+                            key={user.id}
+                            value={user.id}
+                          >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
+                        ))}
+                      </Input>
                     </FormGroup>
                   </Col>
+
+                  {/* <Col md="12">
+                    <FormGroup>
+                      <Label for="exampleSelectMulti">Students</Label>
+                      <Input
+                        type="select"
+                        name="students"
+                        value={selectedStudents}
+                        onChange={(e) => {
+                          let opts = [],
+                            opt
+                          for (
+                            let i = 0, len = e.target.options.length;
+                            i < len;
+                            i++
+                          ) {
+                            opt = e.target.options[i]
+                            if (opt.selected) {
+                              opts.push(+opt.value)
+                            }
+                          }
+
+                          setSelectedStudents(opts)
+                        }}
+                        multiple
+                      >
+                        {students.map((user) => (
+                          <option
+                            key={user.id}
+                            value={user.id}
+                          >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
+                        ))}
+                      </Input>
+                    </FormGroup>
+                  </Col> */}
 
                   <Col md="12" className="mt-1">
                     <Button

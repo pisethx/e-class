@@ -70,10 +70,37 @@ export const CREATE_CLASS_MUTATION = gql`
   mutation CREATE_CLASS_MUTATION(
     $name: String!
     $code: String!
-    $teacher: ID!
+    $teacher: ID! # $students: [ID!]
   ) {
     createClass(
-      input: { name: $name, code: $code, teacher: { connect: $teacher } }
+      input: {
+        name: $name
+        code: $code
+        teacher: { connect: $teacher }
+        # students: { connect: $students }
+      }
+    ) {
+      id
+      name
+      code
+    }
+  }
+`
+
+export const UPDATE_CLASS_MUTATION = gql`
+  mutation UPDATE_CLASS_MUTATION(
+    $name: String!
+    $code: String!
+    $teacher: ID!
+    $students: [ID!]
+  ) {
+    updateClass(
+      input: {
+        name: $name
+        code: $code
+        teacher: { connect: $teacher }
+        students: { connect: $students }
+      }
     ) {
       id
       name

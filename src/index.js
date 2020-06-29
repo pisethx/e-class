@@ -14,12 +14,23 @@ import 'assets/demo/demo.css'
 import 'assets/css/nucleo-icons.css'
 
 import ProtectedRoute from 'components/ProtectedRoute'
-import { AuthContext } from './contexts/auth'
+import { AuthContext, useAuthContext } from './contexts/auth'
+import routes from './routes'
+
+import UserShow from 'views/Users/_id/Show'
+import ClassShow from 'views/Class/_id/Show'
+import ClassEdit from 'views/Class/_id/Edit'
 
 const hist = createBrowserHistory()
 
 const App = () => {
+  // const authContext = useAuthContext()
   const authContext = useContext(AuthContext)
+  const routesProp = routes
+  const routesAdmin = routes.find((route) => route.layout === 'admin')
+  const routesUnauthenticated = routes.find(
+    (route) => route.layout === 'unauthenticated'
+  )
 
   const client = new ApolloClient({
     uri: 'https://api.raymond.digital/graphql',
@@ -27,10 +38,11 @@ const App = () => {
       credentials: 'include',
     },
     request: (operation) => {
+      console.log(authContext)
       if (authContext?.accessToken) {
         operation.setContext({
           headers: {
-            authorization: `Bearer ${authContext.accessToken}`,
+            Authorization: `Bearer ${authContext.accessToken}`,
           },
         })
       } else {
@@ -44,7 +56,65 @@ const App = () => {
     <ApolloProvider client={client}>
       <Router history={hist}>
         <Switch>
+          {routesAdmin.subRoutes.map((route, i) => (
+            <ProtectedRoute
+              key={i}
+              exact={route.exact}
+              path={route.path}
+              render={(props) => (
+                <>
+                  <AdminLayout {...hist} routes={routesProp}>
+                    <Route {...route} />
+                  </AdminLayout>
+                </>
+              )}
+            />
+          ))}
+
           <ProtectedRoute
+            exact={true}
+            path="/user/:id"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <UserShow id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassShow id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/edit"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassEdit id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          {routesUnauthenticated.subRoutes.map((route, i) => (
+            <Route key={i} exact={route.exact} path={route.path}>
+              <UnauthenticatedLayout {...hist} routes={routesProp}>
+                <Route {...route} />
+              </UnauthenticatedLayout>
+            </Route>
+          ))}
+          {/* <ProtectedRoute
             exact
             path="/"
             render={(props) => <AdminLayout {...props} />}
@@ -88,14 +158,16 @@ const App = () => {
             render={(props) => <AdminLayout {...props} />}
           />
           <Route
-            exact
             path="/class/:slug"
             render={(props) => <AdminLayout {...props} />}
           />
+          <Route
+            path="/class/edit/:slug"
+            render={(props) => <AdminLayout {...props} />}
+          /> */}
           <Redirect from="*" to="/" />
         </Switch>
       </Router>
-      ,
     </ApolloProvider>
   )
 }

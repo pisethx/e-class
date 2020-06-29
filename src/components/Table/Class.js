@@ -1,5 +1,6 @@
 import React from 'react'
 import { H3 } from '../../views/Styled/index'
+import { NavLink } from 'react-router-dom'
 // reactstrap components
 import {
   Button,
@@ -17,7 +18,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const ClassTable = ({ classes }) => {
+const ClassTable = ({ classes, title = 'Classes' }) => {
   // const { paginatorInfo, data: classes } = data?.classes
 
   return (
@@ -26,7 +27,7 @@ const ClassTable = ({ classes }) => {
         <Col md="12">
           <Card>
             <CardHeader>
-              <H3 className="title">Classes</H3>
+              <H3 className="title">{title}</H3>
             </CardHeader>
             <CardBody>
               <Table className="tablesorter">
@@ -47,14 +48,20 @@ const ClassTable = ({ classes }) => {
                       <td>{each.name}</td>
                       <td>{`${each.teacher?.identity?.first_name} ${each.teacher?.identity?.last_name}`}</td>
                       <td>
-                        <a href={`/class/${each.id}`}>
+                        <NavLink to={`/class/${each.id}`}>
                           <Button size="sm" className="mr-3 my-1" color="info">
                             Show
                           </Button>
-                        </a>
-                        <Button size="sm" className="mr-3 my-1" color="success">
-                          Edit
-                        </Button>
+                        </NavLink>
+                        <NavLink to={`/class/${each.id}/edit`}>
+                          <Button
+                            size="sm"
+                            className="mr-3 my-1"
+                            color="success"
+                          >
+                            Edit
+                          </Button>
+                        </NavLink>
                         <Button size="sm" className="mr-3 my-1" color="danger">
                           Delete
                         </Button>

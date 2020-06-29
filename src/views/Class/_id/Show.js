@@ -25,7 +25,7 @@ const IMG = styled.img`
   width: 100%;
 `
 
-const EachClass = (props) => {
+const ClassShow = (props) => {
   const { loading, error, data } = useQuery(CLASS_QUERY, {
     variables: {
       id: props.id,
@@ -118,4 +118,4 @@ const EachClass = (props) => {
   )
 }
 
-export default EachClass
+export default ClassShow

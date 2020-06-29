@@ -59,7 +59,7 @@ export const ME_QUERY = gql`
 `
 
 export const USER_QUERY = gql`
-  query USER_QUERY($id: Int!) {
+  query USER_QUERY($id: ID!) {
     user(id: $id) {
       id
       username
