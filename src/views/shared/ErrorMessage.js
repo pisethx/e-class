@@ -18,7 +18,16 @@ const ErrorStyles = styled.div`
   }
 `
 
-const DisplayError = ({ error }) => {
+const DisplayError = ({ error = null }) => {
+  // if (message)
+  //   return (
+  //     <>
+  //       <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+  //         {message}
+  //       </Alert>
+  //     </>
+  //   )
+
   if (!error) return null
   if (!error.message)
     return (
@@ -40,11 +49,14 @@ const DisplayError = ({ error }) => {
       </ErrorStyles>
     ))
   }
+
+  const errorMsg = error?.graphQLErrors[0]?.extensions?.reason
+
   return (
     <>
-      {error?.graphQLErrors[0]?.extensions?.reason && (
+      {errorMsg && (
         <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-          {error.graphQLErrors[0]?.extensions?.reason}
+          {errorMsg}
         </Alert>
       )}
     </>

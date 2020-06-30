@@ -32,6 +32,7 @@ const EditClass = (props) => {
   let users = []
   let teachers = []
   let students = []
+  let classCategories = []
   let [selectedStudents, setSelectedStudents] = useState([])
 
   const { data: usersRes } = useQuery(USERS_QUERY, {
@@ -47,6 +48,8 @@ const EditClass = (props) => {
     },
   })
 
+  // query class categories
+
   if (usersRes) {
     users = usersRes.users.data
     students = users.filter((user) =>
@@ -61,15 +64,22 @@ const EditClass = (props) => {
   if (classRes) {
     eachClass = classRes.class
     selectedStudents = eachClass.students.map((student) => student.id)
-    initialForm = {
-      name: eachClass?.name,
-      code: eachClass?.code,
-      teacher: eachClass?.teacher?.id,
-      students: selectedStudents,
-    }
+    // initialForm = {
+    //   name: eachClass?.name,
+    //   code: eachClass?.code,
+    //   teacher: eachClass?.teacher?.id,
+    //   students: selectedStudents,
+    //   class_categories,
+    // }
   }
 
-  const { inputs, handleChange, resetForm } = useForm(initialForm)
+  const { inputs, handleChange, resetForm } = useForm({
+    name: '',
+    code: '',
+    teacher: '',
+    students: [],
+    class_categories: [],
+  })
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const [updateClass, { error, loading }] = useMutation(UPDATE_CLASS_MUTATION, {
@@ -80,8 +90,8 @@ const EditClass = (props) => {
   if (error) return `Error! ${error}`
 
   return (
-    <div className="content">
-      {usersRes && classRes && (
+    <>
+      <div className="content">
         <Row>
           <Col md="12">
             <Card>
@@ -91,129 +101,150 @@ const EditClass = (props) => {
               <Error error={error} />
               <Success success={success} />
               <CardBody>
-                <Form
-                  onSubmit={async (e) => {
-                    e.preventDefault()
-                    setIsButtonDisabled(true)
-                    // setValidation(true)
-                    try {
-                      inputs.students = selectedStudents
-                      await updateClass(inputs)
-                      setSuccess('Success')
-                    } catch (err) {
-                      console.log(err)
-                    }
+                {usersRes && classRes && (
+                  <Form
+                    onSubmit={async (e) => {
+                      e.preventDefault()
+                      setIsButtonDisabled(true)
+                      // setValidation(true)
+                      try {
+                        inputs.students = selectedStudents
+                        await updateClass(inputs)
+                        setSuccess('Success')
+                      } catch (err) {
+                        console.log(err)
+                      }
 
-                    setIsButtonDisabled(false)
+                      setIsButtonDisabled(false)
 
-                    // props.history.goBack()
-                  }}
-                >
-                  <Row className="p-3">
-                    <Col md="12">
-                      <FormGroup>
-                        <Label>Name</Label>
-                        <Input
-                          placeholder="name"
-                          type="text"
-                          name="name"
-                          value={inputs.name}
-                          onChange={handleChange}
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col md="12">
-                      <FormGroup>
-                        <Label>Code</Label>
-                        <Input
-                          placeholder="code"
-                          type="text"
-                          name="code"
-                          value={inputs.code}
-                          onChange={handleChange}
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
+                      // props.history.goBack()
+                    }}
+                  >
+                    <Row className="p-3">
+                      <Col md="12">
+                        <FormGroup>
+                          <Label>Name</Label>
+                          <Input
+                            placeholder="name"
+                            type="text"
+                            name="name"
+                            value={inputs.name}
+                            onChange={handleChange}
+                            required
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md="12">
+                        <FormGroup>
+                          <Label>Code</Label>
+                          <Input
+                            placeholder="code"
+                            type="text"
+                            name="code"
+                            value={inputs.code}
+                            onChange={handleChange}
+                            required
+                          />
+                        </FormGroup>
+                      </Col>
 
-                    <Col md="12">
-                      <FormGroup>
-                        <Label>Teacher</Label>
-                        <Input
-                          type="select"
-                          placeholder="Teacher"
-                          name="teacher"
-                          value={inputs.teacher}
-                          onChange={handleChange}
-                          required
-                        >
-                          <option value="" defaultValue>
-                            - Select a Teacher -
-                          </option>
-                          {teachers.map((user) => (
-                            <option
-                              key={user.id}
-                              value={user.id}
-                            >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
-                          ))}
-                        </Input>
-                      </FormGroup>
-                    </Col>
+                      <Col md="12">
+                        <FormGroup>
+                          <Label>Teacher</Label>
+                          <Input
+                            type="select"
+                            placeholder="Teacher"
+                            name="teacher"
+                            value={inputs.teacher}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="" defaultValue>
+                              - Select a Teacher -
+                            </option>
+                            {teachers.map((user) => (
+                              <option
+                                key={user.id}
+                                value={user.id}
+                              >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
+                            ))}
+                          </Input>
+                        </FormGroup>
+                      </Col>
 
-                    <Col md="12">
-                      <FormGroup>
-                        <Label for="exampleSelectMulti">Students</Label>
-                        <Input
-                          type="select"
-                          name="students"
-                          value={selectedStudents}
-                          onChange={(e) => {
-                            let opts = [],
-                              opt
-                            for (
-                              let i = 0, len = e.target.options.length;
-                              i < len;
-                              i++
-                            ) {
-                              opt = e.target.options[i]
-                              if (opt.selected) {
-                                opts.push(+opt.value)
+                      <Col md="12">
+                        <FormGroup>
+                          <Label>Students</Label>
+                          <Input
+                            type="select"
+                            name="students"
+                            value={selectedStudents}
+                            onChange={(e) => {
+                              let opts = [],
+                                opt
+                              for (
+                                let i = 0, len = e.target.options.length;
+                                i < len;
+                                i++
+                              ) {
+                                opt = e.target.options[i]
+                                if (opt.selected) {
+                                  opts.push(+opt.value)
+                                }
                               }
-                            }
 
-                            setSelectedStudents(opts)
-                          }}
-                          multiple
+                              setSelectedStudents(opts)
+                            }}
+                            multiple
+                          >
+                            {students.map((user) => (
+                              <option
+                                key={user.id}
+                                value={user.id}
+                              >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
+                            ))}
+                          </Input>
+                        </FormGroup>
+                      </Col>
+
+                      <Col md="12">
+                        <FormGroup>
+                          <Label>Class Categories</Label>
+                          <Input
+                            type="select"
+                            name="class_categories"
+                            value={inputs.class_categories}
+                            multiple
+                          >
+                            {students.map((user) => (
+                              <option
+                                key={user.id}
+                                value={user.id}
+                              >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
+                            ))}
+                          </Input>
+                        </FormGroup>
+                      </Col>
+
+                      <Col md="12" className="mt-1">
+                        <Button
+                          type="submit"
+                          className="btn-fill"
+                          color="primary"
+                          disabled={isButtonDisabled}
                         >
-                          {students.map((user) => (
-                            <option
-                              key={user.id}
-                              value={user.id}
-                            >{`${user.identity.first_name} ${user.identity.last_name}`}</option>
-                          ))}
-                        </Input>
-                      </FormGroup>
-                    </Col>
-
-                    <Col md="12" className="mt-1">
-                      <Button
-                        type="submit"
-                        className="btn-fill"
-                        color="primary"
-                        disabled={isButtonDisabled}
-                      >
-                        Create Class
-                      </Button>
-                    </Col>
-                  </Row>
-                </Form>
+                          Create Class
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+                )}
               </CardBody>
             </Card>
           </Col>
         </Row>
-      )}
-    </div>
+      </div>
+    </>
   )
 }
 

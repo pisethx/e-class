@@ -46,46 +46,44 @@ const MyComments = (props) => {
   if (!myComments) return <Spinner />
 
   return (
-    <Col lg="6" md="12">
-      <Card>
-        <CardHeader>
-          <CardTitle tag="h4">
-            <H3>Recent Comments</H3>
-          </CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Table className="tablesorter">
-            <thead className="text-primary">
-              <tr>
-                <th>Comment</th>
-                <th>Forum</th>
-              </tr>
-            </thead>
-            <tbody>
-              {props.myComments &&
-                props.myComments.data.map((comment) => {
-                  return (
-                    <tr>
-                      <td>
-                        <a href="#">{comment.comment}</a>
-                      </td>
-                      <td>
-                        <a href="#">{comment.commentable.title}</a>
-                      </td>
-                    </tr>
-                  )
-                })}
-              <tr>
-                <CustomPagination
-                  paginator={myComments.paginatorInfo}
-                  onPageChanged={setPage}
-                />
-              </tr>
-            </tbody>
-          </Table>
-        </CardBody>
-      </Card>
-    </Col>
+    <Card>
+      <CardHeader>
+        <CardTitle tag="h4">
+          <H3>Recent Comments</H3>
+        </CardTitle>
+      </CardHeader>
+      <CardBody>
+        <Table className="tablesorter">
+          <thead className="text-primary">
+            <tr>
+              <th>Comment</th>
+              <th>Forum</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.myComments &&
+              props.myComments.data.map((comment) => {
+                return (
+                  <tr>
+                    <td>
+                      <a href="#">{comment.comment}</a>
+                    </td>
+                    <td>
+                      <a href="#">{comment.commentable.title}</a>
+                    </td>
+                  </tr>
+                )
+              })}
+            <tr>
+              <CustomPagination
+                paginator={myComments.paginatorInfo}
+                onPageChanged={setPage}
+              />
+            </tr>
+          </tbody>
+        </Table>
+      </CardBody>
+    </Card>
   )
 }
 

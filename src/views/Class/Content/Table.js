@@ -1,8 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../Styled/index'
-import { USERS_QUERY } from '../../constants/user'
+import { H3 } from '../../Styled/index'
+import { USERS_QUERY } from '../../../constants/user'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
@@ -22,7 +22,7 @@ import {
   Col,
 } from 'reactstrap'
 
-const UserTable = (props) => {
+const ClassContentTable = (props) => {
   const { loading, error, data, fetchMore } = useQuery(USERS_QUERY, {
     variables: {
       first: 10,
@@ -42,8 +42,14 @@ const UserTable = (props) => {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>
-                  <H3 className="title">Users</H3>
+                <CardHeader className="d-flex justify-content-between">
+                  <H3 className="title">Class Contents</H3>
+
+                  <NavLink to={`/class/${props.id}/content/create`}>
+                    <Button className="animation-on-hover" color="primary">
+                      Create Content
+                    </Button>
+                  </NavLink>
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter">
@@ -105,4 +111,4 @@ const UserTable = (props) => {
   )
 }
 
-export default UserTable
+export default ClassContentTable

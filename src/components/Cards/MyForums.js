@@ -46,44 +46,42 @@ const MyForums = (props) => {
   if (!myForums) return <Spinner />
 
   return (
-    <Col lg="6" md="12">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <H3>Recent Forums</H3>
-          </CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Table className="tablesorter m-2">
-            <thead className="text-primary">
-              <tr>
-                <th>Title</th>
-                <th className="text-center">Comment Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {myForums &&
-                myForums.data.map((forum) => {
-                  return (
-                    <tr>
-                      <td>
-                        <a href="#">{forum.title}</a>
-                      </td>
-                      <td className="text-center">{forum.comments_count}</td>
-                    </tr>
-                  )
-                })}
-              <tr>
-                <CustomPagination
-                  paginator={myForums.paginatorInfo}
-                  onPageChanged={setPage}
-                />
-              </tr>
-            </tbody>
-          </Table>
-        </CardBody>
-      </Card>
-    </Col>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <H3>Recent Forums</H3>
+        </CardTitle>
+      </CardHeader>
+      <CardBody>
+        <Table className="tablesorter m-2">
+          <thead className="text-primary">
+            <tr>
+              <th>Title</th>
+              <th className="text-center">Comment Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            {myForums &&
+              myForums.data.map((forum) => {
+                return (
+                  <tr>
+                    <td>
+                      <a href="#">{forum.title}</a>
+                    </td>
+                    <td className="text-center">{forum.comments_count}</td>
+                  </tr>
+                )
+              })}
+            <tr>
+              <CustomPagination
+                paginator={myForums.paginatorInfo}
+                onPageChanged={setPage}
+              />
+            </tr>
+          </tbody>
+        </Table>
+      </CardBody>
+    </Card>
   )
 }
 

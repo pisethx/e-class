@@ -36,7 +36,7 @@ const ForgotPassword = (props) => {
   )
 
   return (
-    <FormWrapper>
+    <FormWrapper className="px-3">
       <Row style={{ width: 700 }}>
         <Col md="12">
           <Card>
@@ -44,7 +44,7 @@ const ForgotPassword = (props) => {
               <H3 className="title">Forgot Password</H3>
             </CardHeader>
             <Error error={error} />
-            )}
+
             <CardBody>
               <Form
                 onSubmit={async (e) => {

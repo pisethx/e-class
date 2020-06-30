@@ -64,6 +64,12 @@ export const USER_LOGIN_MUTATION = gql`
           id
           code
           name
+          teacher {
+            identity {
+              first_name
+              last_name
+            }
+          }
           schedules {
             day
             sessions {
@@ -76,6 +82,12 @@ export const USER_LOGIN_MUTATION = gql`
           id
           code
           name
+          teacher {
+            identity {
+              first_name
+              last_name
+            }
+          }
           schedules {
             day
             sessions {

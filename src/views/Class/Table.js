@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from '../Styled/index'
 import { CLASSES_QUERY } from '../../constants/class'
-import { AuthContext } from '../../contexts/auth'
+import { AuthContext, useAuthContext } from '../../contexts/auth'
 import ClassTable from '../../components/Table/Class'
 
 // reactstrap components
@@ -25,7 +25,7 @@ import {
 } from 'reactstrap'
 
 const ClassDashboard = (props) => {
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
 
   const { loading, error, data, fetchMore } = useQuery(CLASSES_QUERY, {
     variables: {
@@ -35,17 +35,20 @@ const ClassDashboard = (props) => {
     },
   })
 
-  useEffect(() => {
-    console.log(authContext)
-  }, [])
-
   if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   const { paginatorInfo, data: classes } = data?.classes
 
   return (
-    <ClassTable classes={classes} />
+    <>
+      <div className="content">
+        <ClassTable
+          classes={classes}
+          admin={authContext.user.roles.some((role) => role.name === 'admin')}
+        />
+      </div>
+    </>
 
     // <div className="content">
     //   <Row>

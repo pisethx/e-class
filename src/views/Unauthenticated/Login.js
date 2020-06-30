@@ -37,14 +37,15 @@ const Login = (props) => {
   const [login, { error, loading }] = useMutation(USER_LOGIN_MUTATION, {
     variables: inputs,
   })
+  // const [error, setError] = useState('')
 
   const authContext = useContext(AuthContext)
 
   const [refreshToken, {}] = useMutation(REFRESH_TOKEN_MUTATION)
 
   return (
-    <FormWrapper>
-      <Row style={{ width: 700 }}>
+    <FormWrapper className="px-4">
+      <Row style={{ maxWidth: 700 }}>
         <Col md="12">
           <Card>
             <CardHeader>
@@ -58,14 +59,13 @@ const Login = (props) => {
                   setIsButtonDisabled(true)
                   // setValidation(true)
                   try {
-                    console.log(inputs)
-
                     await authContext.login(login, authContext, refreshToken)
-                  } catch (e) {
-                    console.log(e)
-                  }
 
-                  props.history.push('/')
+                    props.history.push('/')
+                  } catch (e) {
+                    resetForm()
+                  }
+                  setIsButtonDisabled(false)
                 }}
               >
                 <Row className="p-3">
@@ -106,7 +106,7 @@ const Login = (props) => {
                   <Col md="12" className="mt-1">
                     <Button
                       type="submit"
-                      className="btn-fill"
+                      className="btn-fill animation-on-hover"
                       color="primary"
                       disabled={isButtonDisabled}
                     >

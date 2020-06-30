@@ -192,11 +192,11 @@ class AdminNavbar extends React.Component {
                       <img alt="..." src={require('assets/img/anime3.png')} />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
-                    <p className="d-lg-none">Log out</p>                    
+                    <p className="d-lg-none">Log out</p>
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
-                      <Link to="/user-profile">
+                      <Link to="/user">
                         <DropdownItem className="nav-item">
                           Profile
                         </DropdownItem>

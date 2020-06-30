@@ -115,13 +115,11 @@ export const CREATE_CLASS_CONTENT_MUTATION = gql`
     $description: String!
     $classId: Int!
   ) {
-    mutation
     createClassContent(
       input: { name: $name, description: $description, class_id: $classId }
     ) {
       id
       name
-      code
     }
   }
 `

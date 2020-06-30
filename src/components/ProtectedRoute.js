@@ -29,22 +29,22 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
         const res = await client.query({
           query: ME_QUERY,
         })
+        console.log(res)
         return res.data.me
       } catch (e) {
         console.log(e)
+        rest.history.push('/login')
       }
     }
 
     async function refresh() {
-      console.log(rest)
       if (!authContext.isLogin) {
         if (localStorage.getItem('refreshToken')) {
           try {
             await authContext.refreshToken(refreshToken, authContext)
 
             const me = await queryMe()
-            // console.log(token);
-            // console.log(refreshTokenGql);
+
             setAuthContext(
               authContext,
               { access_token: authContext.accessToken, user: me },

@@ -20,6 +20,8 @@ import routes from './routes'
 import UserShow from 'views/Users/_id/Show'
 import ClassShow from 'views/Class/_id/Show'
 import ClassEdit from 'views/Class/_id/Edit'
+import ClassContentTable from 'views/Class/Content/Table'
+import ClassContentCreate from 'views/Class/Content/Create'
 
 const hist = createBrowserHistory()
 
@@ -38,7 +40,6 @@ const App = () => {
       credentials: 'include',
     },
     request: (operation) => {
-      console.log(authContext)
       if (authContext?.accessToken) {
         operation.setContext({
           headers: {
@@ -102,6 +103,30 @@ const App = () => {
               <>
                 <AdminLayout {...hist} routes={routesProp}>
                   <ClassEdit id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/content"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassContentTable id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/content/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassContentCreate id={props.match.params.id} />
                 </AdminLayout>
               </>
             )}

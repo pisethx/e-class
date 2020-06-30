@@ -49,9 +49,9 @@ const Register = (props) => {
   if (GENDERS.error) return 'Error'
 
   return (
-    <FormWrapper>
+    <FormWrapper className="px-3">
       <Row style={{ maxWidth: 900 }}>
-        <Col md="12">
+        <Col sm="12">
           <Card className="form">
             <CardHeader>
               <H3 className="title">Register</H3>
@@ -70,7 +70,7 @@ const Register = (props) => {
                 }}
               >
                 <Row className="p-3">
-                  <Col md="6">
+                  <Col sm="6">
                     <FormGroup>
                       <label>First Name</label>
                       <Input
@@ -81,7 +81,7 @@ const Register = (props) => {
                       />
                     </FormGroup>
                   </Col>
-                  <Col md="6">
+                  <Col sm="6">
                     <FormGroup>
                       <label>Last Name</label>
                       <Input
@@ -92,7 +92,7 @@ const Register = (props) => {
                       />
                     </FormGroup>
                   </Col>
-                  <Col md="12">
+                  <Col sm="12">
                     <FormGroup>
                       <Label>Gender</Label>
                       <Input
@@ -112,7 +112,7 @@ const Register = (props) => {
                       </Input>
                     </FormGroup>
                   </Col>
-                  <Col md="12">
+                  <Col sm="12">
                     <FormGroup>
                       <label>Email</label>
                       <Input
@@ -123,7 +123,7 @@ const Register = (props) => {
                       />
                     </FormGroup>
                   </Col>
-                  <Col md="12">
+                  <Col sm="12">
                     <FormGroup>
                       <label>Username</label>
                       <Input
@@ -134,7 +134,7 @@ const Register = (props) => {
                       />
                     </FormGroup>
                   </Col>
-                  <Col md="12">
+                  <Col sm="12">
                     <FormGroup>
                       <label>Password</label>
                       <Input
@@ -146,7 +146,7 @@ const Register = (props) => {
                     </FormGroup>
                   </Col>
 
-                  <Col md="12" className="mt-1">
+                  <Col sm="12" className="mt-1">
                     <Button
                       type="submit"
                       className="btn-fill"

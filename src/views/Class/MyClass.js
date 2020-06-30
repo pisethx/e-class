@@ -19,7 +19,11 @@ const ClassDashboard = (props) => {
   }, [authContext.user])
 
   return (
-    <>{classes.length && <ClassTable classes={classes} title="My Class" />}</>
+    <>
+      <div className="content">
+        {classes.length && <ClassTable classes={classes} title="My Class" />}
+      </div>
+    </>
   )
 }
 

@@ -39,7 +39,7 @@ const ResetPassword = (props) => {
   )
 
   return (
-    <FormWrapper>
+    <FormWrapper className="px-3">
       <Row style={{ width: 700 }}>
         <Col md="12">
           <Card>
