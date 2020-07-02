@@ -5,7 +5,7 @@ export const CREATE_EXAM_MUTATION = gql`
 		$name: String!
 		$description: String
 		$qa: [
-			
+						
 		]
 	)
 `
