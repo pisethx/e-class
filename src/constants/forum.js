@@ -20,39 +20,39 @@ export const CREATE_FORUM_MUTATION = gql`
   }
 `
 
-// export const UPDATE_FORUM_MUTATION = gql`
-//   mutation UPDATE_FORUM_MUTATION(
-//     $id: Int!,
-//     $title: String!,
-//     $description: String!,
-//     $answer: {
-//       connect: Int,
-//       disconnect: Boolean
-//     }
-//   ) {
-//      updateForum(input: {
-//       id: $id,
-//       title: $title,
-//       description: $description,
-//       answer: $answer
-//     }) {
-//       id
-//       title
-//       description
-//       answer {
-//         comment
-//         author {
-//           id
-//           identity {
-//             first_name
-//             last_name
-//             photo_url
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
+export const UPDATE_FORUM_MUTATION = gql`
+  mutation UPDATE_FORUM_MUTATION(
+    $id: Int!,
+    $title: String,
+    $description: String,
+    $answer: {
+      connect: Int,
+      disconnect: Boolean
+    }
+  ) {
+     updateForum(input: {
+      id: $id,
+      title: $title,
+      description: $description,
+      answer: $answer
+    }) {
+      id
+      title
+      description
+      answer {
+        comment
+        author {
+          id
+          identity {
+            first_name
+            last_name
+            photo_url
+          }
+        }
+      }
+    }
+  }
+`
 
 export const DELETE_FORUM_MUTATION = gql`
   mutation DELETE_FORUM_MUTATION($id: Int!) {

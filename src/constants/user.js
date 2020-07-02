@@ -228,3 +228,25 @@ export const SYNC_ROLES_MUTATION = gql`
     }
   }
 `
+
+export const NOTIFICATIONS_QUERY = gql`
+  query NOTIFICATIONS_QUERY($first: Int!, $page: Int!) {
+    notifications(first: $first, page: $page) {
+      data {
+        id
+        data
+        is_read
+      }
+      paginatorInfo {
+        count
+        currentPage
+        hasMorePages
+        lastPage
+        total
+        perPage
+        lastItem
+        firstItem
+      }
+    }
+  }
+`
