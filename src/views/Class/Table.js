@@ -30,15 +30,13 @@ const ClassDashboard = (props) => {
   const { loading, error, data, fetchMore } = useQuery(CLASSES_QUERY, {
     variables: {
       id: authContext?.user?.id,
-      first: 100,
-      page: 1,
     },
   })
 
   if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
-  const { paginatorInfo, data: classes } = data?.classes
+  const { classes } = data
 
   return (
     <>

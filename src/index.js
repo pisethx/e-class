@@ -20,8 +20,16 @@ import routes from './routes'
 import UserShow from 'views/Users/_id/Show'
 import ClassShow from 'views/Class/_id/Show'
 import ClassEdit from 'views/Class/_id/Edit'
+
 import ClassContentTable from 'views/Class/Content/Table'
 import ClassContentCreate from 'views/Class/Content/Create'
+
+import ClassCategoryTable from 'views/Class/Category/Table'
+import ClassCategoryCreate from 'views/Class/Category/Create'
+import ClassCategoryShow from 'views/Class/Category/_id/Show'
+
+import ClassForumTable from 'views/Class/Forum/Table'
+import ClassForumCreate from 'views/Class/Forum/Create'
 
 const hist = createBrowserHistory()
 
@@ -35,6 +43,7 @@ const App = () => {
   )
 
   const client = new ApolloClient({
+    cors: 'https://cors-anywhere.herokuapp.com/',
     uri: 'https://api.raymond.digital/graphql',
     fetchOptions: {
       credentials: 'include',
@@ -62,6 +71,7 @@ const App = () => {
               key={i}
               exact={route.exact}
               path={route.path}
+              {...hist}
               render={(props) => (
                 <>
                   <AdminLayout {...hist} routes={routesProp}>
@@ -74,11 +84,13 @@ const App = () => {
 
           <ProtectedRoute
             exact={true}
+            {...hist}
+            {...hist}
             path="/user/:id"
             render={(props) => (
               <>
                 <AdminLayout {...hist} routes={routesProp}>
-                  <UserShow id={props.match.params.id} />
+                  <UserShow {...hist} {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
             )}
@@ -87,10 +99,11 @@ const App = () => {
           <ProtectedRoute
             exact={true}
             path="/class/:id"
+            {...hist}
             render={(props) => (
               <>
                 <AdminLayout {...hist} routes={routesProp}>
-                  <ClassShow id={props.match.params.id} />
+                  <ClassShow {...hist} {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
             )}
@@ -98,11 +111,12 @@ const App = () => {
 
           <ProtectedRoute
             exact={true}
+            {...hist}
             path="/class/:id/edit"
             render={(props) => (
               <>
                 <AdminLayout {...hist} routes={routesProp}>
-                  <ClassEdit id={props.match.params.id} />
+                  <ClassEdit {...hist} {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
             )}
@@ -110,11 +124,16 @@ const App = () => {
 
           <ProtectedRoute
             exact={true}
+            {...hist}
             path="/class/:id/content"
             render={(props) => (
               <>
                 <AdminLayout {...hist} routes={routesProp}>
-                  <ClassContentTable id={props.match.params.id} />
+                  <ClassContentTable
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
                 </AdminLayout>
               </>
             )}
@@ -122,11 +141,102 @@ const App = () => {
 
           <ProtectedRoute
             exact={true}
+            {...hist}
             path="/class/:id/content/create"
             render={(props) => (
               <>
                 <AdminLayout {...hist} routes={routesProp}>
-                  <ClassContentCreate id={props.match.params.id} />
+                  <ClassContentCreate
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category"
+            {...hist}
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassCategoryTable
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            {...hist}
+            path="/class/:id/category/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassCategoryCreate
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId"
+            {...hist}
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassCategoryShow
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                    categoryId={props.match.params.categoryId}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/forum"
+            {...hist}
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassForumTable
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            {...hist}
+            path="/class/:id/forum/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...hist} routes={routesProp}>
+                  <ClassForumCreate
+                    {...hist}
+                    {...props}
+                    id={props.match.params.id}
+                  />
                 </AdminLayout>
               </>
             )}

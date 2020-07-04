@@ -62,10 +62,7 @@ const Login = (props) => {
                     await authContext.login(login, authContext, refreshToken)
 
                     props.history.push('/')
-                  } catch (e) {
-                    resetForm()
-                  }
-                  setIsButtonDisabled(false)
+                  } catch (e) {}
                 }}
               >
                 <Row className="p-3">

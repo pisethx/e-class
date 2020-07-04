@@ -13,7 +13,7 @@ import {
   Col,
   Spinner,
 } from 'reactstrap'
-import CustomPagination from 'components/CustomPagination'
+// import CustomPagination from 'components/CustomPagination'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
 
 const MyComments = (props) => {
@@ -26,10 +26,6 @@ const MyComments = (props) => {
       try {
         const res = await client.query({
           query: MY_COMMENTS_QUERY,
-          variables: {
-            first: 5,
-            page: page,
-          },
         })
         return res.data.myComments
       } catch (e) {
@@ -62,7 +58,7 @@ const MyComments = (props) => {
           </thead>
           <tbody>
             {props.myComments &&
-              props.myComments.data.map((comment) => {
+              props.myComments.map((comment) => {
                 return (
                   <tr>
                     <td>
@@ -74,12 +70,12 @@ const MyComments = (props) => {
                   </tr>
                 )
               })}
-            <tr>
+            {/* <tr>
               <CustomPagination
                 paginator={myComments.paginatorInfo}
                 onPageChanged={setPage}
               />
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </CardBody>

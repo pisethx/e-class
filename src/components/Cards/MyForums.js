@@ -12,7 +12,7 @@ import {
 } from 'reactstrap'
 import { H3 } from '../../views/Styled/index'
 
-import CustomPagination from 'components/CustomPagination'
+// import CustomPagination from 'components/CustomPagination'
 import { useApolloClient } from 'react-apollo'
 import { MY_FORUMS_QUERY } from 'constants/forum'
 
@@ -26,10 +26,6 @@ const MyForums = (props) => {
       try {
         const res = await client.query({
           query: MY_FORUMS_QUERY,
-          variables: {
-            first: 5,
-            page: page,
-          },
         })
         return res.data.myForums
       } catch (e) {
@@ -39,7 +35,6 @@ const MyForums = (props) => {
 
     myForumsQuery().then((forums) => {
       setMyForums(forums)
-      console.log(forums)
     })
   }, [page])
 
@@ -62,7 +57,7 @@ const MyForums = (props) => {
           </thead>
           <tbody>
             {myForums &&
-              myForums.data.map((forum) => {
+              myForums.map((forum) => {
                 return (
                   <tr>
                     <td>
@@ -72,12 +67,12 @@ const MyForums = (props) => {
                   </tr>
                 )
               })}
-            <tr>
+            {/* <tr>
               <CustomPagination
                 paginator={myForums.paginatorInfo}
                 onPageChanged={setPage}
               />
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </CardBody>

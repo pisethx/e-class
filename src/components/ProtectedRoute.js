@@ -13,10 +13,13 @@ import { ME_QUERY } from '../constants/user'
 
 import { Spinner } from 'reactstrap'
 
-const ProtectedRoute = ({ render: Render, ...rest }) => {
+const ProtectedRoute = (props) => {
   const client = useApolloClient()
   const authContext = useContext(AuthContext)
   const auth = useAuthContext()
+  const path = props.location.pathname
+  console.log(path)
+
   const { error, loading, data } = useQuery(ME_QUERY) // data is undefined because theres no token yet
 
   const [refreshToken, {}] = useMutation(REFRESH_TOKEN_MUTATION)
@@ -29,11 +32,9 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
         const res = await client.query({
           query: ME_QUERY,
         })
-        console.log(res)
         return res.data.me
       } catch (e) {
-        console.log(e)
-        rest.history.push('/login')
+        props.history.push('/login')
       }
     }
 
@@ -50,23 +51,25 @@ const ProtectedRoute = ({ render: Render, ...rest }) => {
               { access_token: authContext.accessToken, user: me },
               refreshToken
             )
-            rest.history.push(rest.path)
+
+            props.history.push(path)
           } catch (e) {
             // console.log(e)
-            rest.history.push('/login')
+            props.history.push('/login')
           }
         } else {
-          rest.history.push('/login')
+          props.history.push('/login')
         }
       }
     }
 
-    console.log(auth)
-    if (!auth.isLogin) refresh()
+    if (!auth.isLogin) {
+      refresh()
+    }
   }, [authContext])
 
   if (auth.isLogin && auth.user !== undefined) {
-    return <Route {...rest} render={Render} />
+    return <Route {...props} path={path} render={props.render} />
   } else return <p>Loading..</p>
 }
 

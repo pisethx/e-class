@@ -2,7 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from '../../Styled/index'
-import { USERS_QUERY } from '../../../constants/user'
+import { CLASS_CONTENTS_QUERY } from '../../../constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
@@ -23,21 +23,16 @@ import {
 } from 'reactstrap'
 
 const ClassContentTable = (props) => {
-  const { loading, error, data, fetchMore } = useQuery(USERS_QUERY, {
+  const { loading, error, data } = useQuery(CLASS_CONTENTS_QUERY, {
     variables: {
-      first: 10,
-      page: 1,
+      id: props.id,
     },
   })
 
-  if (loading) return <p>Loading...</p>
-  if (error) return `Error! ${error}`
-
-  const { paginatorInfo, data: users } = data?.users
-
+  const contents = data?.class?.class_contents
   return (
     <>
-      {data && (
+      {contents && (
         <div className="content">
           <Row>
             <Col md="12">
@@ -51,56 +46,45 @@ const ClassContentTable = (props) => {
                     </Button>
                   </NavLink>
                 </CardHeader>
-                <CardBody>
-                  <Table className="tablesorter">
-                    <thead className="text-primary">
-                      <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Full Name</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users?.map((user) => (
-                        <tr>
-                          <td>{user.id}</td>
-                          <td>{user.username}</td>
-                          <td>
-                            {user.identity?.first_name
-                              ? `${user.identity?.first_name} ${user.identity?.last_name}`
-                              : 'No Name'}
-                          </td>
-                          <td>
-                            <NavLink to={`/user/${user.id}`}>
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover "
-                                color="info"
-                              >
-                                Show
-                              </Button>
-                            </NavLink>
-                            <Button
-                              size="sm"
-                              className="mr-3 my-1 animation-on-hover"
-                              color="success"
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              size="sm"
-                              className="mr-3 my-1 animation-on-hover"
-                              color="danger"
-                            >
-                              Delete
-                            </Button>
-                          </td>
-                          {/* <td className="text-center">$36,738</td> */}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                <CardBody style={{ padding: '1rem 2rem' }}>
+                  {contents?.map(({ id, name, description, file_url }) => (
+                    <Card
+                      style={{
+                        boxShadow: '3px 5px 15px #1a1a1a',
+                        padding: '.5rem',
+                      }}
+                    >
+                      <CardHeader style={{ fontWeight: 'bold' }}>
+                        {name}
+                      </CardHeader>
+                      <CardBody>
+                        <CardText className="my-3">{description}</CardText>
+                        <a href={file_url} target="_blank">
+                          <Button
+                            size="sm"
+                            className="mr-3 my-1 animation-on-hover "
+                            color="info"
+                          >
+                            View File Content
+                          </Button>
+                        </a>
+                        <Button
+                          size="sm"
+                          className="mr-3 my-1 animation-on-hover"
+                          color="success"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="mr-3 my-1 animation-on-hover"
+                          color="danger"
+                        >
+                          Delete
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  ))}
                 </CardBody>
               </Card>
             </Col>

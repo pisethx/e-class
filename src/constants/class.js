@@ -22,6 +22,12 @@ export const CLASS_QUERY = gql`
           photo_url
         }
       }
+      class_contents {
+        id
+        name
+        description
+        file_url
+      }
       class_categories {
         id
         name
@@ -37,31 +43,31 @@ export const CLASS_QUERY = gql`
 `
 
 export const CLASSES_QUERY = gql`
-  query CLASSES_QUERY($first: Int!, $page: Int!) {
-    classes(first: $first, page: $page) {
-      data {
+  query CLASSES_QUERY {
+    classes {
+      # data {
+      id
+      name
+      code
+      teacher {
         id
-        name
-        code
-        teacher {
-          id
-          identity {
-            first_name
-            last_name
-            photo_url
-          }
+        identity {
+          first_name
+          last_name
+          photo_url
         }
       }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
-      }
+      # }
+      # paginatorInfo {
+      #   count
+      #   currentPage
+      #   hasMorePages
+      #   lastPage
+      #   total
+      #   perPage
+      #   lastItem
+      #   firstItem
+      # }
     }
   }
 `
@@ -180,6 +186,54 @@ export const SYNC_STUDENTS_MUTATION = gql`
           last_name
           photo_url
         }
+      }
+    }
+  }
+`
+
+export const CLASS_CATEGORIES_QUERY = gql`
+  query CLASS_QUERY($id: ID!) {
+    class(id: $id) {
+      id
+      class_categories {
+        id
+        name
+        weight
+        exams {
+          id
+          name
+          possible
+        }
+      }
+    }
+  }
+`
+
+export const CLASS_CONTENTS_QUERY = gql`
+  query CLASS_QUERY($id: ID!) {
+    class(id: $id) {
+      id
+      class_contents {
+        id
+        name
+        description
+        file_url
+      }
+    }
+  }
+`
+
+export const CLASS_CATEGORY_QUERY = gql`
+  query CLASS_CATEGORY_QUERY($id: ID!) {
+    ClassCategory(id: $id) {
+      id
+      name
+      weight
+      exams {
+        id
+      }
+      class {
+        id
       }
     }
   }

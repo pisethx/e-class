@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import useForm from '../../../lib/useForm'
 import { FormWrapper, H3 } from '../../Styled/index'
 import { USERS_QUERY } from '../../../constants/user'
-import { CREATE_CLASS_CONTENT_MUTATION } from '../../../constants/class'
+import { CREATE_CLASS_CATEGORY_MUTATION } from '../../../constants/class'
 import Error from '../../shared/ErrorMessage'
 import Success from '../../shared/SuccessMessage'
 
@@ -26,17 +26,17 @@ import {
   Col,
 } from 'reactstrap'
 
-const CreateClassContent = (props) => {
+const CreateClassCategory = (props) => {
   const [success, setSuccess] = useState('')
   const { inputs, handleChange, resetForm } = useForm({
     name: '',
-    description: '',
+    weight: '',
   })
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [createClassContent, { error, loading }] = useMutation(
-    CREATE_CLASS_CONTENT_MUTATION,
+  const [createClassCategory, { error, loading }] = useMutation(
+    CREATE_CLASS_CATEGORY_MUTATION,
     {
       variables: {
         ...inputs,
@@ -46,7 +46,7 @@ const CreateClassContent = (props) => {
   )
 
   if (loading) return <p>Loading...</p>
-  // if (error) return `Error! ${error}`
+  if (error) return `Error! ${error}`
 
   return (
     <div className="content">
@@ -54,7 +54,7 @@ const CreateClassContent = (props) => {
         <Col md="12">
           <Card>
             <CardHeader>
-              <H3 className="title">Create Class Content</H3>
+              <H3 className="title">Create Class Category</H3>
             </CardHeader>
             <Error error={error} />
             <Success success={success} />
@@ -65,11 +65,13 @@ const CreateClassContent = (props) => {
                   setIsButtonDisabled(true)
                   // setValidation(true)
                   try {
-                    await createClassContent(inputs)
+                    await createClassCategory(inputs)
                     setSuccess('Success')
                     resetForm()
-                    props.history.push(`/class/${props.id}/content`)
-                  } catch (err) {}
+                    props.history.push(`/class/${props.id}/category`)
+                  } catch (err) {
+                    console.log(err)
+                  }
 
                   setIsButtonDisabled(false)
 
@@ -92,26 +94,12 @@ const CreateClassContent = (props) => {
                   </Col>
                   <Col md="12">
                     <FormGroup>
-                      <Label>Description</Label>
+                      <Label>weight</Label>
                       <Input
-                        placeholder="Description"
-                        type="text"
-                        name="description"
-                        value={inputs.description}
-                        onChange={handleChange}
-                        required
-                      />
-                    </FormGroup>
-                  </Col>
-
-                  <Col md="12">
-                    <FormGroup>
-                      <Label>File</Label>
-                      <Input
-                        placeholder="Description"
-                        type="text"
-                        name="description"
-                        value={inputs.file}
+                        placeholder="weight"
+                        type="number"
+                        name="weight"
+                        value={inputs.weight}
                         onChange={handleChange}
                         required
                       />
@@ -125,7 +113,7 @@ const CreateClassContent = (props) => {
                       color="primary"
                       disabled={isButtonDisabled}
                     >
-                      Create Content
+                      Create Category
                     </Button>
                   </Col>
                 </Row>
@@ -138,4 +126,4 @@ const CreateClassContent = (props) => {
   )
 }
 
-export default CreateClassContent
+export default CreateClassCategory

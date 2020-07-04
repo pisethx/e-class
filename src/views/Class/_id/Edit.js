@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
 import useForm from '../../../lib/useForm'
@@ -35,59 +35,54 @@ const EditClass = (props) => {
   let classCategories = []
   let [selectedStudents, setSelectedStudents] = useState([])
 
-  const { data: usersRes } = useQuery(USERS_QUERY, {
-    variables: {
-      first: 30,
-      page: 1,
-    },
-  })
-
-  const { data: classRes } = useQuery(CLASS_QUERY, {
+  const CLASS_QUERY_RES = useQuery(CLASS_QUERY, {
     variables: {
       id: props.id,
     },
   })
 
+  const USERS_QUERY_RES = useQuery(USERS_QUERY)
+
   // query class categories
 
-  if (usersRes) {
-    users = usersRes.users.data
-    students = users.filter((user) =>
+  if (USERS_QUERY_RES) {
+    users = USERS_QUERY_RES?.data?.users?.data
+
+    students = users?.filter((user) =>
       user.roles.map((role) => role.name).includes('student')
     )
-    teachers = users.filter((user) =>
-      user.roles.map((role) => role.name).includes('teacher')
+    teachers = users?.filter(
+      (user) =>
+        user.roles.map((role) => role.name).includes('teacher') ||
+        user.roles.map((role) => role.name).includes('admin')
     )
   }
   let eachClass = null
   let initialForm = null
-  if (classRes) {
-    eachClass = classRes.class
-    selectedStudents = eachClass.students.map((student) => student.id)
-    // initialForm = {
-    //   name: eachClass?.name,
-    //   code: eachClass?.code,
-    //   teacher: eachClass?.teacher?.id,
-    //   students: selectedStudents,
-    //   class_categories,
-    // }
-  }
+  // useEffect(() => {
+  //   if (CLASS_QUERY_RES) {
+  //     eachClass = CLASS_QUERY_RES?.data?.class
+  //     selectedStudents = eachClass?.students?.map((student) => student.id)
+  //     initialForm = {
+  //       name: eachClass?.name,
+  //       code: eachClass?.code,
+  //       teacher: eachClass?.teacher?.id,
+  //       students: selectedStudents,
+  //       class_categories: eachClass?.class_categories,
+  //     }
 
-  const { inputs, handleChange, resetForm } = useForm({
-    name: '',
-    code: '',
-    teacher: '',
-    students: [],
-    class_categories: [],
-  })
+  //     console.log(initialForm)
+  //   }
+  // }, [CLASS_QUERY_RES])
+
+  const { handleChange, resetForm } = useForm(initialForm)
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-  const [updateClass, { error, loading }] = useMutation(UPDATE_CLASS_MUTATION, {
-    variables: inputs,
+  const [updateClass, { loading, error }] = useMutation(UPDATE_CLASS_MUTATION, {
+    variables: initialForm,
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `Error! ${error}`
 
   return (
     <>
@@ -101,15 +96,15 @@ const EditClass = (props) => {
               <Error error={error} />
               <Success success={success} />
               <CardBody>
-                {usersRes && classRes && (
+                {USERS_QUERY_RES && CLASS_QUERY_RES && initialForm && (
                   <Form
                     onSubmit={async (e) => {
                       e.preventDefault()
                       setIsButtonDisabled(true)
                       // setValidation(true)
                       try {
-                        inputs.students = selectedStudents
-                        await updateClass(inputs)
+                        initialForm.students = selectedStudents
+                        await updateClass(initialForm)
                         setSuccess('Success')
                       } catch (err) {
                         console.log(err)
@@ -122,13 +117,14 @@ const EditClass = (props) => {
                   >
                     <Row className="p-3">
                       <Col md="12">
+                        {/* <Field name="name"></Field> */}
                         <FormGroup>
                           <Label>Name</Label>
                           <Input
                             placeholder="name"
                             type="text"
                             name="name"
-                            value={inputs.name}
+                            value={initialForm.name}
                             onChange={handleChange}
                             required
                           />
@@ -141,7 +137,7 @@ const EditClass = (props) => {
                             placeholder="code"
                             type="text"
                             name="code"
-                            value={inputs.code}
+                            value={initialForm.code}
                             onChange={handleChange}
                             required
                           />
@@ -155,14 +151,14 @@ const EditClass = (props) => {
                             type="select"
                             placeholder="Teacher"
                             name="teacher"
-                            value={inputs.teacher}
+                            value={initialForm.teacher}
                             onChange={handleChange}
                             required
                           >
                             <option value="" defaultValue>
                               - Select a Teacher -
                             </option>
-                            {teachers.map((user) => (
+                            {teachers?.map((user) => (
                               <option
                                 key={user.id}
                                 value={user.id}
@@ -197,7 +193,7 @@ const EditClass = (props) => {
                             }}
                             multiple
                           >
-                            {students.map((user) => (
+                            {students?.map((user) => (
                               <option
                                 key={user.id}
                                 value={user.id}
@@ -213,10 +209,10 @@ const EditClass = (props) => {
                           <Input
                             type="select"
                             name="class_categories"
-                            value={inputs.class_categories}
+                            value={initialForm.class_categories}
                             multiple
                           >
-                            {students.map((user) => (
+                            {students?.map((user) => (
                               <option
                                 key={user.id}
                                 value={user.id}
