@@ -53,8 +53,6 @@ const Dashboard = (props) => {
     return setClasses(() => myClass)
   }, [authContext.user])
 
-  console.log(authContext)
-
   // const renderClasses = (classes) => {
   //   if (!classes) return <Spinner />
 
@@ -133,7 +131,11 @@ const Dashboard = (props) => {
   return (
     <>
       <div className="content">
-        {classes.length && <ClassTable classes={classes} title="My Class" />}
+        {classes.length ? (
+          <ClassTable classes={classes} title="My Class" />
+        ) : (
+          ''
+        )}
         <Row>
           <Col md="6">
             <MyForums />

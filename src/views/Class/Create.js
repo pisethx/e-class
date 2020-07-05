@@ -31,19 +31,17 @@ const CreateClass = (props) => {
   let teachers = []
   let students = []
   const [selectedStudents, setSelectedStudents] = useState([])
-  const { data } = useQuery(USERS_QUERY, {
-    variables: {
-      first: 30,
-      page: 1,
-    },
-  })
+
+  const { data } = useQuery(USERS_QUERY)
   if (data) {
-    users = data.users.data
+    users = data.users
     students = users.filter((user) =>
       user.roles.map((role) => role.name).includes('student')
     )
-    teachers = users.filter((user) =>
-      user.roles.map((role) => role.name).includes('teacher')
+    teachers = users.filter(
+      (user) =>
+        user.roles.map((role) => role.name).includes('teacher') ||
+        user.roles.map((role) => role.name).includes('admin')
     )
   }
 
@@ -57,13 +55,11 @@ const CreateClass = (props) => {
 
   const [validation, setValidation] = useState(false)
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-  const [createClass, { error, loading }] = useMutation(CREATE_CLASS_MUTATION, {
+  const [createClass, { loading, error }] = useMutation(CREATE_CLASS_MUTATION, {
     variables: inputs,
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `Error! ${error}`
-
   return (
     <div className="content">
       <Row>

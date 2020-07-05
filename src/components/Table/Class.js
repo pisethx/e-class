@@ -19,9 +19,6 @@ import {
 } from 'reactstrap'
 
 const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
-  // const { paginatorInfo, data: classes } = data?.classes
-  console.log(classes)
-
   return (
     <Row>
       <Col md="12">
@@ -44,15 +41,15 @@ const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
                 {classes?.map((each) => (
                   <tr key={each.id}>
                     <td>{each.id}</td>
+                    <td>{each.code}</td>
                     <td>
                       <NavLink
                         style={{ fontWeight: 'bold' }}
                         to={`/class/${each.id}`}
                       >
-                        {each.code}
+                        {each.name}
                       </NavLink>
                     </td>
-                    <td>{each.name}</td>
                     <td>{`${each.teacher?.identity?.first_name} ${each.teacher?.identity?.last_name}`}</td>
                     {admin && (
                       <td>

@@ -29,12 +29,37 @@ const DisplayError = ({ error = null }) => {
   //   )
 
   if (!error) return null
-  if (!error.message)
+  if (error.message) {
     return (
-      <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-        Something went wrong
-      </Alert>
+      <>
+        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+          {error.message}
+        </Alert>
+      </>
     )
+  }
+  if (!error.message) {
+    return (
+      <>
+        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+          Something went wrong
+        </Alert>
+      </>
+    )
+  }
+
+  const errorMsg = error?.graphQLErrors[0]?.extensions?.reason
+
+  return (
+    <>
+      {errorMsg && (
+        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+          {errorMsg}
+        </Alert>
+      )}
+    </>
+  )
+
   if (
     error.networkError &&
     error.networkError.result &&
@@ -49,18 +74,6 @@ const DisplayError = ({ error = null }) => {
       </ErrorStyles>
     ))
   }
-
-  const errorMsg = error?.graphQLErrors[0]?.extensions?.reason
-
-  return (
-    <>
-      {errorMsg && (
-        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-          {errorMsg}
-        </Alert>
-      )}
-    </>
-  )
 }
 
 export default DisplayError

@@ -11,11 +11,10 @@ const UserShow = (props) => {
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `Error! ${error}`
+  if (error) return console.log(error)
 
   let user = null
-  if (data) user = data.user  
-
+  if (data) user = data?.user
   return (
     <>{user && Object.values(user).length > 0 && <UserProfile user={user} />}</>
   )

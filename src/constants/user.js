@@ -187,33 +187,33 @@ export const USERS_FIND_BY_USERNAME_QUERY = gql`
 `
 
 export const USERS_QUERY = gql`
-  query USERS_QUERY($first: Int!, $page: Int!) {
-    users(first: $first, page: $page) {
-      data {
-        id
-        username
-        email
-        uuid
-        roles {
-          name
-        }
-        identity {
-          first_name
-          last_name
-          gender
-          photo_url
-        }
+  query USERS_QUERY {
+    users {
+      # data {
+      id
+      username
+      email
+      uuid
+      roles {
+        name
       }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
+      identity {
+        first_name
+        last_name
+        gender
+        photo_url
       }
+      # }
+      # paginatorInfo {
+      #   count
+      #   currentPage
+      #   hasMorePages
+      #   lastPage
+      #   total
+      #   perPage
+      #   lastItem
+      #   firstItem
+      # }
     }
   }
 `
@@ -230,7 +230,7 @@ export const SYNC_ROLES_MUTATION = gql`
 `
 
 export const NOTIFICATIONS_QUERY = gql`
-  query NOTIFICATIONS_QUERY($first: Int!, $page: Int!) {
+  query NOTIFICATIONS_QUERY {
     notifications(first: $first, page: $page) {
       data {
         id

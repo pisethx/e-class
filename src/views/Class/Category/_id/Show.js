@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { CLASS_QUERY } from '../../../constants/class'
+import { CLASS_CATEGORY_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -25,22 +25,23 @@ const IMG = styled.img`
   width: 100%;
 `
 
-const ClassShow = (props) => {
-  const { loading, error, data } = useQuery(CLASS_QUERY, {
+const ClassCategoryShow = (props) => {
+  const { loading, error, data } = useQuery(CLASS_CATEGORY_QUERY, {
     variables: {
-      id: props.id,
+      id: props.categoryId,
     },
   })
 
   if (loading) return <p>Loading...</p>
   if (error) return `Error! ${error}`
 
-  let eachClass = null
-  if (data) eachClass = data.class
+  let category = null
+
+  if (data) category = data?.class_category
 
   return (
     <div className="content">
-      {data && eachClass && (
+      {category && (
         <Row>
           <Col xs="12">
             <Card className="card-user">
@@ -51,7 +52,7 @@ const ClassShow = (props) => {
                   <div className="block block-two" />
                   <div className="block block-three" />
                   <div className="block block-four" />
-                  <h3 className="title my-1">{eachClass.name}</h3>
+                  <h3 className="title my-1">{category.name}</h3>
                   {/* <h5 className="title mb-4">{eachClass.code}</h5> */}
                   <p className="description">
                     {/* {authContext.user.roles[0].name} */}
@@ -64,56 +65,37 @@ const ClassShow = (props) => {
                       Class Information
                     </Col>
                     <Col xs="6">ID :</Col>
-                    <Col xs="6">{eachClass.id}</Col>
-                    <Col xs="6">Code :</Col>
-                    <Col xs="6">{eachClass.code}</Col>
-                    <Col xs="6">Teacher :</Col>
-                    <Col xs="6">{`${eachClass.teacher.identity.first_name} ${eachClass.teacher.identity.last_name}`}</Col>
-                    <Col xs="6">Class Categories :</Col>
+                    <Col xs="6">{category.id}</Col>
+                    <Col xs="6">Name :</Col>
+                    <Col xs="6">{category.name}</Col>
+                    <Col xs="6">Weight :</Col>
+                    <Col xs="6">{category.weight}</Col>
+                    <Col xs="6">Exams :</Col>
 
-                    <Col xs="6">
+                    {/* <Col xs="6">
                       {eachClass.class_categories.map((category) => (
                         <span key={category.id}>{category.name}, </span>
                       ))}
-                    </Col>
-                    <Col col="12" className="my-3">
+                    </Col> */}
+                    <Col col="12" md="4">
                       <NavLink to={`/class/${props.id}/content`}>
-                        <Button
-                          className="animation-on-hover m-2"
-                          color="success"
-                        >
+                        <Button className="animation-on-hover" color="success">
                           View Class Contents
-                        </Button>
-                      </NavLink>
-                      <NavLink to={`/class/${props.id}/category`}>
-                        <Button
-                          className="animation-on-hover m-2"
-                          color="warning"
-                        >
-                          View Class Categories
-                        </Button>
-                      </NavLink>
-                      <NavLink to={`/class/${props.id}/forum`}>
-                        <Button className="animation-on-hover m-2" color="info">
-                          View Class Forums
                         </Button>
                       </NavLink>
                     </Col>
                     <hr />
-                    <Col xs="12">List of Students :</Col>
                     <Col xs="12" className="mt-2">
-                      {eachClass.students.map((student) => (
+                      {/* {eachClass.students.map((student) => (
                         <Row className="my-2" key={student.id}>
                           <Col xs="1"></Col>
-                          <Col xs="1" className="mb-3">
-                            <IMG alt="..." src={student.identity.photo_url} />
-                          </Col>
+                          <Col xs="1" className="mb-3"></Col>
                           <Col className="text-center" xs="1">
                             {student.id}
                           </Col>
                           <Col xs="9">{`${student.identity.first_name} ${student.identity.last_name}`}</Col>
                         </Row>
-                      ))}
+                      ))} */}
                     </Col>
                   </Row>
                 </div>
@@ -139,4 +121,4 @@ const ClassShow = (props) => {
   )
 }
 
-export default ClassShow
+export default ClassCategoryShow
