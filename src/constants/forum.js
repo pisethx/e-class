@@ -94,6 +94,28 @@ export const DELETE_COMMENT_MUTATION = gql`
   }
 `
 
+export const MARK_COMMENT_AS_ANSWER_MUTATION = gql`
+  mutation MARK_COMMENT_AS_ANSWER_MUTATION($id: Int!, $classId: Int!) {
+    updateForum(input: { id: $id, answer: { connect: $classId } }) {
+      title
+      answer {
+        comment
+      }
+    }
+  }
+`
+
+export const UNMARK_COMMENT_AS_ANSWER_MUTATION = gql`
+  mutation UNMARK_COMMENT_AS_ANSWER_MUTATION($id: Int!) {
+    updateForum(input: { id: $id, answer: { disconnect: true } }) {
+      title
+      answer {
+        comment
+      }
+    }
+  }
+`
+
 export const FORUMS_IN_CLASS_QUERY = gql`
   mutation FORUMS_IN_CLASS_QUERY($first: Int!, $page: Int!, $classId: Int!) {
     forumsInClass(first: $first, page: $page, class_id: $classId) {
