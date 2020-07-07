@@ -218,6 +218,35 @@ export const USERS_QUERY = gql`
   }
 `
 
+export const CHANGE_EMAIL_MUTATION = gql`
+  mutation CHANGE_EMAIL_MUTATION(
+    $id: ID!
+    $email: String!
+  ) {
+    updateUser(
+      input: {id: $id, email: $email}
+    ) {
+      id
+      email
+    }
+  }
+`
+
+export const CHANGE_PASSWORD_MUTATION = gql`
+  mutation CHANGE_PASSWORD_MUTATION(
+    $oldPassword: String!
+    $password: String!
+  ) {
+    updatePassword(input:{
+      old_password:$oldPassword,
+      password:$password
+    }) {
+      status
+      message
+    }
+  }
+`
+
 export const SYNC_ROLES_MUTATION = gql`
   mutation SYNC_ROLES_MUTATION($userId: Int!, $roleIds: [Int!]) {
     syncRoles(input: { user_id: $userId, role_ids: $roleIds }) {

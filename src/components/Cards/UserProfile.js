@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, createRef, useRef, forwardRef } from 'react'
 // reactstrap components
+import CustomModal from '../Modals/CustomModal';
+
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   CardText,
@@ -12,9 +13,15 @@ import {
   Input,
   Row,
   Col,
+  Label,
 } from 'reactstrap'
+import ChangeEmail from 'components/Forms/ChangeEmail';
+import ChangePassword from '../Forms/ChangePassword';
 
 const UserProfile = ({ user }) => {
+  const changeEmailModal = createRef()
+  // const changePWModal = useRef(null)
+
   return (
     <div className="content">
       <Row>
@@ -52,10 +59,21 @@ const UserProfile = ({ user }) => {
                   <Col md="6">{user.uuid}</Col>
                   <Col md="6">Username :</Col>
                   <Col md="6">{user.username}</Col>
+                  <Col md="6">Email :</Col>
+                  <Col md="6">
+                    <Row md="12" className="pl-3">
+                      {user.email} <span className="pl-3"></span>
+                      <ChangeEmail oldEmail={user.email}/>
+                    </Row>
+                  </Col>
                   <Col md="6">Gender :</Col>
                   <Col md="6">{user.identity.gender}</Col>
                   <Col md="6">Phone :</Col>
                   <Col md="6">{user.identity.contact_number}</Col>
+                </Row>
+                <Row className="justify-content-end">
+                    <ChangePassword/>
+                    <Col lg="2"></Col>
                 </Row>
               </div>
             </CardBody>

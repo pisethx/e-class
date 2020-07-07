@@ -42,6 +42,9 @@ const App = () => {
     (route) => route.layout === 'unauthenticated'
   )
 
+  console.log(routesUnauthenticated);
+  
+
   const client = new ApolloClient({
     cors: 'https://cors-anywhere.herokuapp.com/',
     uri: 'https://api.raymond.digital/graphql',

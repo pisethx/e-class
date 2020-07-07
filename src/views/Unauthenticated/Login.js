@@ -97,7 +97,7 @@ const Login = (props) => {
                   </Col>
 
                   <Col md="12" className="mb-4">
-                    <Link to="/login/forgot-password">Forgot Password?</Link>
+                    <Link to="/forgot-password">Forgot Password?</Link>
                   </Col>
 
                   <Col md="12" className="mt-1">
