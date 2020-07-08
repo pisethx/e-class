@@ -24,9 +24,9 @@ import {
 
 const ResetPassword = (props) => {
   const { inputs, handleChange, resetForm } = useForm({
-    username: '',
-    password: '',
+    username: props.location.state.username,
     otp: '',
+    password: '',
   })
 
   const [validation, setValidation] = useState(false)
@@ -37,6 +37,8 @@ const ResetPassword = (props) => {
       variables: inputs,
     }
   )
+
+  console.log(props)
 
   return (
     <FormWrapper className="px-3">
@@ -56,28 +58,17 @@ const ResetPassword = (props) => {
                   try {
                     res = await resetPassword()
                     console.log(res)
+                    props.history.push('/login')
                   } catch {}
                 }}
               >
                 <Row className="p-3">
                   <Col md="12">
                     <FormGroup>
-                      <label>Username</label>
-                      <Input
-                        placeholder="Username, Phone, or Email"
-                        type="text"
-                        name="username"
-                        onChange={handleChange}
-                        required
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col md="12">
-                    <FormGroup>
-                      <label>Validation Code</label>
+                      <label>OTP</label>
                       <Input
                         placeholder="123456"
-                        type="text"
+                        type="number"
                         name="otp"
                         onChange={handleChange}
                         required
