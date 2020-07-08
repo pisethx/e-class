@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../Styled/index'
-import { CLASSES_QUERY } from '../../constants/class'
-import { AuthContext, useAuthContext } from '../../contexts/auth'
-import ClassTable from '../../components/Table/Class'
+import { H3 } from 'views/Styled/index'
+import { CLASSES_QUERY } from 'constants/class'
+import { AuthContext, useAuthContext } from 'contexts/auth'
+import ClassTable from 'components/Table/Class'
 
 // reactstrap components
 import {

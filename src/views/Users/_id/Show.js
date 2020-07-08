@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { USER_QUERY } from '../../../constants/user'
-import UserProfile from '../../../components/Cards/UserProfile'
+import { USER_QUERY } from 'constants/user'
+import UserProfile from 'components/Cards/UserProfile'
+import { withRouter } from 'react-router-dom'
 
 const UserShow = (props) => {
   const { loading, error, data } = useQuery(USER_QUERY, {
@@ -20,4 +21,4 @@ const UserShow = (props) => {
   )
 }
 
-export default UserShow
+export default withRouter(UserShow)

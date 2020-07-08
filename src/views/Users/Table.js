@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../Styled/index'
-import { USERS_QUERY } from '../../constants/user'
+import { H3 } from 'views/Styled/index'
+import { USERS_QUERY } from 'constants/user'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
@@ -44,6 +44,7 @@ const UserTable = (props) => {
                     <thead className="text-primary">
                       <tr>
                         <th>ID</th>
+                        <th>UUID</th>
                         <th>Username</th>
                         <th>Full Name</th>
                         <th>Actions</th>
@@ -53,6 +54,7 @@ const UserTable = (props) => {
                       {users?.map((user) => (
                         <tr>
                           <td>{user.id}</td>
+                          <td>{user.uuid}</td>
                           <td>{user.username}</td>
                           <td>
                             {user.identity?.first_name

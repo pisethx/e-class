@@ -1,5 +1,5 @@
 import React from 'react'
-import { H3 } from '../../views/Styled/index'
+import { H3 } from 'views/Styled/index'
 import { NavLink } from 'react-router-dom'
 // reactstrap components
 import {

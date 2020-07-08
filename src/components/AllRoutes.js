@@ -1,0 +1,239 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
+
+import AdminLayout from 'layouts/Admin/Admin.js'
+import UnauthenticatedLayout from 'layouts/Unauthenticated/Unauthenticated.js'
+
+import ProtectedRoute from 'components/ProtectedRoute'
+import routes from 'routes'
+
+import UserShow from 'views/Users/_id/Show'
+import ClassShow from 'views/Class/_id/Show'
+import ClassEdit from 'views/Class/_id/Edit'
+
+import ClassContentTable from 'views/Class/Content/Table'
+import ClassContentCreate from 'views/Class/Content/Create'
+
+import ClassCategoryTable from 'views/Class/Category/Table'
+import ClassCategoryCreate from 'views/Class/Category/Create'
+import ClassCategoryShow from 'views/Class/Category/_id/Show'
+
+import ClassCategoryExamCreate from 'views/Class/Category/Exam/Create'
+
+import ClassForumTable from 'views/Class/Forum/Table'
+import ClassForumCreate from 'views/Class/Forum/Create'
+
+import ClassAttendanceTable from 'views/Class/Attendance/Table'
+import ClassAttendanceCreate from 'views/Class/Attendance/Create'
+
+const routesProp = routes
+const routesAdmin = routes.find((route) => route.layout === 'admin')
+const routesUnauthenticated = routes.find(
+  (route) => route.layout === 'unauthenticated'
+)
+
+const AllRoutes = (props) => {
+  console.log(ClassCategoryExamCreate)
+  return (
+    <>
+      <Router history={props.hist}>
+        <Switch>
+          {routesAdmin.subRoutes.map((route, i) => (
+            <ProtectedRoute
+              key={i}
+              exact={route.exact}
+              path={route.path}
+              {...props}
+              render={(props) => (
+                <>
+                  <AdminLayout {...props} routes={routesProp}>
+                    <Route {...route} />
+                  </AdminLayout>
+                </>
+              )}
+            />
+          ))}
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/user/:id"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <UserShow {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassShow {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/edit"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassEdit {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/content"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassContentTable {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/content/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassContentCreate {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryTable {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/category/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryCreate {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryShow
+                    {...props}
+                    id={props.match.params.id}
+                    categoryId={props.match.params.categoryId}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId/exam/create"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryExamCreate
+                    {...props}
+                    id={props.match.params.id}
+                    categoryId={props.match.params.categoryId}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/forum"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassForumTable {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/forum/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassForumCreate {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/attendance"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassAttendanceTable {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/attendance/create"
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassAttendanceCreate
+                    {...props}
+                    id={props.match.params.id}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          {routesUnauthenticated.subRoutes.map((route, i) => (
+            <Route key={i} exact={route.exact} path={route.path}>
+              <UnauthenticatedLayout {...props} routes={routesProp}>
+                <Route {...route} />
+              </UnauthenticatedLayout>
+            </Route>
+          ))}
+          <Redirect from="*" to="/" />
+        </Switch>
+      </Router>
+    </>
+  )
+}
+
+export default AllRoutes

@@ -35,9 +35,9 @@ import { useApolloClient, useQuery } from 'react-apollo'
 import { MY_FORUMS_QUERY } from 'constants/forum'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
 import { CLASS_QUERY } from 'constants/class'
-import MyForums from '../components/Cards/MyForums'
+import MyForums from 'components/Cards/MyForums'
 import MyComments from 'components/Cards/MyComments'
-import ClassTable from '../components/Table/Class'
+import ClassTable from 'components/Table/Class'
 
 const Dashboard = (props) => {
   const authContext = useAuthContext()

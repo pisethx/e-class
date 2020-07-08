@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
-import useForm from '../../../lib/useForm'
-import { FormWrapper, H3 } from '../../Styled/index'
-import { USERS_QUERY } from '../../../constants/user'
-import { CREATE_FORUM_MUTATION } from '../../../constants/forum'
-import Error from '../../shared/ErrorMessage'
-import Success from '../../shared/SuccessMessage'
+import useForm from 'lib/useForm'
+import { FormWrapper, H3 } from 'views/Styled/index'
+import { CLASS_CONTENT_QUERY } from 'constants/class'
+import { CREATE_FORUM_MUTATION } from 'constants/forum'
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
+import Select from 'react-select'
 
 // reactstrap components
 import {
@@ -31,7 +32,29 @@ const CreateClassForum = (props) => {
   const { inputs, handleChange, resetForm } = useForm({
     title: '',
     description: '',
+    classContentId: '',
   })
+
+  const [form, setForm] = useState({
+    classContentId: null,
+  })
+
+  const CLASS_CONTENT_RES = useQuery(CLASS_CONTENT_QUERY, {
+    variables: {
+      id: props.id,
+    },
+  })
+
+  let classContents = []
+  if (CLASS_CONTENT_RES?.data) {
+    console.log(CLASS_CONTENT_RES)
+    classContents = (CLASS_CONTENT_RES?.data?.class?.class_contents).map(
+      ({ name, id }) => ({
+        value: id,
+        label: name,
+      })
+    )
+  }
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
@@ -41,6 +64,7 @@ const CreateClassForum = (props) => {
       variables: {
         ...inputs,
         classId: props.id,
+        classContentId: form?.classContentId?.value,
       },
     }
   )
@@ -67,15 +91,12 @@ const CreateClassForum = (props) => {
                   try {
                     await createClassForum(inputs)
                     setSuccess('Success')
-                    resetForm()
                     props.history.push(`/class/${props.id}/content`)
                   } catch (err) {
                     console.log(err)
                   }
 
                   setIsButtonDisabled(false)
-
-                  // props.history.goBack()
                 }}
               >
                 <Row className="p-3">
@@ -92,6 +113,25 @@ const CreateClassForum = (props) => {
                       />
                     </FormGroup>
                   </Col>
+
+                  <Col md="12">
+                    <FormGroup>
+                      <Label>Class Content</Label>
+                      <Select
+                        options={classContents}
+                        value={form.classContentId}
+                        onChange={(e) => {
+                          setForm((prevState) => ({
+                            ...prevState,
+                            classContentId: {
+                              value: e.value,
+                              label: e.label,
+                            },
+                          }))
+                        }}
+                      />
+                    </FormGroup>
+                  </Col>
                   <Col md="12">
                     <FormGroup>
                       <Label>Description</Label>
@@ -105,20 +145,6 @@ const CreateClassForum = (props) => {
                       />
                     </FormGroup>
                   </Col>
-
-                  {/* <Col md="12">
-                    <FormGroup>
-                      <Label>File</Label>
-                      <Input
-                        placeholder="Description"
-                        type="text"
-                        name="description"
-                        value={inputs.file}
-                        onChange={handleChange}
-                        required
-                      />
-                    </FormGroup>
-                  </Col> */}
 
                   <Col md="12" className="mt-1">
                     <Button

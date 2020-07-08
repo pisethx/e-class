@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../Styled/index'
-import { CLASS_QUERY } from '../../constants/class'
-import { AuthContext } from '../../contexts/auth'
-import ClassTable from '../../components/Table/Class'
+import { H3 } from 'views/Styled/index'
+import { CLASS_QUERY } from 'constants/class'
+import { AuthContext } from 'contexts/auth'
+import ClassTable from 'components/Table/Class'
 
 const ClassDashboard = (props) => {
   const authContext = useContext(AuthContext)
@@ -21,7 +21,11 @@ const ClassDashboard = (props) => {
   return (
     <>
       <div className="content">
-        {classes.length && <ClassTable classes={classes} title="My Class" />}
+        {classes?.length ? (
+          <ClassTable classes={classes} title="My Class" />
+        ) : (
+          <H3>No Class Found</H3>
+        )}
       </div>
     </>
   )

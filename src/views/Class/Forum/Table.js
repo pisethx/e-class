@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../../Styled/index'
-import { FORUMS_IN_CLASS_QUERY } from '../../../constants/forum'
+import { H3 } from 'views/Styled/index'
+import { FORUMS_IN_CLASS_QUERY } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components

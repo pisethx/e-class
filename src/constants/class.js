@@ -21,6 +21,12 @@ export const CLASS_QUERY = gql`
           last_name
           photo_url
         }
+        # learnings {
+        #   id
+        #   pivot {
+        #     score
+        #   }
+        # }
       }
       class_contents {
         id
@@ -76,25 +82,43 @@ export const CREATE_CLASS_MUTATION = gql`
   mutation CREATE_CLASS_MUTATION(
     $name: String!
     $code: String!
-    $teacher: ID! # $students: [ID!]
+    $teacher: ID!
+    $students: [ID!]
+    $schedule_session: [CreateScheduleSessionInput!]
   ) {
     createClass(
       input: {
         name: $name
         code: $code
         teacher: { connect: $teacher }
-        # students: { connect: $students }
+        students: { sync: $students }
+        schedule_sessions: { sync: $schedule_session }
       }
     ) {
       id
-      name
       code
+      teacher {
+        id
+        username
+      }
+      students {
+        id
+        username
+      }
+      schedules {
+        day
+        sessions {
+          start_time
+          end_time
+        }
+      }
     }
   }
 `
 
 export const UPDATE_CLASS_MUTATION = gql`
   mutation UPDATE_CLASS_MUTATION(
+    $id: ID!
     $name: String!
     $code: String!
     $teacher: ID!
@@ -102,6 +126,7 @@ export const UPDATE_CLASS_MUTATION = gql`
   ) {
     updateClass(
       input: {
+        id: $id
         name: $name
         code: $code
         teacher: { connect: $teacher }
@@ -130,9 +155,15 @@ export const CREATE_CLASS_CONTENT_MUTATION = gql`
     $name: String!
     $description: String!
     $classId: Int!
+    $file: Upload!
   ) {
     createClassContent(
-      input: { name: $name, description: $description, class_id: $classId }
+      input: {
+        name: $name
+        description: $description
+        class_id: $classId
+        file: $file
+      }
     ) {
       id
       name
@@ -202,6 +233,14 @@ export const CLASS_CATEGORIES_QUERY = gql`
         exams {
           id
           name
+          type
+          qa {
+            id
+            questions
+            answers
+            possibles
+            points
+          }
           possible
         }
       }
@@ -209,7 +248,7 @@ export const CLASS_CATEGORIES_QUERY = gql`
   }
 `
 
-export const CLASS_CONTENTS_QUERY = gql`
+export const CLASS_CONTENT_QUERY = gql`
   query CLASS_QUERY($id: ID!) {
     class(id: $id) {
       id
@@ -234,6 +273,33 @@ export const CLASS_CATEGORY_QUERY = gql`
       }
       class {
         id
+      }
+    }
+  }
+`
+
+export const CLASS_ATTENDANCE_QUERY = gql`
+  query CLASS_ATTENDANCE_QUERY($id: ID!) {
+    class(id: $id) {
+      id
+      class_attendances {
+        id
+        date
+        schedule_session {
+          id
+          start_time
+          end_time
+        }
+        student_attendances {
+          attendance_type
+          student {
+            id
+            identity {
+              first_name
+              last_name
+            }
+          }
+        }
       }
     }
   }
@@ -341,7 +407,9 @@ export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
       }
     ) {
       id
-      schedule_session_id
+      schedule_session {
+        id
+      }
       date
       student_attendances {
         student {
