@@ -1,4 +1,6 @@
 import { createContext, useContext } from 'react'
+import role from '../constants/data';
+
 
 export function useAuthContext() {
   return useContext(AuthContext)
@@ -14,6 +16,11 @@ const setAuthContext = (context, data, refreshTokenGql) => {
   context.isLogin = true
   context.accessToken = data.access_token
   context.user = data.user
+  console.log(context.user);
+  
+  role.name = context.user.roles[0].name
+  console.log(role);
+  
 
   // console.log(context)
 
