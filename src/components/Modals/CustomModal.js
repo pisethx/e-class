@@ -16,8 +16,8 @@ const CustomModal = (props) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (
-        <div>
-            <Button variant="primary" size={props.size} onClick={() => setModalShow(true)}>
+        <span>
+            <Button variant="primary" className="mr-3 my-1 animation-on-hover" size={props.size} onClick={() => setModalShow(true)}>
                 {props.header}
             </Button>
             <Modal
@@ -42,7 +42,7 @@ const CustomModal = (props) => {
                 </ModalFooter>
 
             </Modal>
-        </div>
+        </span>
     );
 };
 

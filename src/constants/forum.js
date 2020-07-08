@@ -119,7 +119,6 @@ export const UNMARK_COMMENT_AS_ANSWER_MUTATION = gql`
 export const FORUMS_IN_CLASS_QUERY = gql`
   query FORUMS_IN_CLASS_QUERY($classId: ID!) {
     forumsInClass(class_id: $classId) {
-      # data {
       id
       title
       description
@@ -137,17 +136,6 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         comment
       }
       created_at
-      # }
-      # paginatorInfo {
-      #   count
-      #   currentPage
-      #   hasMorePages
-      #   lastPage
-      #   total
-      #   perPage
-      #   lastItem
-      #   firstItem
-      # }
     }
   }
 `
@@ -190,7 +178,6 @@ export const FORUM_QUERY = gql`
 export const MY_FORUMS_QUERY = gql`
   query MY_FORUMS_QUERY {
     myForums {
-      # data {
       id
       title
       comments_count
@@ -200,24 +187,12 @@ export const MY_FORUMS_QUERY = gql`
       }
       created_at
     }
-    #   paginatorInfo {
-    #     count
-    #     currentPage
-    #     hasMorePages
-    #     lastPage
-    #     total
-    #     perPage
-    #     lastItem
-    #     firstItem
-    #   }
-    # }
   }
 `
 
 export const MY_COMMENTS_QUERY = gql`
   query MY_COMMENTS_QUERY {
     myComments {
-      # data {
       id
       comment
       commentable {
@@ -233,16 +208,5 @@ export const MY_COMMENTS_QUERY = gql`
       }
       created_at
     }
-    # paginatorInfo {
-    #   count
-    #   currentPage
-    #   hasMorePages
-    #   lastPage
-    #   total
-    #   perPage
-    #   lastItem
-    #   firstItem
-    # }
-    # }
   }
 `

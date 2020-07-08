@@ -34,13 +34,11 @@ const ChangePassword = (props) => {
             }
         });
 
-        setSuccess({
-            message: 'Password changed.'
-        })
+        setSuccess('Password changed.')
     };
 
     return (
-        <CustomModal error={error} success={success} header="Change Password" size="md" body={
+        <CustomModal error={error} success={success} header="Change Password" size="lg" body={
             <Form onSubmit={onSubmit}>
                 <Row>
                     <Col md="12">

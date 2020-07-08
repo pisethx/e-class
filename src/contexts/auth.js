@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
 import role from '../constants/data';
 
-
 export function useAuthContext() {
   return useContext(AuthContext)
 }

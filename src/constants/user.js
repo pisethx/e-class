@@ -9,6 +9,7 @@ export const ME_QUERY = gql`
       uuid
       unreadNotificationsCount
       roles {
+        id
         name
       }
       identity {
@@ -67,6 +68,7 @@ export const USER_QUERY = gql`
       uuid
       unreadNotificationsCount
       roles {
+        id
         name
       }
       identity {
@@ -125,6 +127,7 @@ export const USERS_FIND_BY_UUID_QUERY = gql`
         email
         uuid
         roles {
+          id  
           name
         }
         identity {
@@ -162,6 +165,7 @@ export const USERS_FIND_BY_USERNAME_QUERY = gql`
         email
         uuid
         roles {
+          id
           name
         }
         identity {
@@ -195,6 +199,7 @@ export const USERS_QUERY = gql`
       email
       uuid
       roles {
+        id
         name
       }
       identity {
@@ -203,17 +208,6 @@ export const USERS_QUERY = gql`
         gender
         photo_url
       }
-      # }
-      # paginatorInfo {
-      #   count
-      #   currentPage
-      #   hasMorePages
-      #   lastPage
-      #   total
-      #   perPage
-      #   lastItem
-      #   firstItem
-      # }
     }
   }
 `
@@ -247,6 +241,44 @@ export const CHANGE_PASSWORD_MUTATION = gql`
   }
 `
 
+export const UPDATE_USER_MUTATION = gql`
+  mutation UPDATE_USER_MUTATION(
+    $id: ID!
+    $uuid: String!
+    $username: String!
+    $role_id: ID!
+    $email: String!
+    $first_name: String!
+    $last_name: String!
+    $gender: Gender!
+    $contact_number: String
+  ) {
+    updateUser(input:{
+      id: $id,
+      uuid: $uuid,
+      username: $username,
+      email: $email,
+      role_id: $role_id,
+      first_name: $first_name,
+      last_name: $last_name,
+      gender: $gender,
+      contact_number: $contact_number
+    }) {
+      id
+    }
+  }
+`
+
+export const DELETE_USER_MUTATION = gql`
+  mutation DELETE_USER_MUTATION(
+    $id: ID!
+  ) {
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`
+
 export const SYNC_ROLES_MUTATION = gql`
   mutation SYNC_ROLES_MUTATION($userId: Int!, $roleIds: [Int!]) {
     syncRoles(input: { user_id: $userId, role_ids: $roleIds }) {
@@ -258,24 +290,17 @@ export const SYNC_ROLES_MUTATION = gql`
   }
 `
 
-export const NOTIFICATIONS_QUERY = gql`
-  query NOTIFICATIONS_QUERY {
-    notifications(first: $first, page: $page) {
+export const MY_NOTIFICATIONS_QUERY = gql`
+  query MY_NOTIFICATIONS_QUERY {
+    myNotifications {
+      id
       data {
-        id
-        data
-        is_read
+        action
+        url
+        message
       }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
-      }
+      is_read
+      created_at
     }
   }
 `
