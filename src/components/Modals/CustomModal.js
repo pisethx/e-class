@@ -16,7 +16,7 @@ const CustomModal = (props) => {
     const [modalShow, setModalShow] = useState(false);
 
     return (
-        <div>
+        <div >
             <Button variant="primary" size={props.size} onClick={() => setModalShow(true)}>
                 {props.header}
             </Button>

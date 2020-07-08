@@ -38,6 +38,15 @@ export const USER_REGISTER_MUTATION = gql`
   }
 `
 
+export const ROLES_QUERY = gql`
+  query ROLES_QUERY {
+    roles {
+      id
+      name
+    }
+  }
+`
+
 export const USER_LOGIN_MUTATION = gql`
   mutation USER_LOGIN_MUTATION($username: String!, $password: String!) {
     login(input: { username: $username, password: $password }) {

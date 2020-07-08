@@ -9,6 +9,8 @@ import useForm from '../../lib/useForm';
 const ChangeEmail = ({ oldEmail }) => {
     const client = useApolloClient()
     const authContent = useContext(AuthContext)
+    const [success, setSuccess] = useState('')
+    const [error, setError] = useState('')
 
     const { inputs, handleChange, resetForm } = useForm({
         email: oldEmail
@@ -17,20 +19,26 @@ const ChangeEmail = ({ oldEmail }) => {
     const onSubmit = async (e) => {
         e.preventDefault()
         
-        await client.mutate({
-            mutation:CHANGE_EMAIL_MUTATION,
-            awaitRefetchQueries: true,
-            variables: {
-                id: authContent.user.id,
-                email: inputs.email
-            }
-        });
+        try {
+            await client.mutate({
+                mutation:CHANGE_EMAIL_MUTATION,
+                awaitRefetchQueries: true,
+                variables: {
+                    id: authContent.user.id,
+                    email: inputs.email
+                }
+            });
+        } catch(e) {
+            setError(e)
+        }
+
+        setSuccess('Success')
 
         window.location.reload(false);
     };
 
     return (
-        <CustomModal header="change" size="sm" body={
+        <CustomModal error={error} success={success} header="Change Email" size="sm" body={
             <Form onSubmit={onSubmit}>
                 <Row>
                     <Col md="12">

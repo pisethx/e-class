@@ -5,6 +5,7 @@ import { H3 } from 'views/Styled/index'
 import { USERS_QUERY } from 'constants/user'
 import { NavLink } from 'react-router-dom'
 
+import EditProfile from '../../components/Forms/EditProfile';
 // reactstrap components
 import {
   Button,
@@ -46,6 +47,7 @@ const UserTable = (props) => {
                         <th>ID</th>
                         <th>UUID</th>
                         <th>Username</th>
+                        <th>Role</th>
                         <th>Full Name</th>
                         <th>Actions</th>
                       </tr>
@@ -56,6 +58,7 @@ const UserTable = (props) => {
                           <td>{user.id}</td>
                           <td>{user.uuid}</td>
                           <td>{user.username}</td>
+                          <td>{user.roles[0].name}</td>
                           <td>
                             {user.identity?.first_name
                               ? `${user.identity?.first_name} ${user.identity?.last_name}`
@@ -71,13 +74,14 @@ const UserTable = (props) => {
                                 Show
                               </Button>
                             </NavLink>
-                            <Button
+                            {/* <Button
                               size="sm"
                               className="mr-3 my-1 animation-on-hover"
                               color="success"
                             >
                               Edit
-                            </Button>
+                            </Button> */}
+                            <EditProfile user={user} />
                             <Button
                               size="sm"
                               className="mr-3 my-1 animation-on-hover"

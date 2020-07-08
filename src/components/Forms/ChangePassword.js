@@ -34,9 +34,7 @@ const ChangePassword = (props) => {
             }
         });
 
-        setSuccess({
-            message: 'Password changed.'
-        })
+        setSuccess('Password changed.')
     };
 
     return (
