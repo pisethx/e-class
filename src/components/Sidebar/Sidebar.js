@@ -11,6 +11,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 // reactstrap components
 import { Nav, NavLink as ReactstrapNavLink } from 'reactstrap'
 import { AuthContext } from 'contexts/auth'
+import role from '../../constants/data';
 
 const NavItem = styled.p`
   font-weight: bold;
@@ -46,7 +47,7 @@ class Sidebar extends React.Component {
     document.documentElement.classList.remove('nav-open')
   }
   render() {
-    let role = this.props.role.name
+    let roleName = role.name
 
     const { bgColor, routes, rtlActive, logo } = this.props
     let logoImg = null
@@ -121,7 +122,7 @@ class Sidebar extends React.Component {
           <Nav>
             {allRoutes.map((prop, key) => {
               if (prop.redirect) return null
-              if (!prop.checkRole(role)) return null
+              if (!prop.checkRole(roleName)) return null
 
               return (
                 <li
