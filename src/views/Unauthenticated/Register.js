@@ -5,6 +5,7 @@ import useForm from 'lib/useForm'
 import { FormWrapper, H3 } from 'views/Styled/index'
 import { GET_ENUM_QUERY, USER_REGISTER_MUTATION } from './Api'
 import Error from 'views/shared/ErrorMessage'
+import { ROLES_QUERY } from '../../constants/auth';
 
 import {
   Alert,
@@ -26,6 +27,7 @@ const Register = (props) => {
   const GENDERS = useQuery(GET_ENUM_QUERY, {
     variables: { name: 'Gender' },
   })
+  const ROLES = useQuery(ROLES_QUERY);
 
   const { inputs, handleChange, resetForm } = useForm({
     username: '',
@@ -33,6 +35,7 @@ const Register = (props) => {
     email: '',
     first_name: '',
     last_name: '',
+    role_id: '',
   })
 
   const [gender, setGender] = useState(null)
@@ -134,6 +137,28 @@ const Register = (props) => {
                       />
                     </FormGroup>
                   </Col>
+                  <Col sm="12">
+                        <FormGroup>
+                            <Label>Role</Label>
+                            <Input
+                                type="select"
+                                name="role_id"
+                                value={inputs.role_id}
+                                onChange={handleChange}
+                                required
+                            >
+                              <option value="">
+                                Select a Role
+                              </option>
+
+                              {ROLES?.data && ROLES.data.roles.map((role) => (
+                                  <option key={role.id} value={role.id}>
+                                      {role.name}
+                                  </option>
+                              ))}
+                            </Input>
+                        </FormGroup>
+                    </Col>
                   <Col sm="12">
                     <FormGroup>
                       <label>Password</label>

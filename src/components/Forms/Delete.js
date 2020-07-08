@@ -21,7 +21,6 @@ const Delete = (props) => {
         } catch(e) {
             setError('Something went wrong');
             console.log(e);
-            
         }
 
         setModalShow(false);
@@ -29,9 +28,8 @@ const Delete = (props) => {
     };
 
     return (
-        <div >
-            <Button className="mr-3 my-1 animation-on-hover"
-                color="danger" size="sm" onClick={() => setModalShow(true)}>
+        <span>
+            <Button className="mr-3 my-1 animation-on-hover" color="danger" size="sm" onClick={() => setModalShow(true)}>
                 Delete
             </Button>
             <Modal
@@ -56,7 +54,7 @@ const Delete = (props) => {
                 </ModalFooter>
 
             </Modal>
-        </div>
+        </span>
     );
 };
 

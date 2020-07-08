@@ -17,6 +17,8 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import Delete from 'components/Forms/Delete'
+import { DELETE_CLASS_MUTATION } from '../../constants/class';
 
 const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
   return (
@@ -71,13 +73,7 @@ const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
                             Edit
                           </Button>
                         </NavLink>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="danger"
-                        >
-                          Delete
-                        </Button>
+                        <Delete name={each.code} id={each.id} deleteMutation={DELETE_CLASS_MUTATION} />
                       </td>
                     )}
                   </tr>
