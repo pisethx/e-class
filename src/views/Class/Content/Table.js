@@ -1,8 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../../Styled/index'
-import { CLASS_CONTENTS_QUERY } from '../../../constants/class'
+import { H3 } from 'views/Styled/index'
+import { CLASS_CONTENT_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
@@ -23,7 +23,7 @@ import {
 } from 'reactstrap'
 
 const ClassContentTable = (props) => {
-  const { loading, error, data } = useQuery(CLASS_CONTENTS_QUERY, {
+  const { loading, error, data } = useQuery(CLASS_CONTENT_QUERY, {
     variables: {
       id: props.id,
     },

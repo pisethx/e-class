@@ -12,7 +12,7 @@ import ClassForumCreate from 'views/Class/Forum/Create'
 import AdminLayout from 'layouts/Admin/Admin.js'
 
 import ProtectedRoute from 'components/ProtectedRoute'
-import routes from '../../routes'
+import routes from 'routes'
 
 const DynamicRoutes = ({ hist }) => {
   const routesProp = routes

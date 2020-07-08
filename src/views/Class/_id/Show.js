@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { CLASS_QUERY } from '../../../constants/class'
+import { CLASS_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -68,7 +68,7 @@ const ClassShow = (props) => {
                     <Col xs="6">Code :</Col>
                     <Col xs="6">{eachClass.code}</Col>
                     <Col xs="6">Teacher :</Col>
-                    <Col xs="6">{`${eachClass.teacher.identity.first_name} ${eachClass.teacher.identity.last_name}`}</Col>
+                    <Col xs="6">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
                     <Col xs="6">Class Categories :</Col>
 
                     <Col xs="6">
@@ -78,31 +78,35 @@ const ClassShow = (props) => {
                     </Col>
                     <Col col="12" className="my-3">
                       <NavLink to={`/class/${props.id}/content`}>
-                        <Button
-                          className="animation-on-hover m-2"
-                          color="success"
-                        >
-                          View Class Contents
+                        <Button className="btn-simple m-2" color="success">
+                          Contents
                         </Button>
                       </NavLink>
                       <NavLink to={`/class/${props.id}/category`}>
-                        <Button
-                          className="animation-on-hover m-2"
-                          color="warning"
-                        >
-                          View Class Categories
+                        <Button className="btn-simple m-2" color="warning">
+                          Categories
                         </Button>
                       </NavLink>
                       <NavLink to={`/class/${props.id}/forum`}>
-                        <Button className="animation-on-hover m-2" color="info">
-                          View Class Forums
+                        <Button className="btn-simple m-2" color="info">
+                          Forums
+                        </Button>
+                      </NavLink>
+                      <NavLink to={`/class/${props.id}/attendance`}>
+                        <Button className="btn-simple m-2" color="danger">
+                          Attendance
+                        </Button>
+                      </NavLink>
+                      <NavLink to={`/class/${props.id}/schedule`}>
+                        <Button className="btn-simple m-2" color="primary">
+                          Schedule
                         </Button>
                       </NavLink>
                     </Col>
                     <hr />
                     <Col xs="12">List of Students :</Col>
                     <Col xs="12" className="mt-2">
-                      {eachClass.students.map((student) => (
+                      {eachClass?.students?.map((student) => (
                         <Row className="my-2" key={student.id}>
                           <Col xs="1"></Col>
                           <Col xs="1" className="mb-3">

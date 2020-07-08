@@ -10,7 +10,7 @@ import {
   Col,
   Spinner,
 } from 'reactstrap'
-import { H3 } from '../../views/Styled/index'
+import { H3 } from 'views/Styled/index'
 
 // import CustomPagination from 'components/CustomPagination'
 import { useApolloClient } from 'react-apollo'

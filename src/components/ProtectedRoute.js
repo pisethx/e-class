@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
-import { setAuthContext, AuthContext, useAuthContext } from '../contexts/auth'
+import { setAuthContext, AuthContext, useAuthContext } from 'contexts/auth'
 import {
   useMutation,
   Mutation,
@@ -9,7 +9,7 @@ import {
   useApolloClient,
 } from 'react-apollo'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
-import { ME_QUERY } from '../constants/user'
+import { ME_QUERY } from 'constants/user'
 
 import { Spinner } from 'reactstrap'
 
@@ -18,7 +18,6 @@ const ProtectedRoute = (props) => {
   const authContext = useContext(AuthContext)
   const auth = useAuthContext()
   const path = props.location.pathname
-  console.log(path)
 
   const { error, loading, data } = useQuery(ME_QUERY) // data is undefined because theres no token yet
 
@@ -54,8 +53,8 @@ const ProtectedRoute = (props) => {
 
             props.history.push(path)
           } catch (e) {
-            // console.log(e)
-            props.history.push('/login')
+            console.log(path)
+            // props.history.push('/login')
           }
         } else {
           props.history.push('/login')

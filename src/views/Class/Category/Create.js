@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
-import useForm from '../../../lib/useForm'
-import { FormWrapper, H3 } from '../../Styled/index'
-import { USERS_QUERY } from '../../../constants/user'
-import { CREATE_CLASS_CATEGORY_MUTATION } from '../../../constants/class'
-import Error from '../../shared/ErrorMessage'
-import Success from '../../shared/SuccessMessage'
+import useForm from 'lib/useForm'
+import { FormWrapper, H3 } from 'views/Styled/index'
+import { USERS_QUERY } from 'constants/user'
+import { CREATE_CLASS_CATEGORY_MUTATION } from 'constants/class'
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
 import {

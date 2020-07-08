@@ -14,12 +14,24 @@ import UserTable from 'views/Users/Table.js'
 import ClassCreate from 'views/Class/Create.js'
 import ClassTable from 'views/Class/Table'
 
-import ClassShow from 'views/Class/_id/Show'
-import ClassEdit from 'views/Class/_id/Edit'
 import MyClass from 'views/Class/MyClass'
 
 import AdminLayout from './layouts/Admin/Admin'
 import UnauthenticatedLayout from './layouts/Unauthenticated/Unauthenticated'
+
+import UserShow from 'views/Users/_id/Show'
+import ClassShow from 'views/Class/_id/Show'
+import ClassEdit from 'views/Class/_id/Edit'
+
+import ClassContentTable from 'views/Class/Content/Table'
+import ClassContentCreate from 'views/Class/Content/Create'
+
+import ClassCategoryTable from 'views/Class/Category/Table'
+import ClassCategoryCreate from 'views/Class/Category/Create'
+import ClassCategoryShow from 'views/Class/Category/_id/Show'
+
+import ClassForumTable from 'views/Class/Forum/Table'
+import ClassForumCreate from 'views/Class/Forum/Create'
 
 const routes = [
   {
@@ -230,4 +242,5 @@ var routes1 = [
   //   layout: '/admin',
   // },
 ]
+
 export default routes

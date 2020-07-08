@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { Link } from 'react-router-dom'
-import useForm from '../../lib/useForm'
-import { FormWrapper, H3 } from '../Styled/index'
-import Error from '../shared/ErrorMessage'
+import useForm from 'lib/useForm'
+import { FormWrapper, H3 } from 'views/Styled/index'
+import Error from 'views/shared/ErrorMessage'
 
-import { AuthContext } from '../../contexts/auth'
+import { AuthContext } from 'contexts/auth'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
 
 // reactstrap components
@@ -60,9 +60,12 @@ const Login = (props) => {
                   // setValidation(true)
                   try {
                     await authContext.login(login, authContext, refreshToken)
+                    setIsButtonDisabled(false)
 
                     props.history.push('/')
-                  } catch (e) {}
+                  } catch (e) {
+                    setIsButtonDisabled(false)
+                  }
                 }}
               >
                 <Row className="p-3">

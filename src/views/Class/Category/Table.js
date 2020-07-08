@@ -1,8 +1,8 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { H3 } from '../../Styled/index'
-import { CLASS_CATEGORIES_QUERY } from '../../../constants/class'
+import { H3 } from 'views/Styled/index'
+import { CLASS_CATEGORIES_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
@@ -71,6 +71,15 @@ const ClassCategoryTable = (props) => {
                                 color="info"
                               >
                                 Go To Exam
+                              </Button>
+                            </NavLink>
+                            <NavLink to={`category/${id}/exam/create`}>
+                              <Button
+                                size="sm"
+                                className="mr-3 my-1 animation-on-hover "
+                                color="warning"
+                              >
+                                Create Exam
                               </Button>
                             </NavLink>
                             <Button

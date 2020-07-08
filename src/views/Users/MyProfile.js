@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { CURRENT_USER_QUERY } from '../../lib/User'
-import { useAuthContext } from '../../contexts/auth'
-import UserProfile from '../../components/Cards/UserProfile'
+import { CURRENT_USER_QUERY } from 'lib/User'
+import { useAuthContext } from 'contexts/auth'
+import UserProfile from 'components/Cards/UserProfile'
 // reactstrap components
 
 const MyProfile = (props) => {

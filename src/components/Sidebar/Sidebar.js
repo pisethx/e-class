@@ -49,7 +49,7 @@ class Sidebar extends React.Component {
     let logoImg = null
     let logoText = null
     let allRoutes = this.props.routes.map((route) => route.subRoutes).flat()
-    console.log(allRoutes)
+    // console.log(allRoutes)
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
         logoImg = (

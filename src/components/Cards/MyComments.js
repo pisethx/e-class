@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { useApolloClient } from 'react-apollo'
-import { H3 } from '../../views/Styled/index'
+import { H3 } from 'views/Styled/index'
 
 // reactstrap components
 import {
@@ -44,7 +44,7 @@ const MyComments = (props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle tag="h4">
+        <CardTitle>
           <H3>Recent Comments</H3>
         </CardTitle>
       </CardHeader>
