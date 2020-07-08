@@ -269,6 +269,16 @@ export const UPDATE_USER_MUTATION = gql`
   }
 `
 
+export const DELETE_USER_MUTATION = gql`
+  mutation DELETE_USER_MUTATION(
+    $id: ID!
+  ) {
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`
+
 export const SYNC_ROLES_MUTATION = gql`
   mutation SYNC_ROLES_MUTATION($userId: Int!, $roleIds: [Int!]) {
     syncRoles(input: { user_id: $userId, role_ids: $roleIds }) {
