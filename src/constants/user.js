@@ -290,24 +290,17 @@ export const SYNC_ROLES_MUTATION = gql`
   }
 `
 
-export const NOTIFICATIONS_QUERY = gql`
-  query NOTIFICATIONS_QUERY {
-    notifications(first: $first, page: $page) {
+export const MY_NOTIFICATIONS_QUERY = gql`
+  query MY_NOTIFICATIONS_QUERY {
+    myNotifications {
+      id
       data {
-        id
-        data
-        is_read
+        action
+        url
+        message
       }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
-      }
+      is_read
+      created_at
     }
   }
 `
