@@ -33,6 +33,22 @@ import ClassCategoryShow from 'views/Class/Category/_id/Show'
 import ClassForumTable from 'views/Class/Forum/Table'
 import ClassForumCreate from 'views/Class/Forum/Create'
 
+const all = (role) => {
+  return true
+}
+
+const exceptAdmin = (role) => {
+  console.log(role)
+
+  if (role === 'admin') return false
+  return true
+}
+
+const onlyAdmin = (role) => {
+  if (role === 'admin') return true
+  return false
+}
+
 const routes = [
   {
     layout: 'admin',
@@ -41,36 +57,44 @@ const routes = [
         exact: true,
         path: '/',
         name: 'Dashboard',
+        checkRole: all,
+
         component: Dashboard,
       },
       {
         exact: true,
         path: '/user',
         name: 'My Profile',
+        checkRole: all,
         component: MyProfile,
       },
       {
         exact: true,
         path: '/class',
         name: 'My Class',
+        checkRole: exceptAdmin,
         component: MyClass,
       },
       {
         exact: true,
         path: '/users',
         name: 'Users',
+        checkRole: onlyAdmin,
         component: UserTable,
       },
       {
         exact: true,
         path: '/classes',
         name: 'Classes',
+        checkRole: onlyAdmin,
+
         component: ClassTable,
       },
       {
         exact: true,
         path: '/classes/create',
         name: 'Create Class',
+        checkRole: onlyAdmin,
         component: ClassCreate,
       },
     ],
@@ -88,6 +112,7 @@ const routes = [
         exact: true,
         path: '/register',
         name: 'Register',
+        checkRole: onlyAdmin,
         component: Register,
       },
       {

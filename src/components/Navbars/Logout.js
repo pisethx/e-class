@@ -29,7 +29,7 @@ const Logout = (props) => {
           console.log(error)
         }
         console.log(props)
-        props.push('/login')
+        props.history.push('/login')
       }}
       className="nav-item"
     >

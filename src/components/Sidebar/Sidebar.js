@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 // nodejs library to set properties for components
 import { PropTypes } from 'prop-types'
@@ -10,6 +10,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 
 // reactstrap components
 import { Nav, NavLink as ReactstrapNavLink } from 'reactstrap'
+import { AuthContext } from 'contexts/auth'
 
 const NavItem = styled.p`
   font-weight: bold;
@@ -45,11 +46,22 @@ class Sidebar extends React.Component {
     document.documentElement.classList.remove('nav-open')
   }
   render() {
+    let role = this.props.role.name
+
     const { bgColor, routes, rtlActive, logo } = this.props
     let logoImg = null
     let logoText = null
-    let allRoutes = this.props.routes.map((route) => route.subRoutes).flat()
-    // console.log(allRoutes)
+    let registerRoute = this.props.routes[1].subRoutes.find(
+      (r) => r.path === '/register'
+    )
+    console.log(registerRoute)
+
+    let allRoutes = this.props.routes
+      .filter((route) => route.layout !== 'unauthenticated')
+      .map((r) => r.subRoutes)
+      .flat()
+
+    allRoutes.push(registerRoute)
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
         logoImg = (
@@ -109,6 +121,8 @@ class Sidebar extends React.Component {
           <Nav>
             {allRoutes.map((prop, key) => {
               if (prop.redirect) return null
+              if (!prop.checkRole(role)) return null
+
               return (
                 <li
                   className={
