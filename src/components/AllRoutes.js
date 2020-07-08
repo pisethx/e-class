@@ -25,6 +25,7 @@ import ClassForumCreate from 'views/Class/Forum/Create'
 
 import ClassAttendanceTable from 'views/Class/Attendance/Table'
 import ClassAttendanceCreate from 'views/Class/Attendance/Create'
+import { AuthContext } from 'contexts/auth'
 
 const routesProp = routes
 const routesAdmin = routes.find((route) => route.layout === 'admin')
@@ -33,6 +34,7 @@ const routesUnauthenticated = routes.find(
 )
 
 const AllRoutes = (props) => {
+  const authContext = useContext(AuthContext)
   console.log(ClassCategoryExamCreate)
   return (
     <>
@@ -46,7 +48,11 @@ const AllRoutes = (props) => {
               {...props}
               render={(props) => (
                 <>
-                  <AdminLayout {...props} routes={routesProp}>
+                  <AdminLayout
+                    {...props}
+                    role={authContext.user.roles[0]}
+                    routes={routesProp}
+                  >
                     <Route {...route} />
                   </AdminLayout>
                 </>

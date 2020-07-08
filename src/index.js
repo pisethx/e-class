@@ -53,9 +53,6 @@ const App = () => {
       })
   )
 
-  console.log(routesUnauthenticated);
-  
-
   const client = new ApolloClient({
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
