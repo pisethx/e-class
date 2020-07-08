@@ -1,6 +1,6 @@
 import React, { useState, createRef, useRef, forwardRef } from 'react'
 // reactstrap components
-import CustomModal from '../Modals/CustomModal';
+// import CustomModal from '../Modals/CustomModal';
 
 import {
   Button,
@@ -15,13 +15,10 @@ import {
   Col,
   Label,
 } from 'reactstrap'
-import ChangeEmail from 'components/Forms/ChangeEmail';
-import ChangePassword from '../Forms/ChangePassword';
+// import ChangeEmail from 'components/Forms/ChangeEmail'
+// import ChangePassword from '../Forms/ChangePassword'
 
 const UserProfile = ({ user }) => {
-  const changeEmailModal = createRef()
-  // const changePWModal = useRef(null)
-
   return (
     <div className="content">
       <Row>
@@ -63,7 +60,7 @@ const UserProfile = ({ user }) => {
                   <Col md="6">
                     <Row md="12" className="pl-3">
                       {user.email} <span className="pl-3"></span>
-                      <ChangeEmail oldEmail={user.email}/>
+                      {/* <ChangeEmail oldEmail={user.email} /> */}
                     </Row>
                   </Col>
                   <Col md="6">Gender :</Col>
@@ -72,8 +69,8 @@ const UserProfile = ({ user }) => {
                   <Col md="6">{user.identity.contact_number}</Col>
                 </Row>
                 <Row className="justify-content-end">
-                    <ChangePassword/>
-                    <Col lg="2"></Col>
+                  {/* <ChangePassword /> */}
+                  <Col lg="2"></Col>
                 </Row>
               </div>
             </CardBody>
