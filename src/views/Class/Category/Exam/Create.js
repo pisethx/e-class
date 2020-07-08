@@ -38,17 +38,17 @@ const ClassCategoryExamCreate = (props) => {
     due_at: null,
     publishes_at: null,
     questions: new Array(1).fill({
-      question: '',
-      type: null,
-      answers: [],
-      possibles: [],
-      points: null,
+      question: 'a',
+      type: 'QCM',
+      answers: ['1', '2'],
+      possibles: ['1', '2', '3'],
+      points: 3,
     }),
   })
 
   const { inputs, handleChange, resetForm } = useForm({
-    name: '',
-    description: '',
+    name: 'a',
+    description: 'b',
     attempts: 1,
   })
 
@@ -64,6 +64,8 @@ const ClassCategoryExamCreate = (props) => {
       variables: {
         class_category_id: props.categoryId,
         ...inputs,
+        ...form,
+        qa: form.questions,
       },
     }
   )
@@ -71,6 +73,12 @@ const ClassCategoryExamCreate = (props) => {
   if (loading) return <p>Loading...</p>
   // if (error) return `Error! ${error}`
 
+  const updateQuestion = (updatedQuestions) => {
+    setForm((prevState) => ({
+      ...prevState,
+      questions: updatedQuestions,
+    }))
+  }
   return (
     <>
       <div className="content">
@@ -89,10 +97,20 @@ const ClassCategoryExamCreate = (props) => {
                     setIsButtonDisabled(true)
                     // setValidation(true)
                     try {
+                      form.questions = form.questions.map((q) => ({
+                        ...q,
+                        answers: q.possibles.filter((_, i) =>
+                          q.answers.includes(i)
+                        ),
+                      }))
+
+                      console.log({ ...form, ...inputs })
+
                       await createClassCategoryExam()
                       setSuccess('Success')
-                      resetForm()
-                      props.history.push(`/class/${props.id}/content`)
+
+                      // resetForm()
+                      // props.history.push(`/class/${props.id}/content`)
                     } catch (err) {}
 
                     setIsButtonDisabled(false)
@@ -149,17 +167,16 @@ const ClassCategoryExamCreate = (props) => {
                         <DatePicker
                           selected={form.due_at}
                           onChange={(date) => {
-                            console.log(date)
                             setForm((prevState) => ({
                               ...prevState,
                               due_at: date,
                             }))
                           }}
                           showTimeSelect
-                          timeFormat="HH:mm"
+                          timeFormat="hh:mm"
                           timeIntervals={30}
                           timeCaption="time"
-                          dateFormat="MMMM dd yyyy, h:mm:ss a"
+                          dateFormat="yyyy-mm-dd hh:mm:ss"
                         />
                       </FormGroup>
                     </Col>
@@ -170,17 +187,17 @@ const ClassCategoryExamCreate = (props) => {
 
                         <DatePicker
                           selected={form.publishes_at}
-                          onChange={(date) =>
+                          onChange={(date) => {
                             setForm((prevState) => ({
                               ...prevState,
-                              publishes_at: date.toISOString(),
+                              publishes_at: date,
                             }))
-                          }
+                          }}
                           showTimeSelect
-                          timeFormat="HH:mm"
+                          timeFormat="hh:mm"
                           timeIntervals={30}
                           timeCaption="time"
-                          dateFormat="MMMM dd yyyy, h:mm:ss a"
+                          dateFormat="yyyy-mm-dd hh:mm:ss"
                         />
                       </FormGroup>
                     </Col>
@@ -210,10 +227,8 @@ const ClassCategoryExamCreate = (props) => {
                               </Col>
 
                               <Col xs="12">
-                                <Label>
-                                  {JSON.stringify(form.questions[i])}
-                                </Label>
                                 <FormGroup>
+                                  <Label>Question</Label>
                                   <Input
                                     placeholder="Question"
                                     type="text"
@@ -226,12 +241,35 @@ const ClassCategoryExamCreate = (props) => {
                                         question: e.target.value,
                                       }
 
-                                      setForm((prevState) => ({
-                                        ...prevState,
-                                        questions: updatedQuestions,
-                                      }))
+                                      updateQuestion(updatedQuestions)
+
+                                      // setForm((prevState) => ({
+                                      //   ...prevState,
+                                      //   questions: updatedQuestions,
+                                      // }))
                                     }}
                                     required
+                                  />
+                                </FormGroup>
+                              </Col>
+
+                              <Col xs="12">
+                                <FormGroup>
+                                  <Label>Points</Label>
+                                  <Input
+                                    placeholder="Points"
+                                    type="number"
+                                    name="points"
+                                    value={form.questions[i].points}
+                                    onChange={(e) => {
+                                      let updatedQuestions = form.questions
+                                      updatedQuestions[i] = {
+                                        ...updatedQuestions[i],
+                                        points: e.target.value,
+                                      }
+
+                                      updateQuestion(updatedQuestions)
+                                    }}
                                   />
                                 </FormGroup>
                               </Col>
@@ -250,29 +288,87 @@ const ClassCategoryExamCreate = (props) => {
                                       value: form.questions[i].type,
                                     }}
                                     onChange={(e) => {
-                                      // setForm((prevState) => ({
-                                      //   ...prevState,
-                                      //   teacher: {
-                                      //     value: e.value,
-                                      //     label: e.label,
-                                      //   },
-                                      // }))
+                                      let updatedQuestions = form.questions
+                                      updatedQuestions[i] = {
+                                        ...updatedQuestions[i],
+                                        type: e.value,
+                                      }
+                                      updateQuestion(updatedQuestions)
                                     }}
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col xs="12">
-                                <FormGroup>
-                                  <Label>Points</Label>
-                                  <Input
-                                    placeholder="Points"
-                                    type="number"
-                                    name="points"
-                                    value={form.questions[i].points}
-                                    onChange={(e) => {}}
-                                  />
-                                </FormGroup>
-                              </Col>
+
+                              {form.questions[i].type === 'QCM' && (
+                                <>
+                                  <Label>Possibles</Label>
+                                  {form.questions[i].possibles.map((p, j) => (
+                                    <Col xs="12" key={j}>
+                                      <FormGroup>
+                                        <Input
+                                          placeholder={`Possible ${j + 1}`}
+                                          type="text"
+                                          value={form.questions[i].possibles[j]}
+                                          onChange={(e) => {
+                                            let updatedQuestions =
+                                              form.questions
+                                            updatedQuestions[i].possibles[j] =
+                                              e.target.value
+
+                                            updateQuestion(updatedQuestions)
+                                          }}
+                                        />
+                                      </FormGroup>
+                                      <FormGroup check>
+                                        <Label check>
+                                          <Input
+                                            type="checkbox"
+                                            onChange={(e) => {
+                                              let updatedQuestions =
+                                                form.questions
+                                              updatedQuestions[i].answers.push(
+                                                j
+                                              )
+
+                                              updateQuestion(updatedQuestions)
+                                            }}
+                                          />
+                                          Correct
+                                          <span className="form-check-sign">
+                                            <span className="check"></span>
+                                          </span>
+                                        </Label>
+                                      </FormGroup>
+                                    </Col>
+                                  ))}
+                                  <Button
+                                    className="btn-simple m-2"
+                                    color="info"
+                                    onClick={() => {
+                                      let updatedQuestions = form.questions
+                                      updatedQuestions[i].possibles.push('')
+
+                                      updateQuestion(updatedQuestions)
+                                    }}
+                                  >
+                                    +
+                                  </Button>
+                                  {form.questions[i].possibles.length > 1 && (
+                                    <Button
+                                      className="btn-simple m-2"
+                                      color="warning"
+                                      onClick={() => {
+                                        let updatedQuestions = form.questions
+                                        updatedQuestions[i].possibles.pop()
+
+                                        updateQuestion(updatedQuestions)
+                                      }}
+                                    >
+                                      -
+                                    </Button>
+                                  )}
+                                </>
+                              )}
                             </Row>
                           </Col>
                         ))
@@ -288,13 +384,10 @@ const ClassCategoryExamCreate = (props) => {
                             question: '',
                             type: null,
                             answers: [],
-                            possibles: [],
+                            possibles: [''],
                             points: null,
                           })
-                          setForm((prevState) => ({
-                            ...prevState,
-                            questions: updatedQuestions,
-                          }))
+                          updateQuestion(updatedQuestions)
                         }}
                       >
                         Add Question

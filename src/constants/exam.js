@@ -2,16 +2,29 @@ import gql from 'graphql-tag'
 
 export const CREATE_EXAM_MUTATION = gql`
   mutation CREATE_EXAM_MUTATION(
+    $class_category_id: ID!
     $name: String!
     $description: String!
-    $attempt: Int!
+    $attempts: Int!
+    $qa: [CreateQuestionInput!]
   ) {
-    createClassContentExam(
-      name: $name
-      description: $description
-      attempt: $attempt
+    createExam(
+      input: {
+        class_category: { connect: $class_category_id }
+        name: $name
+        description: $description
+        attempts: $attempts
+        qa: $qa
+      }
     ) {
       id
+      name
+      qa {
+        question
+        type
+        answers
+        possibles
+      }
     }
   }
 `

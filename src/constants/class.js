@@ -233,10 +233,10 @@ export const CLASS_CATEGORIES_QUERY = gql`
         exams {
           id
           name
-          type
           qa {
+            type
             id
-            questions
+            question
             answers
             possibles
             points
@@ -270,6 +270,9 @@ export const CLASS_CATEGORY_QUERY = gql`
       weight
       exams {
         id
+        qa {
+          attempts
+        }
       }
       class {
         id

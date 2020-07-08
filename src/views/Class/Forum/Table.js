@@ -31,7 +31,7 @@ const ForumTable = (props) => {
   if (loading) return <p>Loading...</p>
   if (error) return `<p>Error ${error}</p>`
 
-  const forums = data?.forum
+  const forums = data?.forumsInClass
 
   return (
     <>
@@ -48,36 +48,58 @@ const ForumTable = (props) => {
                   </Button>
                 </NavLink>
               </CardHeader>
-
-              <CardBody>
-                <Row>
-                  {forums ? (
-                    <Col>
-                      <div class="card" style="width: 20rem;">
-                        <div class="card-body">
-                          <h4 class="card-title">Card title</h4>
-                          <h6 class="card-subtitle mb-2 text-muted">
-                            Card subtitle
-                          </h6>
-                          <p class="card-text">
-                            Some quick example text to build on the card title
-                            and make up the bulk of the card's content.
-                          </p>
-                          <a href="#" class="card-link">
-                            Card link
-                          </a>
-                          <a href="#" class="card-link">
-                            Another link
-                          </a>
-                        </div>
-                      </div>
-                    </Col>
-                  ) : (
-                    <Col>
-                      <h3>No Forum found.... But you can always create one!</h3>
-                    </Col>
-                  )}
-                </Row>
+              <CardBody style={{ padding: '1rem 2rem' }}>
+                {forums?.map(
+                  ({
+                    id,
+                    title,
+                    author,
+                    description,
+                    comments_count = 0,
+                    created_at,
+                    answer,
+                  }) => (
+                    <Card
+                      style={{
+                        boxShadow: '3px 5px 15px #1a1a1a',
+                        padding: '.5rem',
+                      }}
+                    >
+                      <CardHeader style={{ fontWeight: 'bold' }}>
+                        {title}
+                      </CardHeader>
+                      <CardFooter style={{ fontWeight: 'bold' }}>
+                        {`${author.identity.first_name} ${author.identity.last_name}`}{' '}
+                        <br />
+                        {created_at}
+                      </CardFooter>
+                      <CardBody>
+                        <CardText className="mb-3">{description}</CardText>
+                        <Button
+                          size="sm"
+                          className="mr-3 my-1 animation-on-hover "
+                          color="info"
+                        >
+                          Comments ({comments_count})
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="mr-3 my-1 animation-on-hover"
+                          color="success"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="mr-3 my-1 animation-on-hover"
+                          color="danger"
+                        >
+                          Delete
+                        </Button>
+                      </CardBody>
+                    </Card>
+                  )
+                )}
               </CardBody>
             </Card>
           </Col>

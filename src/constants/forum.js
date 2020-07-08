@@ -136,6 +136,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         id
         comment
       }
+      created_at
       # }
       # paginatorInfo {
       #   count
@@ -181,6 +182,7 @@ export const FORUM_QUERY = gql`
         id
         comment
       }
+      created_at
     }
   }
 `

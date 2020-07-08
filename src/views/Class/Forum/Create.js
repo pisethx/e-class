@@ -91,7 +91,7 @@ const CreateClassForum = (props) => {
                   try {
                     await createClassForum(inputs)
                     setSuccess('Success')
-                    props.history.push(`/class/${props.id}/content`)
+                    props.history.push(`/class/${props.id}/forum`)
                   } catch (err) {
                     console.log(err)
                   }

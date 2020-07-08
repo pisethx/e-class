@@ -33,7 +33,6 @@ const routesUnauthenticated = routes.find(
 )
 
 const AllRoutes = (props) => {
-  console.log(ClassCategoryExamCreate)
   return (
     <>
       <Router history={props.hist}>
