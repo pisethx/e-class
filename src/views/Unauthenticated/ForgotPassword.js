@@ -55,7 +55,10 @@ const ForgotPassword = (props) => {
                     res = await forgotPassword()
                     console.log(res)
                     // handle data
-                    props.history.push('/login/reset-password')
+                    props.history.push({
+                      pathname: '/reset-password',
+                      state: { username: inputs.username },
+                    })
                   } catch {}
                 }}
               >
