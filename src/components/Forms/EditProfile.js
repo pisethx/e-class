@@ -45,7 +45,7 @@ const EditProfile = (props) => {
     };
 
     return (
-        <CustomModal error={error} success={success} header="Edit" size="sm" body={
+        <CustomModal error={error} success={success} header="Edit" size={props.size} body={
             <Form onSubmit={onSubmit}>
                 <Row>
                     <h1 className="pl-3">

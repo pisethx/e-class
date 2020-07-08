@@ -81,7 +81,7 @@ const UserTable = (props) => {
                             >
                               Edit
                             </Button> */}
-                            <EditProfile user={user} />
+                            <EditProfile user={user} size="sm" />
                             <Button
                               size="sm"
                               className="mr-3 my-1 animation-on-hover"

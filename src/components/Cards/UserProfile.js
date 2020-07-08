@@ -1,4 +1,4 @@
-import React, { useState, createRef, useRef, forwardRef } from 'react'
+import React, { useState, createRef, useRef, forwardRef, useContext } from 'react'
 
 import {
   Button,
@@ -15,8 +15,11 @@ import {
 } from 'reactstrap'
 import ChangeEmail from 'components/Forms/ChangeEmail'
 import ChangePassword from '../Forms/ChangePassword'
+import { AuthContext } from 'contexts/auth';
+import EditProfile from 'components/Forms/EditProfile';
 
 const UserProfile = ({ user }) => {
+  const authContext = useContext(AuthContext)
   return (
     <div className="content">
       <Row>
@@ -58,7 +61,7 @@ const UserProfile = ({ user }) => {
                   <Col md="6">
                     <Row md="12" className="pl-3">
                       {user.email} <span className="pl-3"></span>
-                      <ChangeEmail oldEmail={user.email} />
+                      {user.id === authContext.user.id && <ChangeEmail oldEmail={user.email} />}
                     </Row>
                   </Col>
                   <Col md="6">First Name :</Col>
@@ -70,9 +73,10 @@ const UserProfile = ({ user }) => {
                   <Col md="6">Phone :</Col>
                   <Col md="6">{user.identity.contact_number}</Col>
                 </Row>
-                <Row className="justify-content-end">
-                  <ChangePassword />
-                  <Col lg="2"></Col>
+                <Row>
+                  {authContext.user.roles[0].name === 'admin' && <EditProfile user={user} size="lg" />}
+                  <div className="ml-3"></div>
+                  {user.id === authContext.user.id && <ChangePassword />  }
                 </Row>
               </div>
             </CardBody>
