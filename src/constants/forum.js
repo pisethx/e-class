@@ -1,18 +1,8 @@
 import gql from 'graphql-tag'
 
 export const CREATE_FORUM_MUTATION = gql`
-  mutation CREATE_FORUM_MUTATION(
-    $title: String!
-    $description: String!
-    $classContentId: ID!
-  ) {
-    createForum(
-      input: {
-        title: $title
-        description: $description
-        class_content_id: $classContentId
-      }
-    ) {
+  mutation CREATE_FORUM_MUTATION($title: String!, $description: String!, $classContentId: ID!) {
+    createForum(input: { title: $title, description: $description, class_content_id: $classContentId }) {
       id
       title
       description
@@ -64,12 +54,7 @@ export const DELETE_FORUM_MUTATION = gql`
 
 export const CREATE_COMMENT_MUTATION = gql`
   mutation CREATE_COMMENT_MUTATION($comment: String!, $forumId: ID!) {
-    createComment(
-      input: {
-        comment: $comment
-        commentable: { connect: { type: FORUM, id: $forumId } }
-      }
-    ) {
+    createComment(input: { comment: $comment, commentable: { connect: { type: FORUM, id: $forumId } } }) {
       id
       comment
     }
@@ -129,6 +114,19 @@ export const FORUMS_IN_CLASS_QUERY = gql`
           last_name
           photo_url
         }
+      }
+      comments {
+        id
+        comment
+        author {
+          identity {
+            username
+            first_name
+            last_name
+            photo_url
+          }
+        }
+        created_at
       }
       comments_count
       answer {

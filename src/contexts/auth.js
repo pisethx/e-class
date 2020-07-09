@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import role from '../constants/data';
+import role from '../constants/data'
 
 export function useAuthContext() {
   return useContext(AuthContext)
@@ -7,7 +7,7 @@ export function useAuthContext() {
 
 const setAuthContext = (context, data, refreshTokenGql) => {
   // console.log('try set authContext')
-
+  console.log(data)
   if (data.refresh_token) {
     localStorage.setItem('refreshToken', data.refresh_token)
   }
@@ -15,11 +15,9 @@ const setAuthContext = (context, data, refreshTokenGql) => {
   context.isLogin = true
   context.accessToken = data.access_token
   context.user = data.user
-  console.log(context.user);
-  
+
   role.name = context.user.roles[0].name
-  console.log(role);
-  
+  console.log(role)
 
   // console.log(context)
 
@@ -61,7 +59,7 @@ const AuthContext = createContext({
       setAuthContext(context, res.data.refreshToken, refreshTokenGql)
       // console.log('done refresh token')
     } catch (e) {
-      localStorage.removeItem('refreshToken')
+      // localStorage.removeItem('refreshToken')
       return
     }
   },

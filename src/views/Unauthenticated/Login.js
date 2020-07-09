@@ -28,8 +28,8 @@ import { USER_LOGIN_MUTATION } from 'constants/auth'
 
 const Login = (props) => {
   const { inputs, handleChange, resetForm } = useForm({
-    username: '',
-    password: '',
+    username: 'teacher85',
+    password: 'password',
   })
 
   const [validation, setValidation] = useState(false)

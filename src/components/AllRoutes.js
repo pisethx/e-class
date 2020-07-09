@@ -19,8 +19,11 @@ import ClassCategoryCreate from 'views/Class/Category/Create'
 import ClassCategoryShow from 'views/Class/Category/_id/Show'
 
 import ClassCategoryExamCreate from 'views/Class/Category/Exam/Create'
+import ClassCategoryExamTable from 'views/Class/Category/Exam/Table'
+import ClassCategoryExamShow from 'views/Class/Category/Exam/_id/Show'
 
 import ClassForumTable from 'views/Class/Forum/Table'
+import ClassForumPost from 'views/Class/Forum/Post'
 import ClassForumCreate from 'views/Class/Forum/Create'
 
 import ClassAttendanceTable from 'views/Class/Attendance/Table'
@@ -29,13 +32,10 @@ import { AuthContext } from 'contexts/auth'
 
 const routesProp = routes
 const routesAdmin = routes.find((route) => route.layout === 'admin')
-const routesUnauthenticated = routes.find(
-  (route) => route.layout === 'unauthenticated'
-)
+const routesUnauthenticated = routes.find((route) => route.layout === 'unauthenticated')
 
 const AllRoutes = (props) => {
   const authContext = useContext(AuthContext)
-  console.log(ClassCategoryExamCreate)
   return (
     <>
       <Router history={props.hist}>
@@ -48,11 +48,7 @@ const AllRoutes = (props) => {
               {...props}
               render={(props) => (
                 <>
-                  <AdminLayout
-                    {...props}
-                    role={authContext.user.roles[0]}
-                    routes={routesProp}
-                  >
+                  <AdminLayout {...props} role={authContext.user.roles[0]} routes={routesProp}>
                     <Route {...route} />
                   </AdminLayout>
                 </>
@@ -150,11 +146,7 @@ const AllRoutes = (props) => {
             render={(props) => (
               <>
                 <AdminLayout {...props} routes={routesProp}>
-                  <ClassCategoryShow
-                    {...props}
-                    id={props.match.params.id}
-                    categoryId={props.match.params.categoryId}
-                  />
+                  <ClassCategoryShow {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
                 </AdminLayout>
               </>
             )}
@@ -167,10 +159,35 @@ const AllRoutes = (props) => {
             render={(props) => (
               <>
                 <AdminLayout {...props} routes={routesProp}>
-                  <ClassCategoryExamCreate
+                  <ClassCategoryExamCreate {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId/exam"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryExamTable {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId/exam/:examId"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassCategoryExamShow
                     {...props}
                     id={props.match.params.id}
                     categoryId={props.match.params.categoryId}
+                    examId={props.match.params.examId}
                   />
                 </AdminLayout>
               </>
@@ -203,6 +220,18 @@ const AllRoutes = (props) => {
           ></ProtectedRoute>
           <ProtectedRoute
             exact={true}
+            path="/class/:id/forum/:postId"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout {...props} routes={routesProp}>
+                  <ClassForumPost {...props} id={props.match.params.id} postId={props.match.params.postId} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
             path="/class/:id/attendance"
             {...props}
             render={(props) => (
@@ -220,10 +249,7 @@ const AllRoutes = (props) => {
             render={(props) => (
               <>
                 <AdminLayout {...props} routes={routesProp}>
-                  <ClassAttendanceCreate
-                    {...props}
-                    id={props.match.params.id}
-                  />
+                  <ClassAttendanceCreate {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
             )}

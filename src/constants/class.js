@@ -233,15 +233,20 @@ export const CLASS_CATEGORIES_QUERY = gql`
         exams {
           id
           name
+          possible
+          description
+          attempts
+          due_at
+          publishes_at
+
           qa {
-            type
             id
             question
+            type
             answers
             possibles
             points
           }
-          possible
         }
       }
     }
@@ -264,19 +269,10 @@ export const CLASS_CONTENT_QUERY = gql`
 
 export const CLASS_CATEGORY_QUERY = gql`
   query CLASS_CATEGORY_QUERY($id: ID!) {
-    ClassCategory(id: $id) {
+    classCategoriesInClass(class_id: $id) {
       id
       name
       weight
-      exams {
-        id
-        qa {
-          attempts
-        }
-      }
-      class {
-        id
-      }
     }
   }
 `

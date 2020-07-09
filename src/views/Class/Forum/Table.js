@@ -20,6 +20,7 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import PostCard from 'components/Cards/Post'
 
 const ForumTable = (props) => {
   const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
@@ -29,7 +30,7 @@ const ForumTable = (props) => {
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `<p>Error ${error}</p>`
+  if (error) return `Error! ${error}`
 
   const forums = data?.forumsInClass
 
@@ -59,45 +60,24 @@ const ForumTable = (props) => {
                     created_at,
                     answer,
                   }) => (
-                    <Card
-                      style={{
-                        boxShadow: '3px 5px 15px #1a1a1a',
-                        padding: '.5rem',
+                    <PostCard
+                      title={title}
+                      info={`${author.identity.first_name} ${author.identity.last_name}`}
+                      date={created_at}
+                      description={description}
+                      showBtn={{
+                        name: `Comments (${comments_count})`,
+                        path: `forum/id`,
                       }}
-                    >
-                      <CardHeader style={{ fontWeight: 'bold' }}>
-                        {title}
-                      </CardHeader>
-                      <CardFooter style={{ fontWeight: 'bold' }}>
-                        {`${author.identity.first_name} ${author.identity.last_name}`}{' '}
-                        <br />
-                        {created_at}
-                      </CardFooter>
-                      <CardBody>
-                        <CardText className="mb-3">{description}</CardText>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover "
-                          color="info"
-                        >
-                          Comments ({comments_count})
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="success"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="danger"
-                        >
-                          Delete
-                        </Button>
-                      </CardBody>
-                    </Card>
+                      editBtn={{
+                        name: 'Edit',
+                        path: `forum/id`,
+                      }}
+                      deleteBtn={{
+                        name: 'Delete',
+                        path: `forum/id`,
+                      }}
+                    />
                   )
                 )}
               </CardBody>

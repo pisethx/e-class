@@ -61,16 +61,28 @@ const ClassCategoryTable = (props) => {
                       {categories?.map(({ id, name, weight, exams }) => (
                         <tr key={id}>
                           <td>{id}</td>
-                          <td>{name}</td>
+                          <td>
+                            <NavLink
+                              style={{ fontWeight: 'bold' }}
+                              to={`category/${id}/exam`}
+                            >
+                              {name}
+                            </NavLink>
+                          </td>
                           <td>{weight}</td>
                           <td>
-                            <NavLink to={`category/${id}`}>
+                            <NavLink
+                              to={{
+                                pathname: `category/${id}/exam`,
+                                exams: exams,
+                              }}
+                            >
                               <Button
                                 size="sm"
                                 className="mr-3 my-1 animation-on-hover "
                                 color="info"
                               >
-                                Go To Exam
+                                Take Exam
                               </Button>
                             </NavLink>
                             <NavLink to={`category/${id}/exam/create`}>
@@ -97,7 +109,6 @@ const ClassCategoryTable = (props) => {
                               Delete
                             </Button>
                           </td>
-                          {/* <td className="text-center">$36,738</td> */}
                         </tr>
                       ))}
                     </tbody>

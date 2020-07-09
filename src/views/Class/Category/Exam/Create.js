@@ -12,22 +12,7 @@ import { GET_ENUM_QUERY } from 'views/Unauthenticated/Api'
 import moment from 'moment'
 
 // reactstrap components
-import {
-  Alert,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  FormFeedback,
-  Form,
-  Input,
-  Label,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Label, Row, Col } from 'reactstrap'
 
 const ClassCategoryExamCreate = (props) => {
   const [success, setSuccess] = useState('')
@@ -40,7 +25,7 @@ const ClassCategoryExamCreate = (props) => {
     questions: new Array(1).fill({
       question: 'a',
       type: 'QCM',
-      answers: ['1', '2'],
+      answers: [],
       possibles: ['1', '2', '3'],
       points: 3,
     }),
@@ -58,17 +43,14 @@ const ClassCategoryExamCreate = (props) => {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [createClassCategoryExam, { error, loading }] = useMutation(
-    CREATE_EXAM_MUTATION,
-    {
-      variables: {
-        class_category_id: props.categoryId,
-        ...inputs,
-        ...form,
-        qa: form.questions,
-      },
-    }
-  )
+  const [createClassCategoryExam, { error, loading }] = useMutation(CREATE_EXAM_MUTATION, {
+    variables: {
+      class_category_id: props.categoryId,
+      ...inputs,
+      ...form,
+      qa: form.questions,
+    },
+  })
 
   if (loading) return <p>Loading...</p>
   // if (error) return `Error! ${error}`
@@ -99,12 +81,8 @@ const ClassCategoryExamCreate = (props) => {
                     try {
                       form.questions = form.questions.map((q) => ({
                         ...q,
-                        answers: q.possibles.filter((_, i) =>
-                          q.answers.includes(i)
-                        ),
+                        answers: q.possibles.filter((_, i) => q.answers.includes(i)),
                       }))
-
-                      console.log({ ...form, ...inputs })
 
                       await createClassCategoryExam()
                       setSuccess('Success')
@@ -122,41 +100,20 @@ const ClassCategoryExamCreate = (props) => {
                     <Col md="12">
                       <FormGroup>
                         <Label>Name</Label>
-                        <Input
-                          placeholder="Name"
-                          type="text"
-                          name="name"
-                          value={inputs.name}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="Name" type="text" name="name" value={inputs.name} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
                     <Col md="12">
                       <FormGroup>
                         <Label>Description</Label>
-                        <Input
-                          placeholder="Description"
-                          type="text"
-                          name="description"
-                          value={inputs.description}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="Description" type="text" name="description" value={inputs.description} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
 
                     <Col md="12">
                       <FormGroup>
                         <Label>Attempts</Label>
-                        <Input
-                          placeholder="Attempts"
-                          type="number"
-                          name="attempts"
-                          value={inputs.attempts}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="Attempts" type="number" name="attempts" value={inputs.attempts} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
 
@@ -216,9 +173,7 @@ const ClassCategoryExamCreate = (props) => {
                                   onClick={(e) => {
                                     setForm((prevState) => ({
                                       ...prevState,
-                                      questions: prevState.questions.filter(
-                                        (_, idx) => idx !== i
-                                      ),
+                                      questions: prevState.questions.filter((_, idx) => idx !== i),
                                     }))
                                   }}
                                 >
@@ -277,12 +232,10 @@ const ClassCategoryExamCreate = (props) => {
                                 <FormGroup>
                                   <Label>Type</Label>
                                   <Select
-                                    options={QUESTION_TYPES?.data?.__type.enumValues.map(
-                                      ({ name }) => ({
-                                        label: name,
-                                        value: name,
-                                      })
-                                    )}
+                                    options={QUESTION_TYPES?.data?.__type.enumValues.map(({ name }) => ({
+                                      label: name,
+                                      value: name,
+                                    }))}
                                     value={{
                                       label: form.questions[i].type,
                                       value: form.questions[i].type,
@@ -310,10 +263,8 @@ const ClassCategoryExamCreate = (props) => {
                                           type="text"
                                           value={form.questions[i].possibles[j]}
                                           onChange={(e) => {
-                                            let updatedQuestions =
-                                              form.questions
-                                            updatedQuestions[i].possibles[j] =
-                                              e.target.value
+                                            let updatedQuestions = form.questions
+                                            updatedQuestions[i].possibles[j] = e.target.value
 
                                             updateQuestion(updatedQuestions)
                                           }}
@@ -324,11 +275,10 @@ const ClassCategoryExamCreate = (props) => {
                                           <Input
                                             type="checkbox"
                                             onChange={(e) => {
-                                              let updatedQuestions =
-                                                form.questions
-                                              updatedQuestions[i].answers.push(
-                                                j
-                                              )
+                                              let updatedQuestions = form.questions
+
+                                              updatedQuestions[i].answers = updatedQuestions[i].answers.filter((ans) => ans !== j)
+                                              if (e.target.checked) updatedQuestions[i].answers.push(j)
 
                                               updateQuestion(updatedQuestions)
                                             }}
@@ -395,12 +345,7 @@ const ClassCategoryExamCreate = (props) => {
                     </Col>
 
                     <Col md="12" className="mt-1">
-                      <Button
-                        type="submit"
-                        className="btn-fill"
-                        color="primary"
-                        disabled={isButtonDisabled}
-                      >
+                      <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                         Create Content
                       </Button>
                     </Col>

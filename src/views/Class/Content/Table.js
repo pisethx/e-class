@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { CLASS_CONTENT_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
-
+import PostCard from 'components/Cards/Post'
 // reactstrap components
 import {
   Button,
@@ -48,42 +48,12 @@ const ClassContentTable = (props) => {
                 </CardHeader>
                 <CardBody style={{ padding: '1rem 2rem' }}>
                   {contents?.map(({ id, name, description, file_url }) => (
-                    <Card
-                      style={{
-                        boxShadow: '3px 5px 15px #1a1a1a',
-                        padding: '.5rem',
-                      }}
-                    >
-                      <CardHeader style={{ fontWeight: 'bold' }}>
-                        {name}
-                      </CardHeader>
-                      <CardBody>
-                        <CardText className="my-3">{description}</CardText>
-                        <a href={file_url} target="_blank">
-                          <Button
-                            size="sm"
-                            className="mr-3 my-1 animation-on-hover "
-                            color="info"
-                          >
-                            View File Content
-                          </Button>
-                        </a>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="success"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="danger"
-                        >
-                          Delete
-                        </Button>
-                      </CardBody>
-                    </Card>
+                    <PostCard
+                      key={id}
+                      title={name}
+                      description={description}
+                      anchorBtn={{ name: 'View Content', path: file_url }}
+                    />
                   ))}
                 </CardBody>
               </Card>

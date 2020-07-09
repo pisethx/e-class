@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
-import { setAuthContext, AuthContext, useAuthContext } from 'contexts/auth'
+import { setAuthContext, AuthContext, useAuthContext } from '../contexts/auth'
 import {
   useMutation,
   Mutation,
@@ -53,7 +53,7 @@ const ProtectedRoute = (props) => {
 
             props.history.push(path)
           } catch (e) {
-            console.log(path)
+            // console.log(e)
             // props.history.push('/login')
           }
         } else {
