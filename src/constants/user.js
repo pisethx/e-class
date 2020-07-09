@@ -72,6 +72,7 @@ export const USER_QUERY = gql`
         name
       }
       identity {
+        id
         first_name
         last_name
         gender
@@ -83,14 +84,18 @@ export const USER_QUERY = gql`
         code
         name
         teacher {
+          id
           identity {
+            id
             first_name
             last_name
           }
         }
         schedules {
+          id
           day
           sessions {
+            id
             start_time
             end_time
           }
@@ -101,14 +106,18 @@ export const USER_QUERY = gql`
         code
         name
         teacher {
+          id
           identity {
+            id
             first_name
             last_name
           }
         }
         schedules {
+          id
           day
           sessions {
+            id
             start_time
             end_time
           }
@@ -119,9 +128,8 @@ export const USER_QUERY = gql`
 `
 
 export const USERS_FIND_BY_UUID_QUERY = gql`
-  query USERS_FIND_BY_UUID_QUERY($first: Int!, $page: Int!, $uuid: String!) {
-    usersFindByUuid(first: $first, page: $page, uuid: $uuid) {
-      data {
+  query USERS_FIND_BY_UUID_QUERY($uuid: String!) {
+    usersFindByUuid(uuid: $uuid) {
         id
         username
         email
@@ -137,29 +145,15 @@ export const USERS_FIND_BY_UUID_QUERY = gql`
           contact_number
           photo_url
         }
-      }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
-      }
     }
   }
 `
 
 export const USERS_FIND_BY_USERNAME_QUERY = gql`
   query USERS_FIND_BY_USERNAME_QUERY(
-    $first: Int!
-    $page: Int!
     $username: String!
   ) {
-    usersFindByUuid(first: $first, page: $page, username: $username) {
-      data {
+    usersFindByUsername(username: $username) {
         id
         username
         email
@@ -175,17 +169,6 @@ export const USERS_FIND_BY_USERNAME_QUERY = gql`
           contact_number
           photo_url
         }
-      }
-      paginatorInfo {
-        count
-        currentPage
-        hasMorePages
-        lastPage
-        total
-        perPage
-        lastItem
-        firstItem
-      }
     }
   }
 `
@@ -193,7 +176,6 @@ export const USERS_FIND_BY_USERNAME_QUERY = gql`
 export const USERS_QUERY = gql`
   query USERS_QUERY {
     users {
-      # data {
       id
       username
       email
@@ -203,6 +185,7 @@ export const USERS_QUERY = gql`
         name
       }
       identity {
+        id
         first_name
         last_name
         gender
