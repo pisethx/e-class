@@ -102,7 +102,12 @@ const ClassShow = (props) => {
                         <Row className="mx-2 my-3" key={student.id}>
                           <IMG alt="..." src={student.identity.photo_url} />
                           <span className="mx-3">{student.id}</span>
-                          <p>{`${student.identity.first_name} ${student.identity.last_name}`}</p>
+                          <NavLink
+                            style={{ fontWeight: 'bold' }}
+                            to={`/user/${student.id}`}
+                          >
+                            {`${student.identity.first_name} ${student.identity.last_name}`}
+                          </NavLink>
                         </Row>
                       ))}
                     </Col>
