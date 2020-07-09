@@ -111,6 +111,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         id
         username
         identity {
+          id
           first_name
           last_name
           photo_url
@@ -123,6 +124,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
           id
           username
           identity {
+            id
             first_name
             last_name
             photo_url
@@ -149,6 +151,7 @@ export const FORUM_QUERY = gql`
       author {
         id
         identity {
+          id
           first_name
           last_name
           photo_url
@@ -159,6 +162,7 @@ export const FORUM_QUERY = gql`
         author {
           id
           identity {
+            id
             first_name
             last_name
             photo_url

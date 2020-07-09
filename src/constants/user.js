@@ -130,45 +130,44 @@ export const USER_QUERY = gql`
 export const USERS_FIND_BY_UUID_QUERY = gql`
   query USERS_FIND_BY_UUID_QUERY($uuid: String!) {
     usersFindByUuid(uuid: $uuid) {
+      id
+      username
+      email
+      uuid
+      roles {
         id
-        username
-        email
-        uuid
-        roles {
-          id  
-          name
-        }
-        identity {
-          first_name
-          last_name
-          gender
-          contact_number
-          photo_url
-        }
+        name
+      }
+      identity {
+        first_name
+        last_name
+        gender
+        contact_number
+        photo_url
+      }
     }
   }
 `
 
 export const USERS_FIND_BY_USERNAME_QUERY = gql`
-  query USERS_FIND_BY_USERNAME_QUERY(
-    $username: String!
-  ) {
+  query USERS_FIND_BY_USERNAME_QUERY($username: String!) {
     usersFindByUsername(username: $username) {
+      id
+      username
+      email
+      uuid
+      roles {
         id
-        username
-        email
-        uuid
-        roles {
-          id
-          name
-        }
-        identity {
-          first_name
-          last_name
-          gender
-          contact_number
-          photo_url
-        }
+        name
+      }
+      identity {
+        id
+        first_name
+        last_name
+        gender
+        contact_number
+        photo_url
+      }
     }
   }
 `
@@ -196,13 +195,8 @@ export const USERS_QUERY = gql`
 `
 
 export const CHANGE_EMAIL_MUTATION = gql`
-  mutation CHANGE_EMAIL_MUTATION(
-    $id: ID!
-    $email: String!
-  ) {
-    updateUser(
-      input: {id: $id, email: $email}
-    ) {
+  mutation CHANGE_EMAIL_MUTATION($id: ID!, $email: String!) {
+    updateUser(input: { id: $id, email: $email }) {
       id
       email
     }
@@ -210,14 +204,8 @@ export const CHANGE_EMAIL_MUTATION = gql`
 `
 
 export const CHANGE_PASSWORD_MUTATION = gql`
-  mutation CHANGE_PASSWORD_MUTATION(
-    $oldPassword: String!
-    $password: String!
-  ) {
-    updatePassword(input:{
-      old_password:$oldPassword,
-      password:$password
-    }) {
+  mutation CHANGE_PASSWORD_MUTATION($oldPassword: String!, $password: String!) {
+    updatePassword(input: { old_password: $oldPassword, password: $password }) {
       status
       message
     }
@@ -236,26 +224,26 @@ export const UPDATE_USER_MUTATION = gql`
     $gender: Gender!
     $contact_number: String
   ) {
-    updateUser(input:{
-      id: $id,
-      uuid: $uuid,
-      username: $username,
-      email: $email,
-      role_id: $role_id,
-      first_name: $first_name,
-      last_name: $last_name,
-      gender: $gender,
-      contact_number: $contact_number
-    }) {
+    updateUser(
+      input: {
+        id: $id
+        uuid: $uuid
+        username: $username
+        email: $email
+        role_id: $role_id
+        first_name: $first_name
+        last_name: $last_name
+        gender: $gender
+        contact_number: $contact_number
+      }
+    ) {
       id
     }
   }
 `
 
 export const DELETE_USER_MUTATION = gql`
-  mutation DELETE_USER_MUTATION(
-    $id: ID!
-  ) {
+  mutation DELETE_USER_MUTATION($id: ID!) {
     deleteUser(id: $id) {
       id
     }
