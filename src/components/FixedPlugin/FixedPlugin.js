@@ -22,6 +22,10 @@ class FixedPlugin extends Component {
       icon: 'fa-sun',
     }
   }
+  componentDidMount() {
+    const theme = localStorage.getItem('theme')
+    if (theme) this.activateMode(theme)
+  }
   handleClick = () => {
     if (this.state.classes === 'dropdown show-dropdown') {
       this.setState({ ...this.state, classes: 'dropdown show-dropdown show' })
@@ -34,10 +38,12 @@ class FixedPlugin extends Component {
       case 'light':
         document.body.classList.add('white-content')
         this.setState({ ...this.state, icon: 'fa-moon' })
+        localStorage.setItem('theme', 'light')
         break
       default:
         document.body.classList.remove('white-content')
         this.setState({ ...this.state, icon: 'fa-sun' })
+        localStorage.setItem('theme', 'dark')
         break
     }
   }

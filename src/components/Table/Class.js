@@ -2,23 +2,9 @@ import React from 'react'
 import { H3 } from 'views/Styled/index'
 import { NavLink } from 'react-router-dom'
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
-import { DELETE_CLASS_MUTATION } from '../../constants/class';
+import { DELETE_CLASS_MUTATION } from 'constants/class'
 
 const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
   return (
@@ -45,10 +31,7 @@ const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
                     <td>{each.id}</td>
                     <td>{each.code}</td>
                     <td>
-                      <NavLink
-                        style={{ fontWeight: 'bold' }}
-                        to={`/class/${each.id}`}
-                      >
+                      <NavLink style={{ fontWeight: 'bold' }} to={`/class/${each.id}`}>
                         {each.name}
                       </NavLink>
                     </td>
@@ -56,20 +39,12 @@ const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
                     {admin && (
                       <td>
                         <NavLink to={`/class/${each.id}`}>
-                          <Button
-                            size="sm"
-                            className="mr-3 my-1 animation-on-hover"
-                            color="info"
-                          >
+                          <Button size="sm" className="mr-3 my-1 animation-on-hover" color="info">
                             Show
                           </Button>
                         </NavLink>
                         <NavLink to={`/class/${each.id}/edit`}>
-                          <Button
-                            size="sm"
-                            className="mr-3 my-1 animation-on-hover"
-                            color="success"
-                          >
+                          <Button size="sm" className="mr-3 my-1 animation-on-hover" color="success">
                             Edit
                           </Button>
                         </NavLink>

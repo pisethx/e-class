@@ -11,7 +11,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 // reactstrap components
 import { Nav, NavLink as ReactstrapNavLink } from 'reactstrap'
 import { AuthContext } from 'contexts/auth'
-import role from '../../constants/data'
+import role from 'constants/data'
 
 const NavItem = styled.p`
   font-weight: bold;

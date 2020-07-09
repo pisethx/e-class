@@ -5,26 +5,12 @@ import { H3 } from 'views/Styled/index'
 import { USERS_QUERY } from 'constants/user'
 import { NavLink } from 'react-router-dom'
 
-import EditProfile from '../../components/Forms/EditProfile';
+import EditProfile from '../../components/Forms/EditProfile'
 // reactstrap components
-import { AuthContext } from 'contexts/auth';
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap';
+import { AuthContext } from 'contexts/auth'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
-import { DELETE_USER_MUTATION } from '../../constants/user';
+import { DELETE_USER_MUTATION } from 'constants/user'
 
 const UserTable = (props) => {
   const { loading, error, data, fetchMore } = useQuery(USERS_QUERY)
@@ -64,18 +50,10 @@ const UserTable = (props) => {
                           <td>{user.uuid}</td>
                           <td>{user.username}</td>
                           <td>{user.roles[0].name}</td>
-                          <td>
-                            {user.identity?.first_name
-                              ? `${user.identity?.first_name} ${user.identity?.last_name}`
-                              : 'No Name'}
-                          </td>
+                          <td>{user.identity?.first_name ? `${user.identity?.first_name} ${user.identity?.last_name}` : 'No Name'}</td>
                           <td>
                             <NavLink to={`/user/${user.id}`}>
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover "
-                                color="info"
-                              >
+                              <Button size="sm" className="mr-3 my-1 animation-on-hover " color="info">
                                 Show
                               </Button>
                             </NavLink>
@@ -87,8 +65,13 @@ const UserTable = (props) => {
                               Edit
                             </Button> */}
                             <EditProfile user={user} size="sm" />
-                            {authContext.user.id !== user.id && 
-                            <Delete name={`${user.identity?.first_name} ${user.identity?.last_name}`} id={user.id} deleteMutation={DELETE_USER_MUTATION}/>}
+                            {authContext.user.id !== user.id && (
+                              <Delete
+                                name={`${user.identity?.first_name} ${user.identity?.last_name}`}
+                                id={user.id}
+                                deleteMutation={DELETE_USER_MUTATION}
+                              />
+                            )}
                           </td>
                           {/* <td className="text-center">$36,738</td> */}
                         </tr>

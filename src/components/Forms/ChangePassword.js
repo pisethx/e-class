@@ -1,41 +1,41 @@
-import React, { useState, useRef, useContext } from 'react';
-import { Form, Col, FormGroup, Label, Input, Row, Button } from 'reactstrap';
-import CustomModal from '../Modals/CustomModal';
-import { useApolloClient } from 'react-apollo';
-import useForm from '../../lib/useForm';
-import { CHANGE_PASSWORD_MUTATION } from 'constants/user';
+import React, { useState, useRef, useContext } from 'react'
+import { Form, Col, FormGroup, Label, Input, Row, Button } from 'reactstrap'
+import CustomModal from '../Modals/CustomModal'
+import { useApolloClient } from 'react-apollo'
+import useForm from 'lib/useForm'
+import { CHANGE_PASSWORD_MUTATION } from 'constants/user'
 
 const ChangePassword = (props) => {
-    const client = useApolloClient()
-    const [success, setSuccess] = useState('')
-    const [error, setError] = useState('')
+  const client = useApolloClient()
+  const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
 
-    const { inputs, handleChange, resetForm } = useForm({
-        oldPassword: '',
-        password: '',
-        confirmPassword: '',
+  const { inputs, handleChange, resetForm } = useForm({
+    oldPassword: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    if (inputs.confirmPassword != inputs.password) {
+      setError({
+        message: 'New passwords are not match.',
       })
+      return
+    }
 
-    const onSubmit = async (e) => {
-        e.preventDefault()
+    await client.mutate({
+      mutation: CHANGE_PASSWORD_MUTATION,
+      variables: {
+        password: inputs.password,
+        oldPassword: inputs.oldPassword,
+      },
+    })
 
-        if(inputs.confirmPassword != inputs.password) {
-            setError({
-                message: 'New passwords are not match.'
-            })
-            return;
-        }
-        
-        await client.mutate({
-            mutation:CHANGE_PASSWORD_MUTATION,
-            variables: {
-                password: inputs.password,
-                oldPassword: inputs.oldPassword
-            }
-        });
-
-        setSuccess('Password changed.')
-    };
+    setSuccess('Password changed.')
+  }
 
     return (
         <CustomModal error={error} success={success} header="Change Password" size="sm" body={
@@ -86,4 +86,4 @@ const ChangePassword = (props) => {
     );
 };
 
-export default ChangePassword;
+export default ChangePassword

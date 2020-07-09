@@ -9,22 +9,7 @@ import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
-import {
-  Alert,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  FormFeedback,
-  Form,
-  Input,
-  Label,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Label, Row, Col } from 'reactstrap'
 
 const CreateClassCategory = (props) => {
   const [success, setSuccess] = useState('')
@@ -35,18 +20,14 @@ const CreateClassCategory = (props) => {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [createClassCategory, { error, loading }] = useMutation(
-    CREATE_CLASS_CATEGORY_MUTATION,
-    {
-      variables: {
-        ...inputs,
-        classId: props.id,
-      },
-    }
-  )
+  const [createClassCategory, { error, loading }] = useMutation(CREATE_CLASS_CATEGORY_MUTATION, {
+    variables: {
+      ...inputs,
+      classId: props.id,
+    },
+  })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `Error! ${error}`
 
   return (
     <div className="content">
@@ -70,49 +51,26 @@ const CreateClassCategory = (props) => {
                     resetForm()
                     props.history.push(`/class/${props.id}/category`)
                   } catch (err) {
-                    console.log(err)
+                    setIsButtonDisabled(false)
                   }
-
-                  setIsButtonDisabled(false)
-
-                  // props.history.goBack()
                 }}
               >
                 <Row className="p-3">
                   <Col md="12">
                     <FormGroup>
                       <Label>Name</Label>
-                      <Input
-                        placeholder="Name"
-                        type="text"
-                        name="name"
-                        value={inputs.name}
-                        onChange={handleChange}
-                        required
-                      />
+                      <Input placeholder="Name" type="text" name="name" value={inputs.name} onChange={handleChange} required />
                     </FormGroup>
                   </Col>
                   <Col md="12">
                     <FormGroup>
                       <Label>weight</Label>
-                      <Input
-                        placeholder="weight"
-                        type="number"
-                        name="weight"
-                        value={inputs.weight}
-                        onChange={handleChange}
-                        required
-                      />
+                      <Input placeholder="weight" type="number" name="weight" value={inputs.weight} onChange={handleChange} required />
                     </FormGroup>
                   </Col>
 
                   <Col md="12" className="mt-1">
-                    <Button
-                      type="submit"
-                      className="btn-fill"
-                      color="primary"
-                      disabled={isButtonDisabled}
-                    >
+                    <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                       Create Category
                     </Button>
                   </Col>

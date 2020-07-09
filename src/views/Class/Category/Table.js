@@ -6,24 +6,9 @@ import { CLASS_CATEGORIES_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
 import { DELETE_CLASS_CATEGORY_MUTATION } from 'constants/class'
-import role from '../../../constants/data';
 
 const ClassCategoryTable = (props) => {
   const { loading, error, data } = useQuery(CLASS_CATEGORIES_QUERY, {
@@ -46,11 +31,13 @@ const ClassCategoryTable = (props) => {
                 <CardHeader className="d-flex justify-content-between">
                   <H3 className="title">Class Categories</H3>
 
-                  {roleName === 'teacher' && <NavLink to={`/class/${props.id}/category/create`}>
-                    <Button className="animation-on-hover" color="primary">
-                      Create Category
-                    </Button>
-                  </NavLink>}
+                  {roleName === 'teacher' && (
+                    <NavLink to={`/class/${props.id}/category/create`}>
+                      <Button className="animation-on-hover" color="primary">
+                        Create Category
+                      </Button>
+                    </NavLink>
+                  )}
                 </CardHeader>
                 <CardBody>
                   <Table className="tablesorter">
@@ -67,10 +54,7 @@ const ClassCategoryTable = (props) => {
                         <tr key={id}>
                           <td>{id}</td>
                           <td>
-                            <NavLink
-                              style={{ fontWeight: 'bold' }}
-                              to={`category/${id}/exam`}
-                            >
+                            <NavLink style={{ fontWeight: 'bold' }} to={`category/${id}/exam`}>
                               {name}
                             </NavLink>
                           </td>
@@ -82,33 +66,23 @@ const ClassCategoryTable = (props) => {
                                 exams: exams,
                               }}
                             >
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover "
-                                color="info"
-                              >
-                                Take Exam
+                              <Button size="sm" className="mr-3 my-1 animation-on-hover " color="info">
+                                Go To Exam
                               </Button>
                             </NavLink>
-                            {roleName === 'teacher' && <>
-                              <NavLink to={`category/${id}/exam/create`}>
-                                <Button
-                                  size="sm"
-                                  className="mr-3 my-1 animation-on-hover "
-                                  color="warning"
-                                >
-                                  Create Exam
-                              </Button>
-                              </NavLink>
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover"
-                                color="success"
-                              >
-                                Edit
-                            </Button>
-                              <Delete name={name} id={id} deleteMutation={DELETE_CLASS_CATEGORY_MUTATION} />
-                            </>}
+                            {roleName === 'teacher' && (
+                              <>
+                                <NavLink to={`category/${id}/exam/create`}>
+                                  <Button size="sm" className="mr-3 my-1 animation-on-hover " color="warning">
+                                    Create Exam
+                                  </Button>
+                                </NavLink>
+                                <Button size="sm" className="mr-3 my-1 animation-on-hover" color="success">
+                                  Edit
+                                </Button>
+                                <Delete name={name} id={id} deleteMutation={DELETE_CLASS_CATEGORY_MUTATION} />
+                              </>
+                            )}
                           </td>
                         </tr>
                       ))}

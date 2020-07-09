@@ -87,13 +87,11 @@ const ClassCategoryExamCreate = (props) => {
                       await createClassCategoryExam()
                       setSuccess('Success')
 
-                      // resetForm()
-                      // props.history.push(`/class/${props.id}/content`)
-                    } catch (err) {}
-
-                    setIsButtonDisabled(false)
-
-                    // props.history.goBack()
+                      resetForm()
+                      props.history.push(`/class/${props.id}/category/${props.categoryId}/exam`)
+                    } catch (err) {
+                      setIsButtonDisabled(false)
+                    }
                   }}
                 >
                   <Row className="p-3">
