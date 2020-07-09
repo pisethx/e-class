@@ -9,27 +9,13 @@ import { AuthContext } from 'contexts/auth'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
 
 // reactstrap components
-import {
-  Alert,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  FormFeedback,
-  Form,
-  Input,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Row, Col } from 'reactstrap'
 import { USER_LOGIN_MUTATION } from 'constants/auth'
 
 const Login = (props) => {
   const { inputs, handleChange, resetForm } = useForm({
-    username: '',
-    password: '',
+    username: 'teacher64',
+    password: 'password',
   })
 
   const [validation, setValidation] = useState(false)
@@ -80,22 +66,13 @@ const Login = (props) => {
                         onChange={handleChange}
                         required
                       />
-                      <FormFeedback>
-                        You will not be able to see this
-                      </FormFeedback>
+                      <FormFeedback>You will not be able to see this</FormFeedback>
                     </FormGroup>
                   </Col>
                   <Col md="12">
                     <FormGroup>
                       <label>Password</label>
-                      <Input
-                        placeholder="********"
-                        type="password"
-                        name="password"
-                        value={inputs.password}
-                        onChange={handleChange}
-                        required
-                      />
+                      <Input placeholder="********" type="password" name="password" value={inputs.password} onChange={handleChange} required />
                     </FormGroup>
                   </Col>
 
@@ -104,12 +81,7 @@ const Login = (props) => {
                   </Col>
 
                   <Col md="12" className="mt-1">
-                    <Button
-                      type="submit"
-                      className="btn-fill animation-on-hover"
-                      color="primary"
-                      disabled={isButtonDisabled}
-                    >
+                    <Button type="submit" className="btn-fill animation-on-hover" color="primary" disabled={isButtonDisabled}>
                       Login
                     </Button>
                   </Col>

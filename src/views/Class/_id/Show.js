@@ -2,30 +2,15 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { CLASS_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import { H3, IMG } from 'views/Styled/index'
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col } from 'reactstrap'
 import { from } from 'apollo-boost'
-
-const IMG = styled.img`
-  border-radius: 50%;
-  width: 100%;
-`
+import role from '../../../constants/data';
 
 const ClassShow = (props) => {
+  const roleName = role.name;
   const { loading, error, data } = useQuery(CLASS_QUERY, {
     variables: {
       id: props.id,
@@ -53,9 +38,7 @@ const ClassShow = (props) => {
                   <div className="block block-four" />
                   <h3 className="title my-1">{eachClass.name}</h3>
                   {/* <h5 className="title mb-4">{eachClass.code}</h5> */}
-                  <p className="description">
-                    {/* {authContext.user.roles[0].name} */}
-                  </p>
+                  <p className="description">{/* {authContext.user.roles[0].name} */}</p>
                 </div>
 
                 <div className="card-description my-6 mx-3">
@@ -63,20 +46,31 @@ const ClassShow = (props) => {
                     <Col xs="12" className="title">
                       Class Information
                     </Col>
-                    <Col xs="6">ID :</Col>
-                    <Col xs="6">{eachClass.id}</Col>
-                    <Col xs="6">Code :</Col>
-                    <Col xs="6">{eachClass.code}</Col>
-                    <Col xs="6">Teacher :</Col>
-                    <Col xs="6">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
-                    <Col xs="6">Class Categories :</Col>
-
-                    <Col xs="6">
+                    <Col xs="4">ID :</Col>
+                    <Col xs="8">{eachClass.id}</Col>
+                    <Col xs="4">Code :</Col>
+                    <Col xs="8">{eachClass.code}</Col>
+                    <Col xs="4">Teacher :</Col>
+                    <Col xs="8">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
+                    <Col xs="4">Class Categories :</Col>
+                    <Col xs="8">
                       {eachClass.class_categories.map((category) => (
                         <span key={category.id}>{category.name}, </span>
                       ))}
                     </Col>
-                    <Col col="12" className="my-3">
+                    <Col xs="4">Schedule: </Col>
+                    <Col xs="8">
+                      {eachClass.schedules.map(({ sessions, id, day }) => (
+                        <span key={id}>
+                          <span>
+                            {sessions.map(({ id: _id, start_time, end_time }) => (
+                              <span className="mr-2" key={_id}>{`${day} (${start_time}-${end_time}).`}</span>
+                            ))}
+                          </span>
+                        </span>
+                      ))}
+                    </Col>
+                    {roleName !== 'admin' && <Col col="12" className="my-3">
                       <NavLink to={`/class/${props.id}/content`}>
                         <Button className="btn-simple m-2" color="success">
                           Contents
@@ -97,25 +91,25 @@ const ClassShow = (props) => {
                           Attendance
                         </Button>
                       </NavLink>
-                      <NavLink to={`/class/${props.id}/schedule`}>
+                      {/* <NavLink to={`/class/${props.id}/schedule`}>
                         <Button className="btn-simple m-2" color="primary">
                           Schedule
                         </Button>
-                      </NavLink>
-                    </Col>
+                      </NavLink> */}
+                    </Col>}
                     <hr />
                     <Col xs="12">List of Students :</Col>
-                    <Col xs="12" className="mt-2">
+                    <Col xs="12" className="mt-2 pa-2">
                       {eachClass?.students?.map((student) => (
-                        <Row className="my-2" key={student.id}>
-                          <Col xs="1"></Col>
-                          <Col xs="1" className="mb-3">
-                            <IMG alt="..." src={student.identity.photo_url} />
-                          </Col>
-                          <Col className="text-center" xs="1">
-                            {student.id}
-                          </Col>
-                          <Col xs="9">{`${student.identity.first_name} ${student.identity.last_name}`}</Col>
+                        <Row className="mx-2 my-3" key={student.id}>
+                          <IMG alt="..." src={student.identity.photo_url} />
+                          <span className="mx-3">{student.id}</span>
+                          <NavLink
+                            style={{ fontWeight: 'bold' }}
+                            to={`/user/${student.id}`}
+                          >
+                            {`${student.identity.first_name} ${student.identity.last_name}`}
+                          </NavLink>
                         </Row>
                       ))}
                     </Col>

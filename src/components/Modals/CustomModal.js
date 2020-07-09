@@ -9,9 +9,6 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col,
-  Card,
-  CardBody,
 } from 'reactstrap'
 
 const CustomModal = (props) => {

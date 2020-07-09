@@ -59,7 +59,7 @@ const MyForums = (props) => {
             {myForums &&
               myForums.map((forum) => {
                 return (
-                  <tr>
+                  <tr key={forum.id}>
                     <td>
                       <a href="#">{forum.title}</a>
                     </td>

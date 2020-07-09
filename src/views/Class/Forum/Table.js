@@ -1,35 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { FORUMS_IN_CLASS_QUERY } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
+import PostCard from 'components/Cards/Post'
+import Delete from 'components/Forms/Delete'
+import { DELETE_FORUM_MUTATION } from '../../../constants/forum';
+import { AuthContext } from 'contexts/auth';
+import role from '../../../constants/data';
 
-const ForumTable = (props) => {
+const ClassForumTable = (props) => {
+  const authContext = useContext(AuthContext);
   const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
-      classId: props.id,
+      classId: props?.id,
     },
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return `<p>Error ${error}</p>`
+  if (error) return `Error! ${error}`
 
   const forums = data?.forumsInClass
 
@@ -49,57 +41,25 @@ const ForumTable = (props) => {
                 </NavLink>
               </CardHeader>
               <CardBody style={{ padding: '1rem 2rem' }}>
-                {forums?.map(
-                  ({
-                    id,
-                    title,
-                    author,
-                    description,
-                    comments_count = 0,
-                    created_at,
-                    answer,
-                  }) => (
-                    <Card
-                      style={{
-                        boxShadow: '3px 5px 15px #1a1a1a',
-                        padding: '.5rem',
-                      }}
-                    >
-                      <CardHeader style={{ fontWeight: 'bold' }}>
-                        {title}
-                      </CardHeader>
-                      <CardFooter style={{ fontWeight: 'bold' }}>
-                        {`${author.identity.first_name} ${author.identity.last_name}`}{' '}
-                        <br />
-                        {created_at}
-                      </CardFooter>
-                      <CardBody>
-                        <CardText className="mb-3">{description}</CardText>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover "
-                          color="info"
-                        >
-                          Comments ({comments_count})
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="success"
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="mr-3 my-1 animation-on-hover"
-                          color="danger"
-                        >
-                          Delete
-                        </Button>
-                      </CardBody>
-                    </Card>
-                  )
-                )}
+                {forums?.map(({ id, title, author, description, comments_count = 0, created_at, answer }) => (
+                  <PostCard
+                    key={id}
+                    title={title}
+                    id={id}
+                    info={`${author.identity.first_name} ${author.identity.last_name}@${author.username}`}
+                    date={created_at}
+                    description={description}
+                    showBtn={{
+                      name: `Comments (${comments_count})`,
+                      path: `forum/${id}`,
+                    }}
+                    editBtn={{
+                      name: 'Edit',
+                      path: `forum/${id}`,
+                    }}
+                    deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}
+                  />
+                ))}
               </CardBody>
             </Card>
           </Col>
@@ -110,4 +70,4 @@ const ForumTable = (props) => {
   )
 }
 
-export default ForumTable
+export default ClassForumTable

@@ -20,9 +20,8 @@ class Admin extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      backgroundColor: 'red',
-      sidebarOpened:
-        document.documentElement.className.indexOf('nav-open') !== -1,
+      backgroundColor: 'primary',
+      sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,
     }
   }
   componentDidMount() {
@@ -89,9 +88,14 @@ class Admin extends React.Component {
   getBrandText = (path) => {
     return 'E-Class'
   }
+
+  handleBgClick = (color) => {
+    this.setState({ backgroundColor: 'color' })
+  }
   render() {
     return (
       <>
+        <FixedPlugin bgColor={this.state.backgroundColor} handleBgClick={this.handleBgClick} />
         <div className="wrapper">
           <Sidebar
             {...this.props}
@@ -103,12 +107,9 @@ class Admin extends React.Component {
             }}
             toggleSidebar={this.toggleSidebar}
           />
-          <div
-            className="main-panel"
-            ref="mainPanel"
-            data={this.state.backgroundColor}
-          >
+          <div className="main-panel" ref="mainPanel" data={this.state.backgroundColor}>
             <AdminNavbar
+              img={this.props.img}
               {...this.props}
               brandText="E-Class"
               toggleSidebar={this.toggleSidebar}
