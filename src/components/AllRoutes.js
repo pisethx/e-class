@@ -29,6 +29,7 @@ import ClassForumCreate from 'views/Class/Forum/Create'
 import ClassAttendanceTable from 'views/Class/Attendance/Table'
 import ClassAttendanceCreate from 'views/Class/Attendance/Create'
 import { AuthContext } from 'contexts/auth'
+import { useAuthContext } from 'contexts/auth'
 
 const routesProp = routes
 const routesAdmin = routes.find((route) => route.layout === 'admin')
@@ -46,9 +47,10 @@ const AllRoutes = (props) => {
               exact={route.exact}
               path={route.path}
               {...props}
+              img={authContext?.user?.identity?.photo_url}
               render={(props) => (
                 <>
-                  <AdminLayout {...props} role={authContext.user.roles[0]} routes={routesProp}>
+                  <AdminLayout {...props} img={authContext?.user?.identity?.photo_url} role={authContext.user.roles[0]} routes={routesProp}>
                     <Route {...route} />
                   </AdminLayout>
                 </>

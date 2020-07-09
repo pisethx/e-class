@@ -11,7 +11,7 @@ import PerfectScrollbar from 'perfect-scrollbar'
 // reactstrap components
 import { Nav, NavLink as ReactstrapNavLink } from 'reactstrap'
 import { AuthContext } from 'contexts/auth'
-import role from '../../constants/data';
+import role from '../../constants/data'
 
 const NavItem = styled.p`
   font-weight: bold;
@@ -52,9 +52,7 @@ class Sidebar extends React.Component {
     const { bgColor, routes, rtlActive, logo } = this.props
     let logoImg = null
     let logoText = null
-    let registerRoute = this.props.routes[1].subRoutes.find(
-      (r) => r.path === '/register'
-    )
+    let registerRoute = this.props.routes[1].subRoutes.find((r) => r.path === '/register')
     console.log(registerRoute)
 
     let allRoutes = this.props.routes
@@ -66,45 +64,27 @@ class Sidebar extends React.Component {
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
         logoImg = (
-          <a
-            href={logo.outterLink}
-            className="simple-text logo-mini"
-            target="_blank"
-            onClick={this.props.toggleSidebar}
-          >
+          <a href={logo.outterLink} className="simple-text logo-mini" target="_blank" onClick={this.props.toggleSidebar}>
             <div className="logo-img">
               <img src={logo.imgSrc} alt="react-logo" />
             </div>
           </a>
         )
         logoText = (
-          <a
-            href={logo.outterLink}
-            className="simple-text logo-normal"
-            target="_blank"
-            onClick={this.props.toggleSidebar}
-          >
+          <a href={logo.outterLink} className="simple-text logo-normal" target="_blank" onClick={this.props.toggleSidebar}>
             {logo.text}
           </a>
         )
       } else {
         logoImg = (
-          <Link
-            to={logo.innerLink}
-            className="simple-text logo-mini"
-            onClick={this.props.toggleSidebar}
-          >
+          <Link to={logo.innerLink} className="simple-text logo-mini" onClick={this.props.toggleSidebar}>
             <div className="logo-img">
               <img src={logo.imgSrc} alt="react-logo" />
             </div>
           </Link>
         )
         logoText = (
-          <Link
-            to={logo.innerLink}
-            className="simple-text logo-normal"
-            onClick={this.props.toggleSidebar}
-          >
+          <Link to={logo.innerLink} className="simple-text logo-normal" onClick={this.props.toggleSidebar}>
             {logo.text}
           </Link>
         )
@@ -125,19 +105,8 @@ class Sidebar extends React.Component {
               if (!prop.checkRole(roleName)) return null
 
               return (
-                <li
-                  className={
-                    this.activeRoute(prop.path) +
-                    (prop.pro ? ' active-pro' : '')
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.path}
-                    className="nav-link"
-                    activeClassName="active"
-                    onClick={this.props.toggleSidebar}
-                  >
+                <li className={this.activeRoute(prop.path) + (prop.pro ? ' active-pro' : '')} key={key}>
+                  <NavLink to={prop.path} className="nav-link" activeClassName="active" onClick={this.props.toggleSidebar}>
                     <i className={prop.icon} />
                     <NavItem>{rtlActive ? prop.rtlName : prop.name}</NavItem>
                   </NavLink>
@@ -159,7 +128,7 @@ class Sidebar extends React.Component {
 
 Sidebar.defaultProps = {
   rtlActive: false,
-  bgColor: 'red',
+  bgColor: 'primary',
   routes: [{}],
 }
 
@@ -167,7 +136,7 @@ Sidebar.propTypes = {
   // if true, then instead of the routes[i].name, routes[i].rtlName will be rendered
   // insde the links of this component
   rtlActive: PropTypes.bool,
-  bgColor: PropTypes.oneOf(['primary', 'blue', 'green', 'red']),
+  bgColor: PropTypes.oneOf(['primary', 'blue', 'green']),
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
     // innerLink is for links that will direct the user within the app

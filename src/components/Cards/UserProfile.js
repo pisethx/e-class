@@ -1,29 +1,17 @@
 import React, { useState, createRef, useRef, forwardRef, useContext } from 'react'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-  Label,
-} from 'reactstrap'
+import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, Label } from 'reactstrap'
 import ChangeEmail from 'components/Forms/ChangeEmail'
 import ChangePassword from '../Forms/ChangePassword'
-import { AuthContext } from 'contexts/auth';
-import EditProfile from 'components/Forms/EditProfile';
+import { AuthContext } from 'contexts/auth'
+import EditProfile from 'components/Forms/EditProfile'
 
 const UserProfile = ({ user }) => {
   const authContext = useContext(AuthContext)
   return (
     <div className="content">
       <Row>
-        <Col md="12">
+        <Col xs="12">
           <Card className="card-user">
             <CardBody>
               <CardText />
@@ -33,11 +21,7 @@ const UserProfile = ({ user }) => {
                 <div className="block block-three" />
                 <div className="block block-four" />
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  <img
-                    alt="..."
-                    className="avatar"
-                    src={user.identity.photo_url}
-                  />
+                  <img alt="..." className="avatar" src={user.identity.photo_url} />
                   <h3 className="title my-1">{`${user.identity.first_name} ${user.identity.last_name}`}</h3>
                   <h5 className="title mb-4">{user.email}</h5>
                 </a>
@@ -50,33 +34,33 @@ const UserProfile = ({ user }) => {
               </div>
               <div className="card-description my-6 mx-3">
                 <Row style={{ lineHeight: 2.53 }}>
-                  <Col md="12" className="title">
+                  <Col xs="12" className="title">
                     User Information
                   </Col>
-                  <Col md="6">Uuid :</Col>
-                  <Col md="6">{user.uuid}</Col>
-                  <Col md="6">Username :</Col>
-                  <Col md="6">{user.username}</Col>
-                  <Col md="6">Email :</Col>
-                  <Col md="6">
-                    <Row md="12" className="pl-3">
+                  <Col xs="6">Uuid :</Col>
+                  <Col xs="6">{user.uuid}</Col>
+                  <Col xs="6">Username :</Col>
+                  <Col xs="6">{user.username}</Col>
+                  <Col xs="6">Email :</Col>
+                  <Col xs="6">
+                    <Row xs="12" className="pl-3">
                       {user.email} <span className="pl-3"></span>
                       {user.id === authContext.user.id && <ChangeEmail oldEmail={user.email} />}
                     </Row>
                   </Col>
-                  <Col md="6">First Name :</Col>
-                  <Col md="6">{user.identity.first_name}</Col>
-                  <Col md="6">Last Name :</Col>
-                  <Col md="6">{user.identity.last_name}</Col>
-                  <Col md="6">Gender :</Col>
-                  <Col md="6">{user.identity.gender}</Col>
-                  <Col md="6">Phone :</Col>
-                  <Col md="6">{user.identity.contact_number}</Col>
+                  <Col xs="6">First Name :</Col>
+                  <Col xs="6">{user.identity.first_name}</Col>
+                  <Col xs="6">Last Name :</Col>
+                  <Col xs="6">{user.identity.last_name}</Col>
+                  <Col xs="6">Gender :</Col>
+                  <Col xs="6">{user.identity.gender}</Col>
+                  <Col xs="6">Phone :</Col>
+                  <Col xs="6">{user.identity.contact_number}</Col>
                 </Row>
                 <Row>
                   {authContext.user.roles[0].name === 'admin' && <EditProfile user={user} size="lg" />}
                   <div className="ml-3"></div>
-                  {user.id === authContext.user.id && <ChangePassword />  }
+                  {user.id === authContext.user.id && <ChangePassword />}
                 </Row>
               </div>
             </CardBody>

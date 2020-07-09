@@ -5,19 +5,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col } from 'reactstrap'
 import { from } from 'apollo-boost'
 
 const IMG = styled.img`
@@ -53,9 +41,7 @@ const ClassShow = (props) => {
                   <div className="block block-four" />
                   <h3 className="title my-1">{eachClass.name}</h3>
                   {/* <h5 className="title mb-4">{eachClass.code}</h5> */}
-                  <p className="description">
-                    {/* {authContext.user.roles[0].name} */}
-                  </p>
+                  <p className="description">{/* {authContext.user.roles[0].name} */}</p>
                 </div>
 
                 <div className="card-description my-6 mx-3">

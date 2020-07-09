@@ -23,7 +23,7 @@ import {
 } from 'reactstrap'
 import styled from 'styled-components'
 import { useMutation } from 'react-apollo'
-import Notifications from '../Dropdowns/Notifications';
+import Notifications from '../Dropdowns/Notifications'
 
 const LogoBrand = styled.h4`
   color: var(--primary);
@@ -89,10 +89,7 @@ class AdminNavbar extends React.Component {
   render() {
     return (
       <>
-        <Navbar
-          className={classNames('navbar-absolute', this.state.color)}
-          expand="lg"
-        >
+        <Navbar className={classNames('navbar-absolute', this.state.color)} expand="lg">
           <Container fluid>
             <div className="navbar-wrapper">
               <div
@@ -100,11 +97,7 @@ class AdminNavbar extends React.Component {
                   toggled: this.props.sidebarOpened,
                 })}
               >
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  onClick={this.props.toggleSidebar}
-                >
+                <button className="navbar-toggler" type="button" onClick={this.props.toggleSidebar}>
                   <span className="navbar-toggler-bar bar1" />
                   <span className="navbar-toggler-bar bar2" />
                   <span className="navbar-toggler-bar bar3" />
@@ -131,32 +124,18 @@ class AdminNavbar extends React.Component {
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
                 <InputGroup className="search-bar">
-                  <Button
-                    color="link"
-                    data-target="#searchModal"
-                    data-toggle="modal"
-                    id="search-button"
-                    onClick={this.toggleModalSearch}
-                  >
+                  <Button color="link" data-target="#searchModal" data-toggle="modal" id="search-button" onClick={this.toggleModalSearch}>
                     <i className="tim-icons icon-zoom-split" />
                     <span className="d-lg-none d-md-block">Search</span>
                   </Button>
                 </InputGroup>
                 <UncontrolledDropdown nav>
-                  
                   <Notifications />
-
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav>
-                  <DropdownToggle
-                    caret
-                    color="default"
-                    data-toggle="dropdown"
-                    nav
-                    onClick={(e) => e.preventDefault()}
-                  >
+                  <DropdownToggle caret color="default" data-toggle="dropdown" nav onClick={(e) => e.preventDefault()}>
                     <div className="photo">
-                      <img alt="..." src={require('assets/img/anime3.png')} />
+                      <img alt="..." src={this.props.img || require('assets/img/anime3.png')} />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
                     <p className="d-lg-none">Log out</p>
@@ -164,9 +143,7 @@ class AdminNavbar extends React.Component {
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
                     <NavLink tag="li">
                       <Link to="/user">
-                        <DropdownItem className="nav-item">
-                          Profile
-                        </DropdownItem>
+                        <DropdownItem className="nav-item">Profile</DropdownItem>
                       </Link>
                     </NavLink>
                     <NavLink tag="li">
@@ -183,20 +160,10 @@ class AdminNavbar extends React.Component {
             </Collapse>
           </Container>
         </Navbar>
-        <Modal
-          modalClassName="modal-search"
-          isOpen={this.state.modalSearch}
-          toggle={this.toggleModalSearch}
-        >
+        <Modal modalClassName="modal-search" isOpen={this.state.modalSearch} toggle={this.toggleModalSearch}>
           <div className="modal-header">
             <Input id="inlineFormInputGroup" placeholder="SEARCH" type="text" />
-            <button
-              aria-label="Close"
-              className="close"
-              data-dismiss="modal"
-              type="button"
-              onClick={this.toggleModalSearch}
-            >
+            <button aria-label="Close" className="close" data-dismiss="modal" type="button" onClick={this.toggleModalSearch}>
               <i className="tim-icons icon-simple-remove" />
             </button>
           </div>
