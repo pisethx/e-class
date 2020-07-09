@@ -37,53 +37,53 @@ const ChangePassword = (props) => {
     setSuccess('Password changed.')
   }
 
-    return (
-        <CustomModal error={error} success={success} header="Change Password" size="sm" body={
-            <Form onSubmit={onSubmit}>
-                <Row>
-                    <Col md="12">
-                        <FormGroup>
-                            <Label>Current Password</Label>
-                            <Input
-                                placeholder="Current Password"
-                                type="password"
-                                name="oldPassword"
-                                value={inputs.oldPassword}
-                                onChange={handleChange}
-                                required
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md="12">
-                        <FormGroup>
-                            <Label>New Password</Label>
-                            <Input
-                                placeholder="New Password"
-                                type="password"
-                                name="password"
-                                value={inputs.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md="12">
-                        <FormGroup>
-                            <Label>Confirm New Password</Label>
-                            <Input
-                                placeholder="Confirm New Password"
-                                type="password"
-                                name="confirmPassword"
-                                value={inputs.confirmPassword}
-                                onChange={handleChange}
-                                required
-                            />
-                        </FormGroup>
-                    </Col>
-                </Row>
-            </Form>
-        } onSave={onSubmit} />
-    );
-};
+  return (
+    <CustomModal
+      error={error}
+      success={success}
+      header="Change Password"
+      size="sm"
+      body={
+        <Form onSubmit={onSubmit}>
+          <Row>
+            <Col md="12">
+              <FormGroup>
+                <Label>Current Password</Label>
+                <Input
+                  placeholder="Current Password"
+                  type="password"
+                  name="oldPassword"
+                  value={inputs.oldPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md="12">
+              <FormGroup>
+                <Label>New Password</Label>
+                <Input placeholder="New Password" type="password" name="password" value={inputs.password} onChange={handleChange} required />
+              </FormGroup>
+            </Col>
+            <Col md="12">
+              <FormGroup>
+                <Label>Confirm New Password</Label>
+                <Input
+                  placeholder="Confirm New Password"
+                  type="password"
+                  name="confirmPassword"
+                  value={inputs.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+        </Form>
+      }
+      onSave={onSubmit}
+    />
+  )
+}
 
 export default ChangePassword
