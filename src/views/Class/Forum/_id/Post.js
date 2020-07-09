@@ -6,11 +6,14 @@ import { H3, IMG } from 'views/Styled/index'
 import useForm from 'lib/useForm'
 import PostCard from 'components/Cards/Post'
 
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
+
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Label, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
 
 const ClassForumPost = (props) => {
-  const { data } = useQuery(FORUMS_IN_CLASS_QUERY, {
+  const { data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props.id,
     },
@@ -35,6 +38,15 @@ const ClassForumPost = (props) => {
 
   const { id, title, author, created_at, description, comments } = forums
 
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      await createComment()
+      await refetch()
+      resetForm()
+    } catch (e) {}
+  }
   return (
     <>
       {Object.values(forums).length && (
@@ -49,19 +61,17 @@ const ClassForumPost = (props) => {
               />
               <Card>
                 <CardBody style={{ padding: '1rem' }}>
-                  <FormGroup>
-                    <Label>Add Comment: </Label>
-                    <Input type="textarea" name="textarea" placeholder="Enter your comment" onChange={handleChange} />
-                  </FormGroup>
-                  <Button
-                    color="primary"
-                    className="btn-sm"
-                    onClick={() => {
-                      if (inputs.comment.trim().length > 0) createComment()
-                    }}
-                  >
-                    Comment
-                  </Button>
+                  <Error error={error} />
+                  {/* <Success success={success} /> */}
+                  <Form onSubmit={onSubmit}>
+                    <FormGroup>
+                      <Label>Add Comment: </Label>
+                      <Input type="textarea" name="comment" placeholder="Enter your comment" onChange={handleChange} required />
+                    </FormGroup>
+                    <Button color="primary" className="btn-sm" type="submit">
+                      Comment
+                    </Button>
+                  </Form>
                 </CardBody>
               </Card>
               {comments?.map(({ comment, author: _author, created_at }, j) => (

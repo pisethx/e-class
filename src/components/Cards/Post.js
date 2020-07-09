@@ -27,7 +27,7 @@ const PostCard = ({ title, info, date, description, anchorBtn, showBtn, editBtn,
         <CardText className="mb-3">{description}</CardText>
         {anchorBtn && (
           <a href={anchorBtn.path} target="_blank">
-            <Button size="sm" className="mr-3 my-1 animation-on-hover " color="info">
+            <Button size="sm" className="btn-simple mr-3 my-1 animation-on-hover " color="info">
               {anchorBtn.name}
             </Button>
           </a>

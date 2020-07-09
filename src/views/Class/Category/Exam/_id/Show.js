@@ -1,40 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { CLASS_CATEGORIES_QUERY } from 'constants/class'
+import { STUDENT_TAKES_EXAM_MUTATION } from 'constants/grade'
 import { NavLink } from 'react-router-dom'
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CardFooter } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
 import { STUDENT_EXAM_QUERY } from 'constants/exam'
 
-const ForumTable = (props) => {
+const ClassExamShow = (props) => {
   const { data } = useQuery(CLASS_CATEGORIES_QUERY, {
     variables: {
       id: props.id,
     },
   })
-  const exams = data?.class?.class_categories.find((category) => category.id === props.categoryId)?.exams?.filter((exam) => exam.id === props.examId)
+  const [uploadedFile, setUploadedFile] = useState(false)
+  const [success, setSuccess] = useState(null)
+  const exam = data?.class?.class_categories.find((category) => category.id === props.categoryId)?.exams?.find((exam) => exam.id === props.examId)
+  const [form, setForm] = useState([])
+  useEffect(() => {
+    if (exam) {
+      setForm(
+        exam?.qa.map(({ id, type }) => ({
+          id,
+          answers: type === 'QCM' ? [] : '',
+        }))
+      )
+    }
+  }, [exam])
 
-  const [form, setForm] = useState({
-    answers: [],
+  const [submitExam, { loading, error }] = useMutation(STUDENT_TAKES_EXAM_MUTATION, {
+    variables: {
+      exam_id: props.examId,
+      ...form,
+    },
   })
 
-  // const [submitExam, { loading, error }] = useMutation(STUDENT_EXAM_QUERY, {
-  //   variables: {
-  //     ...form,
-  //   },
-  // })
+  if (loading) return <p>Loading...</p>
 
-  // if (loading) return <p>Loading...</p>
-
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault()
     try {
-      // await submitExam()
-    } catch (e) {
-      console.log(e)
-    }
+      console.log(form)
+      await submitExam()
+      setSuccess('Success')
+    } catch (e) {}
+  }
+
+  const updateForm = (idx, newValue) => {
+    let updatedState = form
+    updatedState[idx].answers = newValue
+    setForm(updatedState)
   }
 
   return (
@@ -52,11 +72,19 @@ const ForumTable = (props) => {
                   </Button>
                 </NavLink> */}
               </CardHeader>
+              <Error error={error} />
+              <Success success={success} />
               <CardBody style={{ padding: '1rem 2rem' }}>
-                {exams?.map(({ id, name, attempts, description, due_at, publishes_at, qa }) => (
-                  <Form onSubmit={onSubmit} key={id}>
-                    <PostCard key={id} title={name} info={`Attempts: ${attempts}`} date={publishes_at} description={description} />
-                    {qa.map(({ id: _id, question, answers, possibles, points, type }, i) => (
+                {exam && Object.values(exam).length && (
+                  <Form onSubmit={onSubmit}>
+                    <PostCard
+                      key={exam.id}
+                      title={exam.name}
+                      info={`Attempts: ${exam.attempts}`}
+                      date={exam.publishes_at}
+                      description={exam.description}
+                    />
+                    {exam.qa.map(({ id: _id, question, answers, possibles, points, type }, i) => (
                       <Card
                         key={_id}
                         style={{
@@ -79,8 +107,11 @@ const ForumTable = (props) => {
                                     <Input
                                       type="checkbox"
                                       onChange={(e) => {
-                                        form.answers[i] = form.answers[i].filter((ans) => ans !== j)
-                                        if (e.target.checked) form.answers[i].push(j)
+                                        let updatedState = form
+                                        updatedState[i].answers = updatedState[i].answers.filter((ans) => ans !== j)
+                                        if (e.target.checked) updatedState[i].answers.push(j)
+
+                                        setForm(updatedState)
                                       }}
                                     />
                                     {possible}
@@ -96,14 +127,35 @@ const ForumTable = (props) => {
                           {type === 'ESSAY' && (
                             <FormGroup>
                               <Label for="textarea">Write your answer here: </Label>
-                              <Input type="textarea" name="text" id="textarea" />
+                              <Input
+                                type="textarea"
+                                name="text"
+                                id="textarea"
+                                onChange={(e) => {
+                                  updateForm(i, e.target.value)
+                                }}
+                              />
                             </FormGroup>
                           )}
                           {type === 'UPLOAD' && (
                             <FormGroup>
-                              <Input placeholder="File" type="file" name="file" required />
-                              <Button className="btn-simple" color="info">
-                                Upload File
+                              <Input
+                                placeholder="File"
+                                type="file"
+                                name="file"
+                                required
+                                onChange={({
+                                  target: {
+                                    validity,
+                                    files: [file],
+                                  },
+                                }) => {
+                                  updateForm(i, file)
+                                  setUploadedFile(true)
+                                }}
+                              />
+                              <Button className="btn-simple" color={uploadedFile ? 'success' : 'warning'}>
+                                Upload File{uploadedFile ? ' Successfully' : ''}
                               </Button>
                             </FormGroup>
                           )}
@@ -114,7 +166,7 @@ const ForumTable = (props) => {
                       Submit
                     </Button>
                   </Form>
-                ))}
+                )}
               </CardBody>
             </Card>
           </Col>
@@ -125,4 +177,4 @@ const ForumTable = (props) => {
   )
 }
 
-export default ForumTable
+export default ClassExamShow

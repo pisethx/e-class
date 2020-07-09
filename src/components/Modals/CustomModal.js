@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Error from '../../views/shared/ErrorMessage'
-import Success from '../../views/shared/SuccessMessage'
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap'
 

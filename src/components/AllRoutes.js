@@ -21,6 +21,7 @@ import ClassCategoryShow from 'views/Class/Category/_id/Show'
 import ClassCategoryExamCreate from 'views/Class/Category/Exam/Create'
 import ClassCategoryExamTable from 'views/Class/Category/Exam/Table'
 import ClassCategoryExamShow from 'views/Class/Category/Exam/_id/Show'
+import ClassCategoryExamGrade from 'views/Class/Category/Exam/_id/Grade'
 
 import ClassForumTable from 'views/Class/Forum/Table'
 import ClassForumPost from 'views/Class/Forum/_id/Post'
@@ -190,6 +191,23 @@ const AllRoutes = (props) => {
               <>
                 <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryExamShow
+                    {...props}
+                    id={props.match.params.id}
+                    categoryId={props.match.params.categoryId}
+                    examId={props.match.params.examId}
+                  />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            path="/class/:id/category/:categoryId/exam/:examId/grade"
+            {...props}
+            render={(props) => (
+              <>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
+                  <ClassCategoryExamGrade
                     {...props}
                     id={props.match.params.id}
                     categoryId={props.match.params.categoryId}

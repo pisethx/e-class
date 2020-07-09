@@ -6,21 +6,7 @@ import { CLASS_CATEGORIES_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 
 const ClassCategoryTable = (props) => {
   const { loading, error, data } = useQuery(CLASS_CATEGORIES_QUERY, {
@@ -62,10 +48,7 @@ const ClassCategoryTable = (props) => {
                         <tr key={id}>
                           <td>{id}</td>
                           <td>
-                            <NavLink
-                              style={{ fontWeight: 'bold' }}
-                              to={`category/${id}/exam`}
-                            >
+                            <NavLink style={{ fontWeight: 'bold' }} to={`category/${id}/exam`}>
                               {name}
                             </NavLink>
                           </td>
@@ -77,35 +60,19 @@ const ClassCategoryTable = (props) => {
                                 exams: exams,
                               }}
                             >
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover "
-                                color="info"
-                              >
-                                Take Exam
+                              <Button size="sm" className="mr-3 my-1 animation-on-hover " color="info">
+                                Go To Exam
                               </Button>
                             </NavLink>
                             <NavLink to={`category/${id}/exam/create`}>
-                              <Button
-                                size="sm"
-                                className="mr-3 my-1 animation-on-hover "
-                                color="warning"
-                              >
+                              <Button size="sm" className="mr-3 my-1 animation-on-hover " color="warning">
                                 Create Exam
                               </Button>
                             </NavLink>
-                            <Button
-                              size="sm"
-                              className="mr-3 my-1 animation-on-hover"
-                              color="success"
-                            >
+                            <Button size="sm" className="mr-3 my-1 animation-on-hover" color="success">
                               Edit
                             </Button>
-                            <Button
-                              size="sm"
-                              className="mr-3 my-1 animation-on-hover"
-                              color="danger"
-                            >
+                            <Button size="sm" className="mr-3 my-1 animation-on-hover" color="danger">
                               Delete
                             </Button>
                           </td>

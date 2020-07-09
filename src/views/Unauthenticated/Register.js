@@ -5,29 +5,15 @@ import useForm from 'lib/useForm'
 import { FormWrapper, H3 } from 'views/Styled/index'
 import { GET_ENUM_QUERY, USER_REGISTER_MUTATION } from './Api'
 import Error from 'views/shared/ErrorMessage'
-import { ROLES_QUERY } from '../../constants/auth';
+import { ROLES_QUERY } from 'constants/auth'
 
-import {
-  Alert,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Label,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Label, Row, Col } from 'reactstrap'
 
 const Register = (props) => {
   const GENDERS = useQuery(GET_ENUM_QUERY, {
     variables: { name: 'Gender' },
   })
-  const ROLES = useQuery(ROLES_QUERY);
+  const ROLES = useQuery(ROLES_QUERY)
 
   const { inputs, handleChange, resetForm } = useForm({
     username: '',
@@ -41,12 +27,9 @@ const Register = (props) => {
   const [gender, setGender] = useState(null)
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [register, { data, error, loading }] = useMutation(
-    USER_REGISTER_MUTATION,
-    {
-      variables: { ...inputs, gender },
-    }
-  )
+  const [register, { data, error, loading }] = useMutation(USER_REGISTER_MUTATION, {
+    variables: { ...inputs, gender },
+  })
 
   if (GENDERS.loading) return null
   if (GENDERS.error) return 'Error'
@@ -76,34 +59,19 @@ const Register = (props) => {
                   <Col sm="6">
                     <FormGroup>
                       <label>First Name</label>
-                      <Input
-                        placeholder="Elon"
-                        type="text"
-                        name="first_name"
-                        onChange={handleChange}
-                      />
+                      <Input placeholder="Elon" type="text" name="first_name" onChange={handleChange} />
                     </FormGroup>
                   </Col>
                   <Col sm="6">
                     <FormGroup>
                       <label>Last Name</label>
-                      <Input
-                        placeholder="Musk"
-                        type="text"
-                        name="last_name"
-                        onChange={handleChange}
-                      />
+                      <Input placeholder="Musk" type="text" name="last_name" onChange={handleChange} />
                     </FormGroup>
                   </Col>
                   <Col sm="12">
                     <FormGroup>
                       <Label>Gender</Label>
-                      <Input
-                        type="select"
-                        name="select"
-                        onChange={(e) => setGender(e.target.value)}
-                        required
-                      >
+                      <Input type="select" name="select" onChange={(e) => setGender(e.target.value)} required>
                         <option value="" defaultValue>
                           Select a Gender
                         </option>
@@ -118,66 +86,39 @@ const Register = (props) => {
                   <Col sm="12">
                     <FormGroup>
                       <label>Email</label>
-                      <Input
-                        placeholder="elonmusk@gmail.com"
-                        type="text"
-                        name="email"
-                        onChange={handleChange}
-                      />
+                      <Input placeholder="elonmusk@gmail.com" type="text" name="email" onChange={handleChange} />
                     </FormGroup>
                   </Col>
                   <Col sm="12">
                     <FormGroup>
                       <label>Username</label>
-                      <Input
-                        placeholder="Username"
-                        type="text"
-                        name="username"
-                        onChange={handleChange}
-                      />
+                      <Input placeholder="Username" type="text" name="username" onChange={handleChange} />
                     </FormGroup>
                   </Col>
                   <Col sm="12">
-                        <FormGroup>
-                            <Label>Role</Label>
-                            <Input
-                                type="select"
-                                name="role_id"
-                                value={inputs.role_id}
-                                onChange={handleChange}
-                                required
-                            >
-                              <option value="">
-                                Select a Role
-                              </option>
+                    <FormGroup>
+                      <Label>Role</Label>
+                      <Input type="select" name="role_id" value={inputs.role_id} onChange={handleChange} required>
+                        <option value="">Select a Role</option>
 
-                              {ROLES?.data && ROLES.data.roles.map((role) => (
-                                  <option key={role.id} value={role.id}>
-                                      {role.name}
-                                  </option>
-                              ))}
-                            </Input>
-                        </FormGroup>
-                    </Col>
+                        {ROLES?.data &&
+                          ROLES.data.roles.map((role) => (
+                            <option key={role.id} value={role.id}>
+                              {role.name}
+                            </option>
+                          ))}
+                      </Input>
+                    </FormGroup>
+                  </Col>
                   <Col sm="12">
                     <FormGroup>
                       <label>Password</label>
-                      <Input
-                        placeholder="********"
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                      />
+                      <Input placeholder="********" type="password" name="password" onChange={handleChange} />
                     </FormGroup>
                   </Col>
 
                   <Col sm="12" className="mt-1">
-                    <Button
-                      type="submit"
-                      className="btn-fill"
-                      color="primary"
-                      disabled={isButtonDisabled}
-                    >
+                    <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                       Register
                     </Button>
                   </Col>

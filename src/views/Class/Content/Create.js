@@ -38,17 +38,15 @@ const CreateClassContent = (props) => {
   const [file, setFile] = useState(null)
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+  const [uploadedFile, setUploadedFile] = useState(false)
 
-  const [createClassContent, { error, loading }] = useMutation(
-    CREATE_CLASS_CONTENT_MUTATION,
-    {
-      variables: {
-        ...inputs,
-        classId: props.id,
-        file: file,
-      },
-    }
-  )
+  const [createClassContent, { error, loading }] = useMutation(CREATE_CLASS_CONTENT_MUTATION, {
+    variables: {
+      ...inputs,
+      classId: props.id,
+      file: file,
+    },
+  })
 
   if (loading) return <p>Loading...</p>
   // if (error) return `Error! ${error}`
@@ -59,8 +57,8 @@ const CreateClassContent = (props) => {
       files: [file],
     },
   }) => {
-    console.log(file)
     setFile(file)
+    setUploadedFile(true)
   }
 
   return (
@@ -84,8 +82,10 @@ const CreateClassContent = (props) => {
                       await createClassContent(inputs)
                       setSuccess('Success')
                       resetForm()
-                      // props.history.push(`/class/${props.id}/content`)
-                    } catch (err) {}
+                      props.history.push(`/class/${props.id}/content`)
+                    } catch (err) {
+                      setUploadedFile(false)
+                    }
 
                     setIsButtonDisabled(false)
 
@@ -96,53 +96,29 @@ const CreateClassContent = (props) => {
                     <Col md="12">
                       <FormGroup>
                         <Label>Name</Label>
-                        <Input
-                          placeholder="Name"
-                          type="text"
-                          name="name"
-                          value={inputs.name}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="Name" type="text" name="name" value={inputs.name} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
                     <Col md="12">
                       <FormGroup>
                         <Label>Description</Label>
-                        <Input
-                          placeholder="Description"
-                          type="text"
-                          name="description"
-                          value={inputs.description}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="Description" type="text" name="description" value={inputs.description} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
 
                     <Col md="12">
                       <FormGroup>
                         {/* <Label>File</Label> */}
-                        <Input
-                          placeholder="File"
-                          type="file"
-                          name="file"
-                          onChange={uploadFile}
-                          required
-                        />
-                        <Button className="btn-simple" color="info">
-                          Upload File
+                        <Input placeholder="File" type="file" name="file" onChange={uploadFile} required />
+
+                        <Button className="btn-simple" color={uploadedFile ? 'success' : 'warning'}>
+                          Upload File{uploadedFile ? ' Successfully' : ''}
                         </Button>
                       </FormGroup>
                     </Col>
 
                     <Col md="12" className="mt-1">
-                      <Button
-                        type="submit"
-                        className="btn-fill"
-                        color="primary"
-                        disabled={isButtonDisabled}
-                      >
+                      <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                         Create Content
                       </Button>
                     </Col>
