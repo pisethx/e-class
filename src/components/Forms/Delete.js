@@ -34,14 +34,15 @@ const Delete = (props) => {
             </Button>
             <Modal
                 isOpen={modalShow}
-                backdrop={false}
+                backdrop={true}
                 toggle={() => setModalShow(prev => !prev)}
+                contentClassName="bg-dark text-light"
             >
                 <Row>
                     <Error error={error} />
                 </Row>
                 <ModalHeader toggle={() => setModalShow(false)}>
-                    Confirmation
+                    <span className="text-light">Confirmation</span> 
                 </ModalHeader>
                 <ModalBody>Do you really want to delete {props.name}?</ModalBody>
                 <ModalFooter>
