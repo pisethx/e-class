@@ -1,14 +1,14 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { CLASS_CATEGORIES_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, Table, Row, Col } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
 import { DELETE_CLASS_CATEGORY_MUTATION } from 'constants/class'
+import role from 'constants/data'
 
 const ClassCategoryTable = (props) => {
   const { loading, error, data } = useQuery(CLASS_CATEGORIES_QUERY, {
