@@ -13,3 +13,10 @@ export const H3 = styled.h3`
   padding: 5px;
   font-weight: bold;
 `
+
+export const IMG = styled.img`
+  border-radius: 50%;
+  max-width: 40px;
+  height: auto;
+  max-height: 40px;
+`

@@ -2,16 +2,11 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { CLASS_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import { H3, IMG } from 'views/Styled/index'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col } from 'reactstrap'
 import { from } from 'apollo-boost'
-
-const IMG = styled.img`
-  border-radius: 50%;
-  width: 100%;
-`
 
 const ClassShow = (props) => {
   const { loading, error, data } = useQuery(CLASS_QUERY, {
@@ -91,17 +86,12 @@ const ClassShow = (props) => {
                     </Col>
                     <hr />
                     <Col xs="12">List of Students :</Col>
-                    <Col xs="12" className="mt-2">
+                    <Col xs="12" className="mt-2 pa-2">
                       {eachClass?.students?.map((student) => (
-                        <Row className="my-2" key={student.id}>
-                          <Col xs="1"></Col>
-                          <Col xs="1" className="mb-3">
-                            <IMG alt="..." src={student.identity.photo_url} />
-                          </Col>
-                          <Col className="text-center" xs="1">
-                            {student.id}
-                          </Col>
-                          <Col xs="9">{`${student.identity.first_name} ${student.identity.last_name}`}</Col>
+                        <Row className="mx-2 my-3" key={student.id}>
+                          <IMG alt="..." src={student.identity.photo_url} />
+                          <span className="mx-3">{student.id}</span>
+                          <p>{`${student.identity.first_name} ${student.identity.last_name}`}</p>
                         </Row>
                       ))}
                     </Col>

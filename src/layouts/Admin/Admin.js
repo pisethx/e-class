@@ -19,7 +19,6 @@ var ps
 class Admin extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       backgroundColor: 'primary',
       sidebarOpened: document.documentElement.className.indexOf('nav-open') !== -1,

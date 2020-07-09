@@ -44,6 +44,14 @@ export const CLASS_QUERY = gql`
           possible
         }
       }
+      schedules {
+        day
+        sessions {
+          id
+          start_time
+          end_time
+        }
+      }
     }
   }
 `
@@ -79,13 +87,7 @@ export const CLASSES_QUERY = gql`
 `
 
 export const CREATE_CLASS_MUTATION = gql`
-  mutation CREATE_CLASS_MUTATION(
-    $name: String!
-    $code: String!
-    $teacher: ID!
-    $students: [ID!]
-    $schedule_session: [CreateScheduleSessionInput!]
-  ) {
+  mutation CREATE_CLASS_MUTATION($name: String!, $code: String!, $teacher: ID!, $students: [ID!], $schedule_session: [CreateScheduleSessionInput!]) {
     createClass(
       input: {
         name: $name
@@ -117,22 +119,8 @@ export const CREATE_CLASS_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_MUTATION = gql`
-  mutation UPDATE_CLASS_MUTATION(
-    $id: ID!
-    $name: String!
-    $code: String!
-    $teacher: ID!
-    $students: [ID!]
-  ) {
-    updateClass(
-      input: {
-        id: $id
-        name: $name
-        code: $code
-        teacher: { connect: $teacher }
-        students: { connect: $students }
-      }
-    ) {
+  mutation UPDATE_CLASS_MUTATION($id: ID!, $name: String!, $code: String!, $teacher: ID!, $students: [ID!]) {
+    updateClass(input: { id: $id, name: $name, code: $code, teacher: { connect: $teacher }, students: { connect: $students } }) {
       id
       name
       code
@@ -151,20 +139,8 @@ export const DELETE_CLASS_MUTATION = gql`
 `
 
 export const CREATE_CLASS_CONTENT_MUTATION = gql`
-  mutation CREATE_CLASS_CONTENT_MUTATION(
-    $name: String!
-    $description: String!
-    $classId: Int!
-    $file: Upload!
-  ) {
-    createClassContent(
-      input: {
-        name: $name
-        description: $description
-        class_id: $classId
-        file: $file
-      }
-    ) {
+  mutation CREATE_CLASS_CONTENT_MUTATION($name: String!, $description: String!, $classId: Int!, $file: Upload!) {
+    createClassContent(input: { name: $name, description: $description, class_id: $classId, file: $file }) {
       id
       name
       description
@@ -174,16 +150,8 @@ export const CREATE_CLASS_CONTENT_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_CONTENT_MUTATION = gql`
-  mutation UPDATE_CLASS_CONTENT_MUTATION(
-    $id: Int!
-    $name: String!
-    $description: String!
-    $classId: Int!
-    $file: Upload
-  ) {
-    updateClassContent(
-      input: { id: $id, name: $name, description: $description, file: $file }
-    ) {
+  mutation UPDATE_CLASS_CONTENT_MUTATION($id: Int!, $name: String!, $description: String!, $classId: Int!, $file: Upload) {
+    updateClassContent(input: { id: $id, name: $name, description: $description, file: $file }) {
       id
       name
       description
@@ -206,9 +174,7 @@ export const DELETE_CLASS_CONTENT_MUTATION = gql`
 export const SYNC_STUDENTS_MUTATION = gql`
   mutation SYNC_STUDENTS_MUTATION($classId: Int!, $studentIds: [Int!]) {
     mutation
-    syncStudents(
-      input: { class_id: $classId, students: { sync: $studentIds } }
-    ) {
+    syncStudents(input: { class_id: $classId, students: { sync: $studentIds } }) {
       id
       students {
         id
@@ -305,14 +271,8 @@ export const CLASS_ATTENDANCE_QUERY = gql`
 `
 
 export const CREATE_CLASS_CATEGORY_MUTATION = gql`
-  mutation CREATE_CLASS_CATEGORY_MUTATION(
-    $name: String!
-    $weight: Float!
-    $classId: Int!
-  ) {
-    createClassCategory(
-      input: { name: $name, weight: $weight, class_id: $classId }
-    ) {
+  mutation CREATE_CLASS_CATEGORY_MUTATION($name: String!, $weight: Float!, $classId: Int!) {
+    createClassCategory(input: { name: $name, weight: $weight, class_id: $classId }) {
       id
       name
       weight
@@ -321,11 +281,7 @@ export const CREATE_CLASS_CATEGORY_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_CATEGORY_MUTATION = gql`
-  mutation UPDATE_CLASS_CATEGORY_MUTATION(
-    $id: Int!
-    $name: String!
-    $weight: Float!
-  ) {
+  mutation UPDATE_CLASS_CATEGORY_MUTATION($id: Int!, $name: String!, $weight: Float!) {
     updateClassCategory(input: { name: $name, weight: $weight, id: $id }) {
       id
       name
@@ -346,19 +302,8 @@ export const DELETE_CLASS_CATEGORY_MUTATION = gql`
 
 //startTime and endTime in 13:01:00 or 13:01 format
 export const CREATE_CLASS_SCHEDULE_SESSION_MUTATION = gql`
-  mutation CREATE_CLASS_SCHEDULE_SESSION_MUTATION(
-    $day: DAY!
-    $classId: Int!
-    $startTime: String!
-    $endTime: String!
-  ) {
-    createScheduleSession(
-      input: {
-        schedule: { upsert: { day: $day, class: { connect: $classId } } }
-        start_time: $startTime
-        end_time: $endTime
-      }
-    ) {
+  mutation CREATE_CLASS_SCHEDULE_SESSION_MUTATION($day: DAY!, $classId: Int!, $startTime: String!, $endTime: String!) {
+    createScheduleSession(input: { schedule: { upsert: { day: $day, class: { connect: $classId } } }, start_time: $startTime, end_time: $endTime }) {
       id
       start_time
       end_time
@@ -391,19 +336,9 @@ export const DELETE_CLASS_SCHEDULE_SESSION_MUTATION = gql`
 //   }
 // ]
 export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
-  mutation CREATE_CLASS_ATTENDANCE_MUTATION(
-    $scheduleSessionId: Int!
-    $classId: Int!
-    $date: String!
-    $studentAttendances: List!
-  ) {
+  mutation CREATE_CLASS_ATTENDANCE_MUTATION($scheduleSessionId: Int!, $classId: Int!, $date: String!, $studentAttendances: List!) {
     createClassAttendance(
-      input: {
-        schedule_session_id: $scheduleSessionId
-        class_id: $classId
-        date: $date
-        student_attendances: $studentAttendances
-      }
+      input: { schedule_session_id: $scheduleSessionId, class_id: $classId, date: $date, student_attendances: $studentAttendances }
     ) {
       id
       schedule_session {
@@ -424,13 +359,8 @@ export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_ATTENDANCE_MUTATION = gql`
-  mutation UPDATE_CLASS_ATTENDANCE_MUTATION(
-    $id: Int!
-    $studentAttendances: List!
-  ) {
-    createClassAttendance(
-      input: { id: $id, student_attendances: $studentAttendances }
-    ) {
+  mutation UPDATE_CLASS_ATTENDANCE_MUTATION($id: Int!, $studentAttendances: List!) {
+    createClassAttendance(input: { id: $id, student_attendances: $studentAttendances }) {
       id
       schedule_session_id
       date

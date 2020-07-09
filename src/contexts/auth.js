@@ -6,8 +6,6 @@ export function useAuthContext() {
 }
 
 const setAuthContext = (context, data, refreshTokenGql) => {
-  // console.log('try set authContext')
-  console.log(data)
   if (data.refresh_token) {
     localStorage.setItem('refreshToken', data.refresh_token)
   }

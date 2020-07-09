@@ -35,8 +35,11 @@ const routesProp = routes
 const routesAdmin = routes.find((route) => route.layout === 'admin')
 const routesUnauthenticated = routes.find((route) => route.layout === 'unauthenticated')
 
+const getImg = (authContext) => authContext?.user?.identity?.photo_url
+
 const AllRoutes = (props) => {
   const authContext = useContext(AuthContext)
+
   return (
     <>
       <Router history={props.hist}>
@@ -47,10 +50,9 @@ const AllRoutes = (props) => {
               exact={route.exact}
               path={route.path}
               {...props}
-              img={authContext?.user?.identity?.photo_url}
               render={(props) => (
                 <>
-                  <AdminLayout {...props} img={authContext?.user?.identity?.photo_url} role={authContext.user.roles[0]} routes={routesProp}>
+                  <AdminLayout {...props} img={getImg(authContext)} role={authContext.user.roles[0]} routes={routesProp}>
                     <Route {...route} />
                   </AdminLayout>
                 </>
@@ -63,7 +65,7 @@ const AllRoutes = (props) => {
             path="/user/:id"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <UserShow {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -75,7 +77,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassShow {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -87,7 +89,7 @@ const AllRoutes = (props) => {
             path="/class/:id/edit"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassEdit {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -99,7 +101,7 @@ const AllRoutes = (props) => {
             path="/class/:id/content"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassContentTable {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -111,7 +113,7 @@ const AllRoutes = (props) => {
             path="/class/:id/content/create"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassContentCreate {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -123,7 +125,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryTable {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -135,7 +137,7 @@ const AllRoutes = (props) => {
             path="/class/:id/category/create"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryCreate {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -147,7 +149,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryShow {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
                 </AdminLayout>
               </>
@@ -160,7 +162,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryExamCreate {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
                 </AdminLayout>
               </>
@@ -172,7 +174,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryExamTable {...props} id={props.match.params.id} categoryId={props.match.params.categoryId} />
                 </AdminLayout>
               </>
@@ -184,7 +186,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassCategoryExamShow
                     {...props}
                     id={props.match.params.id}
@@ -202,7 +204,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassForumTable {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -214,7 +216,7 @@ const AllRoutes = (props) => {
             path="/class/:id/forum/create"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassForumCreate {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -226,7 +228,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassForumPost {...props} id={props.match.params.id} postId={props.match.params.postId} />
                 </AdminLayout>
               </>
@@ -238,7 +240,7 @@ const AllRoutes = (props) => {
             {...props}
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassAttendanceTable {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -250,7 +252,7 @@ const AllRoutes = (props) => {
             path="/class/:id/attendance/create"
             render={(props) => (
               <>
-                <AdminLayout {...props} routes={routesProp}>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassAttendanceCreate {...props} id={props.match.params.id} />
                 </AdminLayout>
               </>
@@ -258,7 +260,7 @@ const AllRoutes = (props) => {
           ></ProtectedRoute>
           {routesUnauthenticated.subRoutes.map((route, i) => (
             <Route key={i} exact={route.exact} path={route.path}>
-              <UnauthenticatedLayout {...props} routes={routesProp}>
+              <UnauthenticatedLayout img={getImg(authContext)} {...props} routes={routesProp}>
                 <Route {...route} />
               </UnauthenticatedLayout>
             </Route>

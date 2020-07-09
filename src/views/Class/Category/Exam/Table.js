@@ -45,6 +45,10 @@ const ForumTable = (props) => {
                       name: `Take Exam`,
                       path: `exam/${id}`,
                     }}
+                    editBtn={{
+                      name: `Grade Exam`,
+                      path: `exam/${id}/grade`,
+                    }}
                   />
                 ))}
               </CardBody>
