@@ -36,13 +36,14 @@ const ClassAttendanceTable = (props) => {
                 <CardBody style={{ padding: '1rem 2rem' }}>
                   {attendances?.map(({ id, date, schedule_session, student_attendances }) => (
                     <Card
+                      key={id}
                       className="m-0"
                       style={{
                         border: '1px solid #444',
                       }}
                     >
                       <CardHeader className="px-4 py-2">
-                        <NavLink to={`${id}`} style={{ fontWeight: 'bold' }}>
+                        <NavLink to={`attendance/${id}`} style={{ fontWeight: 'bold' }}>
                           {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
                         </NavLink>
                       </CardHeader>

@@ -44,17 +44,28 @@ const ClassShow = (props) => {
                     <Col xs="12" className="title">
                       Class Information
                     </Col>
-                    <Col xs="6">ID :</Col>
-                    <Col xs="6">{eachClass.id}</Col>
-                    <Col xs="6">Code :</Col>
-                    <Col xs="6">{eachClass.code}</Col>
-                    <Col xs="6">Teacher :</Col>
-                    <Col xs="6">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
-                    <Col xs="6">Class Categories :</Col>
-
-                    <Col xs="6">
+                    <Col xs="4">ID :</Col>
+                    <Col xs="8">{eachClass.id}</Col>
+                    <Col xs="4">Code :</Col>
+                    <Col xs="8">{eachClass.code}</Col>
+                    <Col xs="4">Teacher :</Col>
+                    <Col xs="8">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
+                    <Col xs="4">Class Categories :</Col>
+                    <Col xs="8">
                       {eachClass.class_categories.map((category) => (
                         <span key={category.id}>{category.name}, </span>
+                      ))}
+                    </Col>
+                    <Col xs="4">Schedule: </Col>
+                    <Col xs="8">
+                      {eachClass.schedules.map(({ sessions, id, day }) => (
+                        <span key={id}>
+                          <span>
+                            {sessions.map(({ id: _id, start_time, end_time }) => (
+                              <span className="mr-2" key={_id}>{`${day} (${start_time}-${end_time}).`}</span>
+                            ))}
+                          </span>
+                        </span>
                       ))}
                     </Col>
                     <Col col="12" className="my-3">
@@ -78,11 +89,11 @@ const ClassShow = (props) => {
                           Attendance
                         </Button>
                       </NavLink>
-                      <NavLink to={`/class/${props.id}/schedule`}>
+                      {/* <NavLink to={`/class/${props.id}/schedule`}>
                         <Button className="btn-simple m-2" color="primary">
                           Schedule
                         </Button>
-                      </NavLink>
+                      </NavLink> */}
                     </Col>
                     <hr />
                     <Col xs="12">List of Students :</Col>

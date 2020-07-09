@@ -23,11 +23,13 @@ import ClassCategoryExamTable from 'views/Class/Category/Exam/Table'
 import ClassCategoryExamShow from 'views/Class/Category/Exam/_id/Show'
 
 import ClassForumTable from 'views/Class/Forum/Table'
-import ClassForumPost from 'views/Class/Forum/Post'
+import ClassForumPost from 'views/Class/Forum/_id/Post'
 import ClassForumCreate from 'views/Class/Forum/Create'
 
 import ClassAttendanceTable from 'views/Class/Attendance/Table'
 import ClassAttendanceCreate from 'views/Class/Attendance/Create'
+import ClassAttendanceShow from 'views/Class/Attendance/_id/Show'
+
 import { AuthContext } from 'contexts/auth'
 import { useAuthContext } from 'contexts/auth'
 
@@ -224,12 +226,12 @@ const AllRoutes = (props) => {
           ></ProtectedRoute>
           <ProtectedRoute
             exact={true}
-            path="/class/:id/forum/:postId"
+            path="/class/:id/forum/:forumId"
             {...props}
             render={(props) => (
               <>
                 <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
-                  <ClassForumPost {...props} id={props.match.params.id} postId={props.match.params.postId} />
+                  <ClassForumPost {...props} id={props.match.params.id} forumId={props.match.params.forumId} />
                 </AdminLayout>
               </>
             )}
@@ -254,6 +256,18 @@ const AllRoutes = (props) => {
               <>
                 <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassAttendanceCreate {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/attendance/:attendanceId"
+            render={(props) => (
+              <>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
+                  <ClassAttendanceShow {...props} id={props.match.params.id} attendanceId={props.match.params.attendanceId} />
                 </AdminLayout>
               </>
             )}

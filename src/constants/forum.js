@@ -109,6 +109,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
       description
       author {
         id
+        username
         identity {
           first_name
           last_name
@@ -119,8 +120,9 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         id
         comment
         author {
+          id
+          username
           identity {
-            username
             first_name
             last_name
             photo_url

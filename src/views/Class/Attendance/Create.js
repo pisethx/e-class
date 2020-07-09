@@ -19,16 +19,13 @@ import Select from 'react-select'
 const ClassAttendanceCreate = (props) => {
   const [form, setForm] = useState({
     schedule_session_id: '',
-    date: new Date(),
+    date: null,
     student_attendances: [],
   })
 
   let [classData, setClassData] = useState({
     students: [],
     schedules: [],
-  })
-  const { inputs, resetForm, handleChange } = useForm({
-    date: null,
   })
 
   const ATTENDANCE_TYPE = useQuery(GET_ENUM_QUERY, {
@@ -70,7 +67,7 @@ const ClassAttendanceCreate = (props) => {
         })),
       }))
     }
-  }, [data])
+  }, [data, ATTENDANCE_TYPE])
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
@@ -78,6 +75,7 @@ const ClassAttendanceCreate = (props) => {
     variables: {
       id: props.id,
       ...form,
+      date: moment(form.date).format('YYYY-MM-DD'),
     },
   })
 
@@ -127,6 +125,18 @@ const ClassAttendanceCreate = (props) => {
                               }}
                             />
                           </FormGroup>
+                        </Col>
+                        <Col md="12">
+                          <Label>Date</Label>
+                          <DatePicker
+                            selected={form.date}
+                            onChange={(date) => {
+                              setForm((prevState) => ({
+                                ...prevState,
+                                date,
+                              }))
+                            }}
+                          />
                         </Col>
 
                         {form?.student_attendances?.map(({ student_id, attendance_type }, i) => (
