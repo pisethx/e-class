@@ -46,7 +46,7 @@ export const CREATE_FORUM_MUTATION = gql`
 
 export const DELETE_FORUM_MUTATION = gql`
   mutation DELETE_FORUM_MUTATION($id: ID!) {
-    deleteForum(input: { id: $id }) {
+    deleteForum(id: $id) {
       id
     }
   }
