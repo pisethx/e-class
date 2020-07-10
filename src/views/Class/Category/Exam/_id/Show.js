@@ -36,7 +36,7 @@ const ClassExamShow = (props) => {
   const [submitExam, { loading, error }] = useMutation(STUDENT_TAKES_EXAM_MUTATION, {
     variables: {
       exam_id: props.examId,
-      ...form,
+      answers: [...form],
     },
   })
 
