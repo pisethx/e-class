@@ -14,7 +14,7 @@ import role from '../../../constants/data'
 
 const ClassForumTable = (props) => {
   const authContext = useContext(AuthContext)
-  const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
+  const { loading, error, data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props?.id,
     },
@@ -44,6 +44,7 @@ const ClassForumTable = (props) => {
                 {forums?.map(({ id, title, author, description, comments_count = 0, created_at, answer, class_content }) => (
                   <PostCard
                     key={id}
+                    deleteMutation={DELETE_FORUM_MUTATION}
                     title={title}
                     id={id}
                     info={`${author.identity.first_name} ${author.identity.last_name}@${author.username}`}
@@ -58,6 +59,7 @@ const ClassForumTable = (props) => {
                       name: 'Edit',
                       path: `forum/${id}`,
                     }}
+                    refetch={refetch}
                     deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}
                   />
                 ))}

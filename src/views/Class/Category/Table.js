@@ -11,7 +11,7 @@ import { DELETE_CLASS_CATEGORY_MUTATION } from 'constants/class'
 import role from 'constants/data'
 
 const ClassCategoryTable = (props) => {
-  const { loading, error, data } = useQuery(CLASS_CATEGORIES_QUERY, {
+  const { loading, error, data, refetch } = useQuery(CLASS_CATEGORIES_QUERY, {
     variables: {
       id: props.id,
     },
@@ -80,7 +80,7 @@ const ClassCategoryTable = (props) => {
                                 <Button size="sm" className="mr-3 my-1 animation-on-hover" color="success">
                                   Edit
                                 </Button>
-                                <Delete name={name} id={id} deleteMutation={DELETE_CLASS_CATEGORY_MUTATION} />
+                                <Delete name={name} id={id} refetch={refetch} deleteMutation={DELETE_CLASS_CATEGORY_MUTATION} />
                               </>
                             )}
                           </td>
