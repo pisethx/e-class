@@ -15,15 +15,14 @@ const Delete = (props) => {
       await client.mutate({
         mutation: props.deleteMutation,
         variables: { id: props.id },
-        refetchQueries: true,
       })
+      props.refetch()
     } catch (e) {
       setError('Something went wrong')
       console.log(e)
     }
 
     setModalShow(false)
-    window.location.reload(false)
   }
 
   return (

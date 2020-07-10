@@ -255,7 +255,7 @@ export const CREATE_CLASS_CONTENT_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_CONTENT_MUTATION = gql`
-  mutation UPDATE_CLASS_CONTENT_MUTATION($id: Int!, $name: String!, $description: String!, $classId: Int!, $file: Upload) {
+  mutation UPDATE_CLASS_CONTENT_MUTATION($id: ID!, $name: String!, $description: String!, $classId: Int!, $file: Upload) {
     updateClassContent(input: { id: $id, name: $name, description: $description, file: $file }) {
       id
       name
@@ -266,12 +266,9 @@ export const UPDATE_CLASS_CONTENT_MUTATION = gql`
 `
 
 export const DELETE_CLASS_CONTENT_MUTATION = gql`
-  mutation DELETE_CLASS_CONTENT_MUTATION($id: Int!) {
+  mutation DELETE_CLASS_CONTENT_MUTATION($id: ID!) {
     deleteClassContent(id: $id) {
       id
-      name
-      description
-      file_url
     }
   }
 `

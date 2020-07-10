@@ -7,14 +7,13 @@ import { NavLink } from 'react-router-dom'
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
-import Delete from 'components/Forms/Delete'
-import { DELETE_FORUM_MUTATION } from '../../../constants/forum';
-import { AuthContext } from 'contexts/auth';
-import role from '../../../constants/data';
+import { DELETE_FORUM_MUTATION } from '../../../constants/forum'
+import { AuthContext } from 'contexts/auth'
+import role from '../../../constants/data'
 
 const ClassForumTable = (props) => {
-  const authContext = useContext(AuthContext);
-  const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
+  const authContext = useContext(AuthContext)
+  const { loading, error, data, fetchMore } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props?.id,
     },
@@ -44,6 +43,7 @@ const ClassForumTable = (props) => {
                 {forums?.map(({ id, title, author, description, comments_count = 0, created_at, answer }) => (
                   <PostCard
                     key={id}
+                    deleteMutation={DELETE_FORUM_MUTATION}
                     title={title}
                     id={id}
                     info={`${author.identity.first_name} ${author.identity.last_name}@${author.username}`}
@@ -57,6 +57,7 @@ const ClassForumTable = (props) => {
                       name: 'Edit',
                       path: `forum/${id}`,
                     }}
+                    refetch={fetchMore}
                     deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}
                   />
                 ))}

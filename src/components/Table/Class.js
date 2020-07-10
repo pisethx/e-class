@@ -6,7 +6,7 @@ import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, Fo
 import Delete from 'components/Forms/Delete'
 import { DELETE_CLASS_MUTATION } from 'constants/class'
 
-const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
+const ClassTable = ({ classes, refetch, title = 'Classes', admin = false }) => {
   return (
     <Row>
       <Col md="12">
@@ -48,7 +48,7 @@ const ClassTable = ({ classes, title = 'Classes', admin = false }) => {
                             Edit
                           </Button>
                         </NavLink>
-                        <Delete name={each.code} id={each.id} deleteMutation={DELETE_CLASS_MUTATION} />
+                        <Delete name={each.code} id={each.id} deleteMutation={DELETE_CLASS_MUTATION} refetch={refetch} />
                       </td>
                     )}
                   </tr>

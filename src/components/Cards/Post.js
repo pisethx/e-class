@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import Delete from 'components/Forms/Delete'
 import { DELETE_FORUM_MUTATION } from 'constants/forum'
 
-const PostCard = ({ id, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
+const PostCard = ({ id, refetch, deleteMutation, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
   console.log(id)
 
   return (
@@ -46,7 +46,7 @@ const PostCard = ({ id, title, info, date, description, anchorBtn, showBtn, edit
             </Button>
           </NavLink>
         )}
-        {deleteBtn && <Delete name={title} id={id} deleteMutation={DELETE_FORUM_MUTATION} />}
+        {deleteBtn && <Delete name={title} id={id} deleteMutation={deleteMutation} refetch={refetch} />}
       </CardBody>
     </Card>
   )
