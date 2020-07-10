@@ -99,19 +99,19 @@ const ClassCategoryExamCreate = (props) => {
                   onSubmit={async (e) => {
                     e.preventDefault()
                     setIsButtonDisabled(true)
-                    // setValidation(true)
+
                     try {
                       form.questions = form.questions.map((q) => ({
                         ...q,
                         answers: q.possible ? q.possibles.filter((_, i) => q.answers.includes(i)) : undefined,
                       }))
-                      console.log({
+
+                      await createClassCategoryExam({
                         class_category_id: props.categoryId,
                         ...inputs,
                         ...form,
                         qa: form.questions,
                       })
-                      await createClassCategoryExam()
                       setSuccess('Success')
 
                       resetForm()

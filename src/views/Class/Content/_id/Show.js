@@ -5,8 +5,6 @@ import { Row, Col, Card, CardTitle, CardBody, Button } from 'reactstrap'
 import { ONE_CLASS_CONTENT_QUERY } from 'constants/class'
 
 const ClassContentShow = (props) => {
-  console.log(props)
-
   const { loading, error, data } = useQuery(ONE_CLASS_CONTENT_QUERY, {
     variables: {
       id: props.contentId,

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import useForm from 'lib/useForm'
-import { CREATE_CLASS_CONTENT_MUTATION } from 'constants/class'
+import { CREATE_CLASS_CONTENT_MUTATION, UPDATE_CLASS_CONTENT_MUTATION } from 'constants/class'
 import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 import { Editor } from '@tinymce/tinymce-react'
@@ -26,30 +26,53 @@ import {
   Spinner,
 } from 'reactstrap'
 import { H3 } from 'views/Styled'
+import Loading from 'components/Loading'
 
 const CreateClassContent = (props) => {
   const [success, setSuccess] = useState('')
-  const { inputs, handleChange, resetForm } = useForm({
+  const { inputs, handleChange, setInputs, resetForm } = useForm({
     name: '',
     description: '',
-    file: null,
+    file: undefined,
   })
 
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(undefined)
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const [uploadedFile, setUploadedFile] = useState(false)
 
-  const [createClassContent, { error, loading }] = useMutation(CREATE_CLASS_CONTENT_MUTATION, {
+  const [createClassContent, createRes] = useMutation(CREATE_CLASS_CONTENT_MUTATION, {
     variables: {
       ...inputs,
       classId: props.id,
-      file: file,
+      file,
     },
   })
 
-  if (loading) return <Spinner />
-  // if (error) return `Error! ${error}`
+  const [updateClassContent, updateRes] = useMutation(UPDATE_CLASS_CONTENT_MUTATION, {
+    variables: {
+      id: props.content?.id,
+      ...inputs,
+      file,
+    },
+  })
+
+  let error = createRes?.error || updateRes?.error
+  let loading = createRes?.loading || updateRes?.loading
+
+  useEffect(() => {
+    if (props.content) {
+      const { name, description } = props.content
+
+      setInputs((prevState) => ({
+        ...prevState,
+        name,
+        description,
+      }))
+    }
+  }, [props.content])
+
+  if (loading) return <Loading />
 
   const uploadFile = ({
     target: {
@@ -68,7 +91,7 @@ const CreateClassContent = (props) => {
           <Col md="12">
             <Card>
               <CardHeader>
-                <H3 className="title">Create Class Content</H3>
+                <H3 className="title">{props.content ? 'Update' : 'Create'} Class Content</H3>
               </CardHeader>
               <Error error={error} />
               <Success success={success} />
@@ -79,17 +102,15 @@ const CreateClassContent = (props) => {
                     setIsButtonDisabled(true)
                     // setValidation(true)
                     try {
-                      await createClassContent(inputs)
+                      if (props.content) await updateClassContent()
+                      else await createClassContent()
                       setSuccess('Success')
                       resetForm()
+
                       props.history.push(`/class/${props.id}/content`)
                     } catch (err) {
                       setUploadedFile(false)
                     }
-
-                    setIsButtonDisabled(false)
-
-                    // props.history.goBack()
                   }}
                 >
                   <Row className="p-3">
@@ -119,15 +140,18 @@ const CreateClassContent = (props) => {
              bullist numlist outdent indent | removeformat | help`,
                         }}
                         onEditorChange={(val) => {
-                          inputs.description = val
+                          setInputs((prevState) => ({
+                            ...prevState,
+                            description: val,
+                          }))
                         }}
                       />
                     </Col>
 
-                    <Col md="12">
+                    <Col md="12" className="mt-4">
                       <FormGroup>
                         {/* <Label>File</Label> */}
-                        <Input placeholder="File" type="file" name="file" onChange={uploadFile} required />
+                        <Input placeholder="File" type="file" name="file" onChange={uploadFile} />
 
                         <Button className="btn-simple" color={uploadedFile ? 'success' : 'warning'}>
                           Upload File{uploadedFile ? ' Successfully' : ''}
@@ -137,7 +161,7 @@ const CreateClassContent = (props) => {
 
                     <Col md="12" className="mt-1">
                       <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
-                        Create Content
+                        {props.content ? 'Update' : 'Create'} Content
                       </Button>
                     </Col>
                   </Row>

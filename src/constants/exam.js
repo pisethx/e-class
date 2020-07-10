@@ -7,8 +7,8 @@ export const CREATE_EXAM_MUTATION = gql`
     $description: String!
     $attempts: Int!
     $qa: [CreateQuestionInput!]
-    $publishes_at: DateTimeTz!
-    $due_at: DateTimeTz!
+    $publishes_at: String!
+    $due_at: String!
   ) {
     createExam(
       input: {

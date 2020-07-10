@@ -64,7 +64,6 @@ const ForumTable = (props) => {
           </Col>
         </Row>
       </div>
-      )
     </>
   )
 }

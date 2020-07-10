@@ -45,7 +45,6 @@ const ClassExamShow = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      console.log(form)
       await submitExam()
       setSuccess('Success')
     } catch (e) {}

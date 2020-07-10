@@ -16,7 +16,7 @@ const ClassAttendanceShow = (props) => {
   })
 
   let attendance = data?.classAttendance
-  console.log(attendance)
+
   return <>{attendance && <ClassAttendanceCreate {...props} attendance={{ ...attendance, id: props.attendanceId }} />}</>
 }
 

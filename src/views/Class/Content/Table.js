@@ -1,6 +1,6 @@
 import React from 'react'
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { CLASS_CONTENT_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
@@ -14,6 +14,7 @@ const ClassContentTable = (props) => {
   const { loading, error, data, refetch } = useQuery(CLASS_CONTENT_QUERY, {
     variables: {
       id: props.id,
+      notifyOnNetworkStatusChange: true,
     },
   })
 
@@ -37,20 +38,17 @@ const ClassContentTable = (props) => {
                 <CardBody style={{ padding: '1rem 2rem' }}>
                   <Row>
                     {contents?.map(({ id, name, description, file_url }) => (
-                      <>
-                        <Col xs="12" md="6" lg="4">
-                          <PostCard
-                            key={id}
-                            id={id}
-                            refetch={refetch}
-                            deleteMutation={DELETE_CLASS_CONTENT_MUTATION}
-                            title={name}
-                            deleteBtn={role.name === 'teacher'}
-                            editBtn={{ name: 'Edit', path: `content/${id}/edit` }}
-                            showBtn={{ name: 'Show', path: `content/${id}` }}
-                          />
-                        </Col>
-                      </>
+                      <Col xs="12" md="6" lg="4" key={id}>
+                        <PostCard
+                          id={id}
+                          refetch={refetch}
+                          deleteMutation={DELETE_CLASS_CONTENT_MUTATION}
+                          title={name.length > 37 ? name.substr(0, 38) + '...' : name}
+                          deleteBtn={role.name === 'teacher'}
+                          editBtn={{ name: 'Edit', path: `content/${id}/edit` }}
+                          showBtn={{ name: 'Show', path: `content/${id}` }}
+                        />
+                      </Col>
                     ))}
                   </Row>
                 </CardBody>
