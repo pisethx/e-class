@@ -102,7 +102,7 @@ const ClassForumPost = (props) => {
                 </CardBody>
               </Card>
               {comments?.map(({ id: _id, comment, author: _author, created_at }, j) => (
-                <Card key={j} style={{ padding: '.6rem', position: 'relative' }} className={_id === answer.id ? 'card-success' : ''}>
+                <Card key={j} style={{ padding: '.6rem', position: 'relative' }} className={_id === answer?.id ? 'card-success' : ''}>
                   <CardHeader>
                     <IMG src={_author.identity.photo_url}></IMG>
                     {/* <NavLink to={`/users/${_author.id}`}> */}
