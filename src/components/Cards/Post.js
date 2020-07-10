@@ -1,10 +1,6 @@
 import React, { useState, createRef, useRef, forwardRef, useContext } from 'react'
 
 import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label } from 'reactstrap'
-import ChangeEmail from 'components/Forms/ChangeEmail'
-import ChangePassword from '../Forms/ChangePassword'
-import { AuthContext } from 'contexts/auth'
-import EditProfile from 'components/Forms/EditProfile'
 import { NavLink } from 'react-router-dom'
 import Delete from 'components/Forms/Delete'
 import { DELETE_FORUM_MUTATION } from 'constants/forum'
@@ -50,9 +46,7 @@ const PostCard = ({ id, title, info, date, description, anchorBtn, showBtn, edit
             </Button>
           </NavLink>
         )}
-        {deleteBtn && (
-          <Delete name={title} id={id} deleteMutation={DELETE_FORUM_MUTATION} />
-        )}
+        {deleteBtn && <Delete name={title} id={id} deleteMutation={DELETE_FORUM_MUTATION} />}
       </CardBody>
     </Card>
   )

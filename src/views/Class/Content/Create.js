@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Link } from 'react-router-dom'
+import { useMutation } from '@apollo/react-hooks'
 import useForm from 'lib/useForm'
-import { FormWrapper, H3 } from 'views/Styled/index'
-import { USERS_QUERY } from 'constants/user'
 import { CREATE_CLASS_CONTENT_MUTATION } from 'constants/class'
 import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
+import { Editor } from '@tinymce/tinymce-react'
 
 // reactstrap components
 import {
@@ -26,6 +24,7 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import { H3 } from 'views/Styled'
 
 const CreateClassContent = (props) => {
   const [success, setSuccess] = useState('')
@@ -100,10 +99,28 @@ const CreateClassContent = (props) => {
                       </FormGroup>
                     </Col>
                     <Col md="12">
-                      <FormGroup>
+                      {/* <FormGroup>
                         <Label>Description</Label>
                         <Input placeholder="Description" type="text" name="description" value={inputs.description} onChange={handleChange} required />
-                      </FormGroup>
+                      </FormGroup> */}
+                      <Editor
+                        initialValue={inputs.description}
+                        init={{
+                          height: 500,
+                          menubar: false,
+                          plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount',
+                          ],
+                          toolbar: `undo redo | formatselect | bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist outdent indent | removeformat | help`,
+                        }}
+                        onEditorChange={(val) => {
+                          inputs.description = val
+                        }}
+                      />
                     </Col>
 
                     <Col md="12">

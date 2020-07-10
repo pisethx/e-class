@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { render } from 'react-dom'
 import { createBrowserHistory } from 'history'
 import { ApolloProvider, useMutation } from '@apollo/react-hooks'
@@ -13,7 +13,7 @@ import 'assets/scss/black-dashboard-react.scss'
 import 'assets/demo/demo.css'
 import 'assets/css/nucleo-icons.css'
 
-import { AuthContext, useAuthContext } from './contexts/auth'
+import { AuthContext } from './contexts/auth'
 import AllRoutes from 'components/AllRoutes'
 
 const hist = createBrowserHistory()
@@ -58,9 +58,7 @@ const App = () => {
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-            )
+            console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
           )
         if (networkError) console.log(`[Network error]: ${networkError}`)
       }),

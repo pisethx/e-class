@@ -13,6 +13,7 @@ import ClassEdit from 'views/Class/_id/Edit'
 
 import ClassContentTable from 'views/Class/Content/Table'
 import ClassContentCreate from 'views/Class/Content/Create'
+import ClassContentShow from 'views/Class/Content/_id/Show'
 
 import ClassCategoryTable from 'views/Class/Category/Table'
 import ClassCategoryCreate from 'views/Class/Category/Create'
@@ -118,6 +119,18 @@ const AllRoutes = (props) => {
               <>
                 <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
                   <ClassContentCreate {...props} id={props.match.params.id} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
+            {...props}
+            path="/class/:id/content/:contentId"
+            render={(props) => (
+              <>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
+                  <ClassContentShow {...props} id={props.match.params.id} contentId={props.match.params.contentId} />
                 </AdminLayout>
               </>
             )}

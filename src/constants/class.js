@@ -8,129 +8,129 @@ export const CLASS_QUERY = gql`
       code
       teacher {
         id
-      username
-      email
-      uuid
-      unreadNotificationsCount
-      roles {
-        id
-        name
-      }
-      identity {
-        id
-        first_name
-        last_name
-        gender
-        contact_number
-        photo_url
-      }
-      learnings {
-        id
-        code
-        name
-        teacher {
+        username
+        email
+        uuid
+        unreadNotificationsCount
+        roles {
           id
-          identity {
+          name
+        }
+        identity {
+          id
+          first_name
+          last_name
+          gender
+          contact_number
+          photo_url
+        }
+        learnings {
+          id
+          code
+          name
+          teacher {
             id
-            first_name
-            last_name
+            identity {
+              id
+              first_name
+              last_name
+            }
+          }
+          schedules {
+            id
+            day
+            sessions {
+              id
+              start_time
+              end_time
+            }
           }
         }
-        schedules {
+        teachings {
           id
-          day
-          sessions {
+          code
+          name
+          teacher {
             id
-            start_time
-            end_time
+            identity {
+              id
+              first_name
+              last_name
+            }
+          }
+          schedules {
+            id
+            day
+            sessions {
+              id
+              start_time
+              end_time
+            }
           }
         }
-      }
-      teachings {
-        id
-        code
-        name
-        teacher {
-          id
-          identity {
-            id
-            first_name
-            last_name
-          }
-        }
-        schedules {
-          id
-          day
-          sessions {
-            id
-            start_time
-            end_time
-          }
-        }
-      }
       }
       students {
         id
-      username
-      email
-      uuid
-      unreadNotificationsCount
-      roles {
-        id
-        name
-      }
-      identity {
-        id
-        first_name
-        last_name
-        gender
-        contact_number
-        photo_url
-      }
-      learnings {
-        id
-        code
-        name
-        teacher {
+        username
+        email
+        uuid
+        unreadNotificationsCount
+        roles {
           id
-          identity {
+          name
+        }
+        identity {
+          id
+          first_name
+          last_name
+          gender
+          contact_number
+          photo_url
+        }
+        learnings {
+          id
+          code
+          name
+          teacher {
             id
-            first_name
-            last_name
+            identity {
+              id
+              first_name
+              last_name
+            }
+          }
+          schedules {
+            id
+            day
+            sessions {
+              id
+              start_time
+              end_time
+            }
           }
         }
-        schedules {
+        teachings {
           id
-          day
-          sessions {
+          code
+          name
+          teacher {
             id
-            start_time
-            end_time
+            identity {
+              id
+              first_name
+              last_name
+            }
+          }
+          schedules {
+            id
+            day
+            sessions {
+              id
+              start_time
+              end_time
+            }
           }
         }
-      }
-      teachings {
-        id
-        code
-        name
-        teacher {
-          id
-          identity {
-            id
-            first_name
-            last_name
-          }
-        }
-        schedules {
-          id
-          day
-          sessions {
-            id
-            start_time
-            end_time
-          }
-        }
-      }
       }
       class_contents {
         id
@@ -334,6 +334,17 @@ export const CLASS_CONTENT_QUERY = gql`
         description
         file_url
       }
+    }
+  }
+`
+
+export const ONE_CLASS_CONTENT_QUERY = gql`
+  query ONE_CLASS_CONTENT_QUERY($id: ID!) {
+    classContent(id: $id) {
+      id
+      name
+      description
+      file_url
     }
   }
 `
