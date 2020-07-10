@@ -372,6 +372,10 @@ export const ATTENDANCE_IN_CLASS_QUERY = gql`
           id
           start_time
           end_time
+          schedule {
+            id
+            day
+          }
         }
         student_attendances {
           id
@@ -535,11 +539,9 @@ export const UPDATE_CLASS_ATTENDANCE_MUTATION = gql`
 `
 
 export const DELETE_CLASS_ATTENDANCE_MUTATION = gql`
-  mutation DELETE_CLASS_ATTENDANCE_MUTATION($id: Int!) {
-    createClassAttendance(id: $id) {
+  mutation DELETE_CLASS_ATTENDANCE_MUTATION($id: ID!) {
+    deleteClassAttendance(id: $id) {
       id
-      schedule_session_id
-      date
     }
   }
 `
