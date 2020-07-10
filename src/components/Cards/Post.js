@@ -11,7 +11,6 @@ const PostCard = ({ id, refetch, deleteMutation, title, info, date, description,
   return (
     <Card
       style={{
-        boxShadow: '3px 5px 10px #1a1a1a55',
         padding: '.5rem',
       }}
     >
@@ -20,6 +19,13 @@ const PostCard = ({ id, refetch, deleteMutation, title, info, date, description,
         <CardFooter style={{ fontWeight: 'bold' }}>
           {info}
           <span className="ml-2">( {date} )</span>
+          {badge && (
+            <div>
+              <Badge color="primary" pill>
+                {badge}
+              </Badge>
+            </div>
+          )}
         </CardFooter>
       )}
 

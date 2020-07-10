@@ -2,18 +2,20 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
-import { CLASS_ATTENDANCE_QUERY } from 'constants/class'
+import { ATTENDANCE_IN_CLASS_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
 
 const ClassAttendanceTable = (props) => {
-  const { loading, error, data } = useQuery(CLASS_ATTENDANCE_QUERY, {
+  const { loading, error, data } = useQuery(ATTENDANCE_IN_CLASS_QUERY, {
     variables: {
       id: props.id,
     },
   })
+
+  if (loading) return <p>Loading...</p>
 
   const attendances = data?.class?.class_attendances
 
@@ -34,21 +36,22 @@ const ClassAttendanceTable = (props) => {
                   </NavLink>
                 </CardHeader>
                 <CardBody style={{ padding: '1rem 2rem' }}>
-                  {attendances?.map(({ id, date, schedule_session, student_attendances }) => (
-                    <Card
-                      key={id}
-                      className="m-0"
-                      style={{
-                        border: '1px solid #444',
-                      }}
-                    >
-                      <CardHeader className="px-4 py-2">
-                        <NavLink to={`attendance/${id}`} style={{ fontWeight: 'bold' }}>
-                          {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
-                        </NavLink>
-                      </CardHeader>
-                    </Card>
-                  ))}
+                  {attendances &&
+                    attendances?.map(({ id, date, schedule_session, student_attendances }) => (
+                      <Card
+                        key={id}
+                        className="m-0"
+                        style={{
+                          border: '1px solid #444',
+                        }}
+                      >
+                        <CardHeader className="px-4 py-2">
+                          <NavLink to={`attendance/${id}`} style={{ fontWeight: 'bold' }}>
+                            {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
+                          </NavLink>
+                        </CardHeader>
+                      </Card>
+                    ))}
                 </CardBody>
               </Card>
             </Col>

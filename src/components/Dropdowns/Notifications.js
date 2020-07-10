@@ -4,11 +4,12 @@ import { MY_NOTIFICATIONS_QUERY } from 'constants/user'
 import { AuthContext } from 'contexts/auth'
 
 // reactstrap components
-import { DropdownToggle, DropdownMenu, DropdownItem, NavLink, Spinner } from 'reactstrap'
+import { DropdownToggle, DropdownMenu, DropdownItem, NavLink, Spinner, CardText, Card } from 'reactstrap'
 
 const Notifications = () => {
   const authContext = useContext(AuthContext)
   const { data, loading, error } = useQuery(MY_NOTIFICATIONS_QUERY)
+  console.log(data)
 
   if (loading) return <Spinner />
   if (error) return <p>Error</p>
@@ -21,20 +22,23 @@ const Notifications = () => {
         <p className="d-lg-none">Notifications</p>
       </DropdownToggle>
       <DropdownMenu className="dropdown-navbar" right tag="ul">
-        {data?.myNotifications &&
-          (data.myNotifications.length !== 0 ? (
-            data.myNotifications.map((noti) => (
-              <NavLink tag="li" href={noti.data.url}>
-                <DropdownItem className="nav-item" active={noti.is_read ? false : true}>
-                  {noti.data.message}
-                </DropdownItem>
+        <Card className="m-0">
+          {data?.myNotifications &&
+            (data.myNotifications.length !== 0 ? (
+              data.myNotifications.map((noti) => (
+                <NavLink key={noti.id} tag="li" href={noti.data.url}>
+                  <DropdownItem className="nav-item" active={!noti.is_read}>
+                    <CardText>{noti.data.message}</CardText>
+                    {noti.created_at}
+                  </DropdownItem>
+                </NavLink>
+              ))
+            ) : (
+              <NavLink tag="li">
+                <DropdownItem className="nav-item">No notification yet!</DropdownItem>
               </NavLink>
-            ))
-          ) : (
-            <NavLink tag="li">
-              <DropdownItem className="nav-item">No notification yet!</DropdownItem>
-            </NavLink>
-          ))}
+            ))}
+        </Card>
       </DropdownMenu>
     </>
   )

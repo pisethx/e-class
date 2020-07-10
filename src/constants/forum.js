@@ -133,6 +133,10 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         created_at
       }
       comments_count
+      class_content {
+        id
+        name
+      }
       answer {
         id
         comment
@@ -190,6 +194,9 @@ export const MY_FORUMS_QUERY = gql`
         comment
       }
       created_at
+      class {
+        id
+      }
     }
   }
 `

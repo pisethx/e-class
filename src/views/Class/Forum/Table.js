@@ -40,7 +40,7 @@ const ClassForumTable = (props) => {
                 </NavLink>
               </CardHeader>
               <CardBody style={{ padding: '1rem 2rem' }}>
-                {forums?.map(({ id, title, author, description, comments_count = 0, created_at, answer }) => (
+                {forums?.map(({ id, title, author, description, comments_count = 0, created_at, answer, class_content }) => (
                   <PostCard
                     key={id}
                     deleteMutation={DELETE_FORUM_MUTATION}
@@ -49,6 +49,7 @@ const ClassForumTable = (props) => {
                     info={`${author.identity.first_name} ${author.identity.last_name}@${author.username}`}
                     date={created_at}
                     description={description}
+                    badge={class_content.name}
                     showBtn={{
                       name: `Comments (${comments_count})`,
                       path: `forum/${id}`,

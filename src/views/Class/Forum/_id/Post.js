@@ -10,7 +10,7 @@ import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, Label, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
+import { Button, Spinner, Card, CardHeader, CardBody, CardText, Label, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
 
 const ClassForumPost = (props) => {
   const { data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
@@ -49,7 +49,7 @@ const ClassForumPost = (props) => {
   }
   return (
     <>
-      {Object.values(forums).length && (
+      {Object.values(forums).length ? (
         <div className="content">
           <Row>
             <Col md="12">
@@ -75,7 +75,8 @@ const ClassForumPost = (props) => {
                 </CardBody>
               </Card>
               {comments?.map(({ comment, author: _author, created_at }, j) => (
-                <Card key={j}>
+                <Card key={j} style={{ padding: '1rem', paddingLeft: '4rem', position: 'relative' }}>
+                  <i className="fa fa-check fa-2x p-6" style={{ position: 'absolute', left: '5%', top: '50%', transform: 'translateY(-50%)' }}></i>
                   <CardHeader>
                     <IMG src={_author.identity.photo_url}></IMG>
                     {/* <NavLink to={`/users/${_author.id}`}> */}
@@ -86,12 +87,16 @@ const ClassForumPost = (props) => {
                     {/* </NavLink> */}
                     {created_at}
                   </CardHeader>
-                  <CardBody className="text-white">{comment}</CardBody>
+                  <CardBody>
+                    <CardText>{comment}</CardText>
+                  </CardBody>
                 </Card>
               ))}
             </Col>
           </Row>
         </div>
+      ) : (
+        <Spinner animation="grow" variant="info" />
       )}
     </>
   )

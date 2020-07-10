@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react'
 
 // reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  Col,
-  Spinner,
-} from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, Table, Col, Spinner } from 'reactstrap'
 import { H3 } from 'views/Styled/index'
 
 // import CustomPagination from 'components/CustomPagination'
 import { useApolloClient } from 'react-apollo'
 import { MY_FORUMS_QUERY } from 'constants/forum'
+import { NavLink } from 'react-router-dom'
 
 const MyForums = (props) => {
   const client = useApolloClient()
@@ -61,7 +54,9 @@ const MyForums = (props) => {
                 return (
                   <tr key={forum.id}>
                     <td>
-                      <a href="#">{forum.title}</a>
+                      <NavLink style={{ fontWeight: 'bold' }} to={`class/${forum.class.id}/forum/${forum.id}`}>
+                        {forum.title}
+                      </NavLink>
                     </td>
                     <td className="text-center">{forum.comments_count}</td>
                   </tr>

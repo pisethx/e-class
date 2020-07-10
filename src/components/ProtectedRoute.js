@@ -1,13 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Route, Redirect, withRouter } from 'react-router-dom'
 import { setAuthContext, AuthContext, useAuthContext } from '../contexts/auth'
-import {
-  useMutation,
-  Mutation,
-  useQuery,
-  useLazyQuery,
-  useApolloClient,
-} from 'react-apollo'
+import { useMutation, Mutation, useQuery, useLazyQuery, useApolloClient } from 'react-apollo'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
 import { ME_QUERY } from 'constants/user'
 
@@ -45,11 +39,7 @@ const ProtectedRoute = (props) => {
 
             const me = await queryMe()
 
-            setAuthContext(
-              authContext,
-              { access_token: authContext.accessToken, user: me },
-              refreshToken
-            )
+            setAuthContext(authContext, { access_token: authContext.accessToken, user: me }, refreshToken)
 
             props.history.push(path)
           } catch (e) {
@@ -69,7 +59,7 @@ const ProtectedRoute = (props) => {
 
   if (auth.isLogin && auth.user !== undefined) {
     return <Route {...props} path={path} render={props.render} />
-  } else return <p>Loading..</p>
+  } else return <Spinner animation="grow" variant="info" />
 }
 
 export default withRouter(ProtectedRoute)

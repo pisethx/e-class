@@ -157,6 +157,11 @@ export const CLASS_QUERY = gql`
           end_time
         }
       }
+      student_scores {
+        student_id
+        score
+        overall
+      }
     }
   }
 `
@@ -356,8 +361,8 @@ export const CLASS_CATEGORY_QUERY = gql`
   }
 `
 
-export const CLASS_ATTENDANCE_QUERY = gql`
-  query CLASS_ATTENDANCE_QUERY($id: ID!) {
+export const ATTENDANCE_IN_CLASS_QUERY = gql`
+  query ATTENDANCE_IN_CLASS_QUERY($id: ID!) {
     class(id: $id) {
       id
       class_attendances {
@@ -374,9 +379,36 @@ export const CLASS_ATTENDANCE_QUERY = gql`
           student {
             id
             identity {
+              id
               first_name
               last_name
             }
+          }
+        }
+      }
+    }
+  }
+`
+
+export const CLASS_ATTENDANCE_QUERY = gql`
+  query CLASS_ATTENDANCE_QUERY($id: ID!) {
+    classAttendance(id: $id) {
+      id
+      date
+      schedule_session {
+        id
+        start_time
+        end_time
+      }
+      student_attendances {
+        id
+        attendance_type
+        student {
+          id
+          identity {
+            id
+            first_name
+            last_name
           }
         }
       }
@@ -454,10 +486,10 @@ export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
     $schedule_session_id: Int!
     $id: Int!
     $date: Date!
-    $studentAttendances: [CreateStudentAttendanceInput!]
+    $student_attendances: [CreateStudentAttendanceInput!]
   ) {
     createClassAttendance(
-      input: { schedule_session_id: $schedule_session_id, class_id: $id, date: $date, student_attendances: $studentAttendances }
+      input: { schedule_session_id: $schedule_session_id, class_id: $id, date: $date, student_attendances: $student_attendances }
     ) {
       id
       schedule_session {
@@ -465,9 +497,11 @@ export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
       }
       date
       student_attendances {
+        id
         student {
           id
           identity {
+            id
             first_name
             last_name
           }
@@ -478,15 +512,19 @@ export const CREATE_CLASS_ATTENDANCE_MUTATION = gql`
 `
 
 export const UPDATE_CLASS_ATTENDANCE_MUTATION = gql`
-  mutation UPDATE_CLASS_ATTENDANCE_MUTATION($id: Int!, $studentAttendances: List!) {
-    createClassAttendance(input: { id: $id, student_attendances: $studentAttendances }) {
+  mutation UPDATE_CLASS_ATTENDANCE_MUTATION($id: ID!, $date: Date!, $student_attendances: [UpdateStudentAttendanceInput!]) {
+    updateClassAttendance(input: { id: $id, date: $date, student_attendances: $student_attendances }) {
       id
-      schedule_session_id
+      schedule_session {
+        id
+      }
       date
       student_attendances {
+        id
         student {
           id
           identity {
+            id
             first_name
             last_name
           }

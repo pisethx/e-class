@@ -19,15 +19,20 @@ const ClassExamShow = (props) => {
     },
   })
 
-  const answer = useQuery(STUDENT_EXAM_IDS_QUERY, {
+  const STUDENT_EXAM_ID_RES = useQuery(STUDENT_EXAM_IDS_QUERY, {
     variables: {
       exam_id: props.examId,
     },
   })
 
+  let studentExams = []
+  if (STUDENT_EXAM_ID_RES) {
+    studentExams = STUDENT_EXAM_ID_RES?.data?.studentExams
+  }
+
   const [success, setSuccess] = useState(null)
   const exam = data?.class?.class_categories.find((category) => category.id === props.categoryId)?.exams?.find((exam) => exam.id === props.examId)
-  if (answer) console.log(answer?.data)
+
   const { inputs, handleChange, resetForm } = useState(null)
   const [gradeExam, { loading, error }] = useMutation(GRADE_STUDENT_EXAM_MUTATION, {
     variables: {
@@ -42,6 +47,7 @@ const ClassExamShow = (props) => {
     } catch (e) {}
   }
 
+  console.log(studentExams)
   if (loading) return <p>Loading...</p>
 
   return (
@@ -69,7 +75,6 @@ const ClassExamShow = (props) => {
                       <Card
                         key={_id}
                         style={{
-                          boxShadow: '3px 5px 15px #1a1a1a',
                           padding: '.5rem',
                         }}
                       >

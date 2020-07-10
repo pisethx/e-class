@@ -26,7 +26,7 @@
   color: $body-color;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   list-style: none;
-  background-color: $dropdown-bg;
+  background-color: $black;
   background-clip: padding-box;
   border: $dropdown-border-width solid $dropdown-border-color;
   @include border-radius($dropdown-border-radius);
@@ -46,10 +46,6 @@
     bottom: 100%;
     margin-top: 0;
     margin-bottom: $dropdown-spacer;
-  }
-
-  .dropdown-toggle {
-    @include caret(up);
   }
 }
 
@@ -90,10 +86,10 @@
 // When enabled Popper.js, reset basic dropdown position
 // stylelint-disable no-duplicate-selectors
 .dropdown-menu {
-  &[x-placement^="top"],
-  &[x-placement^="right"],
-  &[x-placement^="bottom"],
-  &[x-placement^="left"] {
+  &[x-placement^='top'],
+  &[x-placement^='right'],
+  &[x-placement^='bottom'],
+  &[x-placement^='left'] {
     right: auto;
     bottom: auto;
   }
