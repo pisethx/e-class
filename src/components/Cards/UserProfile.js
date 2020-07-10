@@ -5,8 +5,8 @@ import ChangeEmail from 'components/Forms/ChangeEmail'
 import ChangePassword from '../Forms/ChangePassword'
 import { AuthContext } from 'contexts/auth'
 import EditProfile from 'components/Forms/EditProfile'
-import { NavLink } from 'react-router-dom';
-import role from '../../constants/data';
+import { NavLink } from 'react-router-dom'
+import role from '../../constants/data'
 
 const UserProfile = ({ user }) => {
   const authContext = useContext(AuthContext)
@@ -50,9 +50,15 @@ const UserProfile = ({ user }) => {
                       {user.id === authContext.user.id && <ChangeEmail oldEmail={user.email} />}
                     </Row>
                   </Col>
-                  {user.id === authContext.user.id && <>
-                    <Col xs="6">Password :</Col>
-                    <Col xs="6"> <ChangePassword /></Col></>}
+                  {user.id === authContext.user.id && (
+                    <>
+                      <Col xs="6">Password :</Col>
+                      <Col xs="6">
+                        {' '}
+                        <ChangePassword />
+                      </Col>
+                    </>
+                  )}
                   <Col xs="6">First Name :</Col>
                   <Col xs="6">{user.identity.first_name}</Col>
                   <Col xs="6">Last Name :</Col>
@@ -61,26 +67,48 @@ const UserProfile = ({ user }) => {
                   <Col xs="6">{user.identity.gender}</Col>
                   <Col xs="6">Phone :</Col>
                   <Col xs="6">{user.identity.contact_number}</Col>
-                  {user.roles[0].name === 'student' && <>
-                    <Col xs="6">Studying :</Col>
-                    <Col xs="6">
-                      {user.learnings.map(course => (
-                        <NavLink to={`/class/${course.id}`} className="text-bold">
-                          <b>{course.code}</b><br />
-                        </NavLink>
-                      ))}
-                    </Col>
-                  </>}
-                  {user.roles[0].name === 'teacher' && <>
-                    <Col xs="6">Lecturing :</Col>
-                    <Col xs="6">
-                      {user.teachings.map(course => (
-                        <NavLink to={`/class/${course.id}`} className="text-bold">
-                          <b>{course.code}</b><br />
-                        </NavLink>
-                      ))}
-                    </Col>
-                  </>}
+                  {user.roles[0].name === 'student' && (
+                    <>
+                      <Col xs="6">Studying :</Col>
+                      <Col xs="6">
+                        {user.learnings.map((course) => (
+                          <>
+                            {role.name === 'admin' ||
+                            authContext.user.learnings.find((c) => c.id === course.id) ||
+                            authContext.user.teachings.find((c) => c.id === course.id) ? (
+                              <NavLink to={`/class/${course.id}`} className="text-bold">
+                                <b>{course.code}</b>
+                              </NavLink>
+                            ) : (
+                              <b>{course.code}</b>
+                            )}
+                            <br />
+                          </>
+                        ))}
+                      </Col>
+                    </>
+                  )}
+                  {user.roles[0].name === 'teacher' && (
+                    <>
+                      <Col xs="6">Lecturing :</Col>
+                      <Col xs="6">
+                        {user.teachings.map((course) => (
+                          <>
+                            {role.name === 'admin' ||
+                            authContext.user.learnings.find((c) => c.id === course.id) ||
+                            authContext.user.teachings.find((c) => c.id === course.id) ? (
+                              <NavLink to={`/class/${course.id}`} className="text-bold">
+                                <b>{course.code}</b>
+                              </NavLink>
+                            ) : (
+                              <b>{course.code}</b>
+                            )}
+                            <br />
+                          </>
+                        ))}
+                      </Col>
+                    </>
+                  )}
                 </Row>
                 <Row>
                   <div className="ml-3"></div>

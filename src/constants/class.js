@@ -176,22 +176,12 @@ export const CLASSES_QUERY = gql`
       teacher {
         id
         identity {
+          id
           first_name
           last_name
           photo_url
         }
       }
-      # }
-      # paginatorInfo {
-      #   count
-      #   currentPage
-      #   hasMorePages
-      #   lastPage
-      #   total
-      #   perPage
-      #   lastItem
-      #   firstItem
-      # }
     }
   }
 `

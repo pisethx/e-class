@@ -30,9 +30,7 @@ const EditForum = (props) => {
       })
       props.refetch()
     } catch (e) {
-      setError({
-        message: e.message
-      })
+      setError(e)
     }
 
     setSuccess('Forum updated.')

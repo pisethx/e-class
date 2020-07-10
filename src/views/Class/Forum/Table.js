@@ -57,7 +57,8 @@ const ClassForumTable = (props) => {
                       path: `forum/${id}`,
                     }}
                     editBtn={{
-                      modal: <EditForum title={title} description={description} id={id} refetch={refetch}/>
+                      custom: true,
+                      modal: (author.id === authContext.user.id && <EditForum title={title} description={description} id={id} refetch={refetch}/>)
                     }}
                     refetch={refetch}
                     deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}
