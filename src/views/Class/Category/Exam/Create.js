@@ -36,15 +36,22 @@ const ClassCategoryExamCreate = (props) => {
   const [questionCount, setQuestionCount] = useState(1)
 
   const [form, setForm] = useState({
-    due_at: null,
-    publishes_at: null,
-    questions: new Array(1).fill({
-      question: 'a',
-      type: 'QCM',
-      answers: [],
-      possibles: ['1', '2', '3'],
-      points: 3,
-    }),
+    due_at: new Date(),
+    publishes_at: new Date(),
+    questions: new Array(1).fill(
+      {
+        question: 'a',
+        type: 'QCM',
+        answers: ['2'],
+        possibles: ['1', '2', '3'],
+        points: 3,
+      },
+      {
+        question: 'a',
+        type: 'Essay',
+        points: 3,
+      }
+    ),
   })
 
   const { inputs, handleChange, resetForm } = useForm({
@@ -69,7 +76,6 @@ const ClassCategoryExamCreate = (props) => {
   })
 
   if (loading) return <Spinner />
-  // if (error) return `Error! ${error}`
 
   const updateQuestion = (updatedQuestions) => {
     setForm((prevState) => ({
@@ -97,9 +103,14 @@ const ClassCategoryExamCreate = (props) => {
                     try {
                       form.questions = form.questions.map((q) => ({
                         ...q,
-                        answers: q.possibles.filter((_, i) => q.answers.includes(i)),
+                        answers: q.possible ? q.possibles.filter((_, i) => q.answers.includes(i)) : undefined,
                       }))
-
+                      console.log({
+                        class_category_id: props.categoryId,
+                        ...inputs,
+                        ...form,
+                        qa: form.questions,
+                      })
                       await createClassCategoryExam()
                       setSuccess('Success')
 
@@ -133,27 +144,6 @@ const ClassCategoryExamCreate = (props) => {
 
                     <Col md="12">
                       <FormGroup>
-                        <Label>Dues At</Label>
-
-                        <DatePicker
-                          selected={form.due_at}
-                          onChange={(date) => {
-                            setForm((prevState) => ({
-                              ...prevState,
-                              due_at: date,
-                            }))
-                          }}
-                          showTimeSelect
-                          timeFormat="hh:mm"
-                          timeIntervals={30}
-                          timeCaption="time"
-                          dateFormat="yyyy-mm-dd hh:mm:ss"
-                        />
-                      </FormGroup>
-                    </Col>
-
-                    <Col md="12">
-                      <FormGroup>
                         <Label>Publishes At</Label>
 
                         <DatePicker
@@ -161,14 +151,35 @@ const ClassCategoryExamCreate = (props) => {
                           onChange={(date) => {
                             setForm((prevState) => ({
                               ...prevState,
-                              publishes_at: date,
+                              publishes_at: moment(date).toDate(),
                             }))
                           }}
                           showTimeSelect
                           timeFormat="hh:mm"
                           timeIntervals={30}
                           timeCaption="time"
-                          dateFormat="yyyy-mm-dd hh:mm:ss"
+                          dateFormat="yyyy-MM-dd hh:mm:ss"
+                        />
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="12">
+                      <FormGroup>
+                        <Label>Dues At</Label>
+
+                        <DatePicker
+                          selected={form.due_at}
+                          onChange={(date) => {
+                            setForm((prevState) => ({
+                              ...prevState,
+                              due_at: moment(date).toDate(),
+                            }))
+                          }}
+                          showTimeSelect
+                          timeFormat="hh:mm"
+                          timeIntervals={30}
+                          timeCaption="time"
+                          dateFormat="yyyy-MM-dd hh:mm:ss"
                         />
                       </FormGroup>
                     </Col>
@@ -348,7 +359,7 @@ const ClassCategoryExamCreate = (props) => {
                             question: '',
                             type: null,
                             answers: [],
-                            possibles: [''],
+                            possibles: undefined,
                             points: null,
                           })
                           updateQuestion(updatedQuestions)

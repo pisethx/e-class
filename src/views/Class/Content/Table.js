@@ -6,21 +6,7 @@ import { CLASS_CONTENT_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 import PostCard from 'components/Cards/Post'
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Table,
-  Row,
-  Col,
-} from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 
 const ClassContentTable = (props) => {
   const { loading, error, data } = useQuery(CLASS_CONTENT_QUERY, {
@@ -48,12 +34,7 @@ const ClassContentTable = (props) => {
                 </CardHeader>
                 <CardBody style={{ padding: '1rem 2rem' }}>
                   {contents?.map(({ id, name, description, file_url }) => (
-                    <PostCard
-                      key={id}
-                      title={name}
-                      description={description}
-                      anchorBtn={{ name: 'View Content', path: file_url }}
-                    />
+                    <PostCard key={id} title={name} description={description} anchorBtn={{ name: 'View Content', path: file_url }} />
                   ))}
                 </CardBody>
               </Card>

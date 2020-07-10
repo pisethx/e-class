@@ -15,7 +15,6 @@ const setAuthContext = (context, data, refreshTokenGql) => {
   context.user = data.user
 
   role.name = context.user.roles[0].name
-  console.log(role)
 
   // console.log(context)
 

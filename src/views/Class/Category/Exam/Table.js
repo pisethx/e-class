@@ -7,6 +7,8 @@ import { NavLink } from 'react-router-dom'
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Row, Col } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
+import role from 'constants/data'
+import moment from 'moment'
 
 const ForumTable = (props) => {
   const { loading, error, data } = useQuery(CLASS_CATEGORIES_QUERY, {
@@ -27,11 +29,13 @@ const ForumTable = (props) => {
               <CardHeader className="d-flex justify-content-between">
                 <H3 className="title">Exam</H3>
 
-                <NavLink to={`exam/create`}>
-                  <Button className="animation-on-hover" color="primary">
-                    Create Exam
-                  </Button>
-                </NavLink>
+                {role?.name === 'teacher' && (
+                  <NavLink to={`exam/create`}>
+                    <Button className="animation-on-hover" color="primary">
+                      Create Exam
+                    </Button>
+                  </NavLink>
+                )}
               </CardHeader>
               <CardBody style={{ padding: '1rem 2rem' }}>
                 {exams?.map(({ id, name, attempts, description, due_at, publishes_at, questions }) => (
@@ -39,16 +43,20 @@ const ForumTable = (props) => {
                     key={id}
                     title={name}
                     info={`Attempts: ${attempts}`}
-                    date={publishes_at}
+                    date={`Due Date: ${due_at ? moment(due_at).format('YYYY-MM-DD') : 'Not Specified'}`}
                     description={description}
                     showBtn={{
                       name: `Take Exam`,
                       path: `exam/${id}`,
                     }}
-                    editBtn={{
-                      name: `Grade Exam`,
-                      path: `exam/${id}/grade`,
-                    }}
+                    editBtn={
+                      role?.name === 'teacher'
+                        ? {
+                            name: `Grade Exam`,
+                            path: `exam/${id}/grade`,
+                          }
+                        : undefined
+                    }
                   />
                 ))}
               </CardBody>

@@ -8,6 +8,7 @@ import { H3, IMG } from 'views/Styled/index'
 import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, Spinner } from 'reactstrap'
 import { from } from 'apollo-boost'
 import role from '../../../constants/data'
+import Loading from 'components/Loading'
 
 const ClassShow = (props) => {
   const roleName = role.name
@@ -17,7 +18,7 @@ const ClassShow = (props) => {
     },
   })
 
-  if (loading) return <Spinner />
+  if (loading) return <Loading />
   if (error) return `Error! ${error}`
 
   let eachClass = null
