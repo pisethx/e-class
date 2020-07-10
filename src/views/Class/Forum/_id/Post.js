@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import { FORUMS_IN_CLASS_QUERY, CREATE_COMMENT_MUTATION, MARK_COMMENT_AS_ANSWER_MUTATION } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
@@ -31,9 +31,14 @@ import {
   DropdownItem,
   DropdownMenu,
 } from 'reactstrap'
+import { UNMARK_COMMENT_AS_ANSWER_MUTATION } from 'constants/forum'
+import { DELETE_COMMENT_MUTATION } from 'constants/forum'
+import { AuthContext } from 'contexts/auth'
+import role from 'constants/data'
 
 const ClassForumPost = (props) => {
   const client = useApolloClient()
+  const authContext = useContext(AuthContext)
 
   const { data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
@@ -128,20 +133,40 @@ const ClassForumPost = (props) => {
                         onClick={async (e) => {
                           try {
                             await client.mutate({
-                              mutation: MARK_COMMENT_AS_ANSWER_MUTATION,
+                              mutation: _id !== answer?.id ? MARK_COMMENT_AS_ANSWER_MUTATION : UNMARK_COMMENT_AS_ANSWER_MUTATION,
                               variables: {
                                 id: props.forumId,
                                 commentId: _id,
                               },
                             })
+                            refetch()
                           } catch (e) {
                             console.log(e)
                           }
                         }}
                       >
-                        Mark as Correct
+                        {_id !== answer?.id ? `Mark as Correct` : `Unmark`}
                       </DropdownItem>
-                      <DropdownItem className="nav-item">Delete</DropdownItem>
+                      {(authContext.user.id === _author.id || role.name === 'teacher' || authContext.user.id === author.id) && (
+                        <DropdownItem
+                          className="nav-item"
+                          onClick={async (e) => {
+                            try {
+                              await client.mutate({
+                                mutation: DELETE_COMMENT_MUTATION,
+                                variables: {
+                                  id: _id,
+                                },
+                              })
+                              refetch()
+                            } catch (e) {
+                              console.log(e)
+                            }
+                          }}
+                        >
+                          Delete
+                        </DropdownItem>
+                      )}
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </Card>
