@@ -23,11 +23,10 @@ import {
   Label,
   Row,
   Col,
-  Spinner,
 } from 'reactstrap'
 import { H3 } from 'views/Styled'
 
-const CreateClassContent = (props) => {
+const EditClassContent = (props) => {
   const [success, setSuccess] = useState('')
   const { inputs, handleChange, resetForm } = useForm({
     name: '',
@@ -48,7 +47,7 @@ const CreateClassContent = (props) => {
     },
   })
 
-  if (loading) return <Spinner />
+  if (loading) return <p>Loading...</p>
   // if (error) return `Error! ${error}`
 
   const uploadFile = ({
@@ -151,4 +150,4 @@ const CreateClassContent = (props) => {
   )
 }
 
-export default CreateClassContent
+export default EditClassContent

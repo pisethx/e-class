@@ -71,6 +71,7 @@ const UserTable = (props) => {
                                 name={`${user.identity?.first_name} ${user.identity?.last_name}`}
                                 id={user.id}
                                 deleteMutation={DELETE_USER_MUTATION}
+                                refetch={fetchMore}
                               />
                             )}
                           </td>

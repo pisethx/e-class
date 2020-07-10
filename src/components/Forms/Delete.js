@@ -1,5 +1,5 @@
-import React, { useState} from 'react'
-import {Row, Button, ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap'
+import React, { useState } from 'react'
+import { Row, Button, ModalHeader, ModalBody, ModalFooter, Modal, Card } from 'reactstrap'
 import { useApolloClient } from 'react-apollo'
 import Error from '../../views/shared/ErrorMessage'
 
@@ -15,15 +15,14 @@ const Delete = (props) => {
       await client.mutate({
         mutation: props.deleteMutation,
         variables: { id: props.id },
-        refetchQueries: true,
       })
+      props.refetch()
     } catch (e) {
       setError('Something went wrong')
       console.log(e)
     }
 
     setModalShow(false)
-    window.location.reload(false)
   }
 
   return (
@@ -32,21 +31,23 @@ const Delete = (props) => {
         Delete
       </Button>
       <Modal isOpen={modalShow} backdrop={true} toggle={() => setModalShow((prev) => !prev)} contentClassName="bg-dark text-light">
-        <Row>
-          <Error error={error} />
-        </Row>
-        <ModalHeader toggle={() => setModalShow(false)}>
-          <span className="text-light">Confirmation</span>
-        </ModalHeader>
-        <ModalBody>Do you really want to delete {props.name}?</ModalBody>
-        <ModalFooter>
-          <Button className="mr-3 my-1 animation-on-hover" color="danger" onClick={onDelete}>
-            Delete
-          </Button>
-          <Button color="secondary" onClick={() => setModalShow(false)}>
-            Cancel
-          </Button>
-        </ModalFooter>
+        <Card className="m-0">
+          <Row>
+            <Error error={error} />
+          </Row>
+          <ModalHeader toggle={() => setModalShow(false)}>
+            <span className="text-light">Confirmation</span>
+          </ModalHeader>
+          <ModalBody>Do you really want to delete {props.name}?</ModalBody>
+          <ModalFooter>
+            <Button className="mr-3 my-1 animation-on-hover" color="danger" onClick={onDelete}>
+              Delete
+            </Button>
+            <Button color="secondary" onClick={() => setModalShow(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Card>
       </Modal>
     </span>
   )
