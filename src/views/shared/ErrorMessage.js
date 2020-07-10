@@ -21,15 +21,16 @@ const ErrorStyles = styled.div`
 const DisplayError = ({ error = null }) => {
   if (!error) return null
   const errorMsg = error?.graphQLErrors[0]?.debugMessage
-  return (
-    <>
-      {errorMsg && (
-        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-          {errorMsg}
-        </Alert>
-      )}
-    </>
-  )
+  if (errorMsg)
+    return (
+      <>
+        {errorMsg && (
+          <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+            {errorMsg}
+          </Alert>
+        )}
+      </>
+    )
 
   if (error.message) {
     return (

@@ -120,10 +120,6 @@ const CreateClass = (props) => {
                     } catch (err) {
                       console.log(err)
                     }
-
-                    setIsButtonDisabled(false)
-
-                    // props.history.goBack()
                   }}
                 >
                   <Row className="p-3">

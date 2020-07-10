@@ -8,6 +8,7 @@ import ClassTable from 'components/Table/Class'
 
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Spinner, Row, Col } from 'reactstrap'
+import Loading from 'components/Loading'
 
 const ClassDashboard = (props) => {
   const authContext = useAuthContext()
@@ -18,7 +19,7 @@ const ClassDashboard = (props) => {
     },
   })
 
-  if (loading) return <Spinner />
+  if (loading) return <Loading />
   if (error) return `Error! ${error}`
 
   const { classes } = data

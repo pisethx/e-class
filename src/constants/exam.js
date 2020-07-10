@@ -7,6 +7,8 @@ export const CREATE_EXAM_MUTATION = gql`
     $description: String!
     $attempts: Int!
     $qa: [CreateQuestionInput!]
+    $publishes_at: String!
+    $due_at: String!
   ) {
     createExam(
       input: {
@@ -15,6 +17,8 @@ export const CREATE_EXAM_MUTATION = gql`
         description: $description
         attempts: $attempts
         qa: $qa
+        due_at: $due_at
+        publishes_at: $publishes_at
       }
     ) {
       id
@@ -30,9 +34,7 @@ export const CREATE_EXAM_MUTATION = gql`
 `
 
 export const MY_EXAMS_IN_CLASS_QUERY = gql`
-  query MY_EXAMS_IN_CLASS_QUERY(
-    $class_id: ID!
-  ) {
+  query MY_EXAMS_IN_CLASS_QUERY($class_id: ID!) {
     myExamsInClass(class_id: $class_id) {
       id
       answer {
@@ -46,14 +48,12 @@ export const MY_EXAMS_IN_CLASS_QUERY = gql`
       points
       attempts
       created_at
-   }
+    }
   }
 `
 
 export const STUDENT_EXAM_QUERY = gql`
-  query STUDENT_EXAM_QUERY(
-    $id: ID!
-  ) {
+  query STUDENT_EXAM_QUERY($id: ID!) {
     studentExam(id: $id) {
       id
       answer {
@@ -67,6 +67,6 @@ export const STUDENT_EXAM_QUERY = gql`
       points
       attempts
       created_at
-   }
+    }
   }
 `

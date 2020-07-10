@@ -11,13 +11,14 @@ import { AuthContext } from 'contexts/auth'
 import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col, Spinner } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
 import { DELETE_USER_MUTATION } from 'constants/user'
+import Loading from 'components/Loading'
 
 const UserTable = (props) => {
   const { loading, error, data, fetchMore } = useQuery(USERS_QUERY)
   const authContext = useContext(AuthContext)
   const client = useApolloClient()
 
-  if (loading) return <Spinner />
+  if (loading) return <Loading />
   if (error) return `Error! ${error}`
 
   const users = data?.users

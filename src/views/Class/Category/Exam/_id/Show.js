@@ -45,7 +45,6 @@ const ClassExamShow = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      console.log(form)
       await submitExam()
       setSuccess('Success')
     } catch (e) {}
@@ -65,12 +64,6 @@ const ClassExamShow = (props) => {
             <Card>
               <CardHeader className="d-flex justify-content-between">
                 <H3 className="title">Exam</H3>
-
-                {/* <NavLink to={`create`}>
-                  <Button className="animation-on-hover" color="primary">
-                    Create Exam
-                  </Button>
-                </NavLink> */}
               </CardHeader>
               <Error error={error} />
               <Success success={success} />

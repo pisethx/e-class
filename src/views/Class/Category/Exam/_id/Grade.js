@@ -6,7 +6,7 @@ import { GRADE_STUDENT_EXAM_MUTATION } from 'constants/grade'
 import { NavLink } from 'react-router-dom'
 import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
-
+import moment from 'moment'
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CardFooter, Spinner } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
@@ -68,7 +68,7 @@ const ClassExamShow = (props) => {
                       key={exam.id}
                       title={exam.name}
                       info={`Attempts: ${exam.attempts}`}
-                      date={exam.publishes_at}
+                      date={`Due Date: ${exam.due_at ? moment(exam.due_at).format('YYYY-MM-DD') : 'Not Specified'}`}
                       description={exam.description}
                     />
                     {exam.qa.map(({ id: _id, question, answers, possibles, points, type }, i) => (
