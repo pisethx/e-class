@@ -1,17 +1,16 @@
 import React, { useState, createRef, useRef, forwardRef, useContext } from 'react'
 
-import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label } from 'reactstrap'
+import { Button, Badge, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label } from 'reactstrap'
 import ChangeEmail from 'components/Forms/ChangeEmail'
 import ChangePassword from '../Forms/ChangePassword'
 import { AuthContext } from 'contexts/auth'
 import EditProfile from 'components/Forms/EditProfile'
 import { NavLink } from 'react-router-dom'
 
-const PostCard = ({ title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
+const PostCard = ({ title, info, date, badge, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
   return (
     <Card
       style={{
-        boxShadow: '3px 5px 10px #1a1a1a55',
         padding: '.5rem',
       }}
     >
@@ -20,6 +19,13 @@ const PostCard = ({ title, info, date, description, anchorBtn, showBtn, editBtn,
         <CardFooter style={{ fontWeight: 'bold' }}>
           {info}
           <span className="ml-2">( {date} )</span>
+          {badge && (
+            <div>
+              <Badge color="primary" pill>
+                {badge}
+              </Badge>
+            </div>
+          )}
         </CardFooter>
       )}
 

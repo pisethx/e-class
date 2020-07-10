@@ -45,7 +45,6 @@ const ClassExamShow = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      console.log(form)
       await submitExam()
       setSuccess('Success')
     } catch (e) {}
@@ -88,7 +87,6 @@ const ClassExamShow = (props) => {
                       <Card
                         key={_id}
                         style={{
-                          boxShadow: '3px 5px 15px #1a1a1a',
                           padding: '.5rem',
                         }}
                       >
@@ -108,8 +106,8 @@ const ClassExamShow = (props) => {
                                       type="checkbox"
                                       onChange={(e) => {
                                         let updatedState = form
-                                        updatedState[i].answers = updatedState[i].answers.filter((ans) => ans !== j)
-                                        if (e.target.checked) updatedState[i].answers.push(j)
+                                        updatedState[i].answers = updatedState[i].answers.filter((ans) => ans !== possible)
+                                        if (e.target.checked) updatedState[i].answers.push(possible)
 
                                         setForm(updatedState)
                                       }}
