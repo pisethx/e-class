@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom'
 import EditProfile from '../../components/Forms/EditProfile'
 // reactstrap components
 import { AuthContext } from 'contexts/auth'
-import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col, Spinner } from 'reactstrap'
 import Delete from 'components/Forms/Delete'
 import { DELETE_USER_MUTATION } from 'constants/user'
 
@@ -17,7 +17,7 @@ const UserTable = (props) => {
   const authContext = useContext(AuthContext)
   const client = useApolloClient()
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   const users = data?.users

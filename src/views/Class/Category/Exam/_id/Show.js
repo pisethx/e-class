@@ -8,7 +8,7 @@ import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CardFooter } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CardFooter, Spinner } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
 import { STUDENT_EXAM_QUERY } from 'constants/exam'
 
@@ -40,7 +40,7 @@ const ClassExamShow = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
 
   const onSubmit = async (e) => {
     e.preventDefault()

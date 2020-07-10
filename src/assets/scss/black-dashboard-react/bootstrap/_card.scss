@@ -38,6 +38,10 @@
   padding: $card-spacer-x;
 }
 
+.card-success {
+  background-color: $success-opacity !important;
+}
+
 .card-title {
   margin-bottom: $card-spacer-y;
 }

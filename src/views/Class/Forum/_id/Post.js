@@ -1,6 +1,6 @@
 import React from 'react'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { FORUMS_IN_CLASS_QUERY, CREATE_COMMENT_MUTATION } from 'constants/forum'
+import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
+import { FORUMS_IN_CLASS_QUERY, CREATE_COMMENT_MUTATION, MARK_COMMENT_AS_ANSWER_MUTATION } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
 import { H3, IMG } from 'views/Styled/index'
 import useForm from 'lib/useForm'
@@ -8,11 +8,33 @@ import PostCard from 'components/Cards/Post'
 
 import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
+import Loading from 'components/Loading'
 
 // reactstrap components
-import { Button, Spinner, Card, CardHeader, CardBody, CardText, Label, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
+import {
+  Button,
+  Card,
+  Spinner,
+  CardHeader,
+  CardBody,
+  CardText,
+  Label,
+  FormGroup,
+  Form,
+  Input,
+  Table,
+  Row,
+  Col,
+  Nav,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu,
+} from 'reactstrap'
 
 const ClassForumPost = (props) => {
+  const client = useApolloClient()
+
   const { data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props.id,
@@ -30,13 +52,18 @@ const ClassForumPost = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   let forums = {}
   if (data) forums = data?.forumsInClass?.find(({ id }) => id === props.forumId)
 
-  const { id, title, author, created_at, description, comments } = forums
+  let { id, title, author, created_at, description, comments, answer } = forums
+  if (forums && answer) {
+    const correct = comments.find((c) => c.id === answer.id)
+    comments = comments.filter((c) => c.id !== correct.id)
+    comments.unshift(correct)
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -74,9 +101,8 @@ const ClassForumPost = (props) => {
                   </Form>
                 </CardBody>
               </Card>
-              {comments?.map(({ comment, author: _author, created_at }, j) => (
-                <Card key={j} style={{ padding: '1rem', paddingLeft: '4rem', position: 'relative' }}>
-                  <i className="fa fa-check fa-2x p-6" style={{ position: 'absolute', left: '5%', top: '50%', transform: 'translateY(-50%)' }}></i>
+              {comments?.map(({ id: _id, comment, author: _author, created_at }, j) => (
+                <Card key={j} style={{ padding: '.6rem', position: 'relative' }} className={_id === answer.id ? 'card-success' : ''}>
                   <CardHeader>
                     <IMG src={_author.identity.photo_url}></IMG>
                     {/* <NavLink to={`/users/${_author.id}`}> */}
@@ -90,13 +116,41 @@ const ClassForumPost = (props) => {
                   <CardBody>
                     <CardText>{comment}</CardText>
                   </CardBody>
+                  <UncontrolledDropdown style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                    <DropdownToggle color="default" data-toggle="dropdown" nav onClick={(e) => e.preventDefault()}>
+                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                    </DropdownToggle>
+                    <DropdownMenu className="dropdown-navbar" right>
+                      <DropdownItem
+                        className="nav-item"
+                        onClick={async (e) => {
+                          try {
+                            await client.mutate({
+                              mutation: MARK_COMMENT_AS_ANSWER_MUTATION,
+                              variables: {
+                                id: props.forumId,
+                                commentId: _id,
+                              },
+                            })
+                          } catch (e) {
+                            console.log(e)
+                          }
+                        }}
+                      >
+                        Mark as Correct
+                      </DropdownItem>
+                      <DropdownItem className="nav-item">Delete</DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
                 </Card>
               ))}
             </Col>
           </Row>
         </div>
       ) : (
-        <Spinner animation="grow" variant="info" />
+        <Loading />
       )}
     </>
   )

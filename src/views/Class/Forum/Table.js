@@ -5,22 +5,22 @@ import { FORUMS_IN_CLASS_QUERY } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col, Spinner } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
 import Delete from 'components/Forms/Delete'
-import { DELETE_FORUM_MUTATION } from '../../../constants/forum';
-import { AuthContext } from 'contexts/auth';
-import role from '../../../constants/data';
+import { DELETE_FORUM_MUTATION } from '../../../constants/forum'
+import { AuthContext } from 'contexts/auth'
+import role from '../../../constants/data'
 
 const ClassForumTable = (props) => {
-  const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext)
   const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props?.id,
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   const forums = data?.forumsInClass

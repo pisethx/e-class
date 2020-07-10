@@ -58,9 +58,7 @@ const App = () => {
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-            )
+            console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
           )
         if (networkError) console.log(`[Network error]: ${networkError}`)
       }),
@@ -70,6 +68,9 @@ const App = () => {
         credentials: 'same-origin',
       }),
     ]),
+    fetchOptions: {
+      mode: 'no-cors',
+    },
     cache: new InMemoryCache(),
   })
 

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { H3, IMG } from 'views/Styled/index'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col } from 'reactstrap'
+import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, Spinner } from 'reactstrap'
 import { from } from 'apollo-boost'
 import role from '../../../constants/data'
 
@@ -17,12 +17,20 @@ const ClassShow = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   let eachClass = null
   if (data) eachClass = data.class
-
+  eachClass = {
+    ...eachClass,
+    students: eachClass.students.map((std) => ({
+      ...std,
+      score: `${eachClass.student_scores.find((score) => score.student_id === std.id).score} / ${
+        eachClass.student_scores.find((score) => score.student_id === std.id).overall
+      }`,
+    })),
+  }
   return (
     <div className="content">
       {data && eachClass && (
@@ -109,7 +117,7 @@ const ClassShow = (props) => {
                           <NavLink style={{ fontWeight: 'bold' }} to={`/user/${student.id}`}>
                             {`${student.identity.first_name} ${student.identity.last_name}`}
                           </NavLink>
-                          <span className="mx-3">{student.student_scores.find((score) => score.student_id === student.id).overall}</span>
+                          <span className="ml-6">{student.score}</span>
                         </Row>
                       ))}
                     </Col>

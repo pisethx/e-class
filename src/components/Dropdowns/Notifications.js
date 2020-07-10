@@ -9,9 +9,7 @@ import { DropdownToggle, DropdownMenu, DropdownItem, NavLink, Spinner, CardText,
 const Notifications = () => {
   const authContext = useContext(AuthContext)
   const { data, loading, error } = useQuery(MY_NOTIFICATIONS_QUERY)
-  console.log(data)
 
-  if (loading) return <Spinner />
   if (error) return <p>Error</p>
 
   return (

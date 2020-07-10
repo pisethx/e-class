@@ -22,7 +22,7 @@ const UserEdit = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return console.log(error)
 
   if (data) {
@@ -60,53 +60,25 @@ const UserEdit = (props) => {
                       <Col md="12">
                         <FormGroup>
                           <Label>Username</Label>
-                          <Input
-                            placeholder="Username"
-                            type="text"
-                            name="username"
-                            value={inputs.username}
-                            onChange={handleChange}
-                            required
-                          />
+                          <Input placeholder="Username" type="text" name="username" value={inputs.username} onChange={handleChange} required />
                         </FormGroup>
                       </Col>
                       <Col md="12">
                         <FormGroup>
                           <Label>Email</Label>
-                          <Input
-                            placeholder="email"
-                            type="email"
-                            name="email"
-                            value={inputs.email}
-                            onChange={handleChange}
-                            required
-                          />
+                          <Input placeholder="email" type="email" name="email" value={inputs.email} onChange={handleChange} required />
                         </FormGroup>
                       </Col>
                       <Col md="12">
                         <FormGroup>
                           <Label>UUID</Label>
-                          <Input
-                            placeholder="uuid"
-                            type="text"
-                            name="uuid"
-                            value={inputs.uuid}
-                            onChange={handleChange}
-                            required
-                          />
+                          <Input placeholder="uuid" type="text" name="uuid" value={inputs.uuid} onChange={handleChange} required />
                         </FormGroup>
                       </Col>
                       <Col md="12">
                         <FormGroup>
                           <Label>Password</Label>
-                          <Input
-                            placeholder="password"
-                            type="password"
-                            name="password"
-                            value={inputs.password}
-                            onChange={handleChange}
-                            required
-                          />
+                          <Input placeholder="password" type="password" name="password" value={inputs.password} onChange={handleChange} required />
                         </FormGroup>
                       </Col>
                     </Row>

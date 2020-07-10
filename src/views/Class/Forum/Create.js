@@ -25,6 +25,7 @@ import {
   Label,
   Row,
   Col,
+  Spinner,
 } from 'reactstrap'
 
 const CreateClassForum = (props) => {
@@ -48,28 +49,23 @@ const CreateClassForum = (props) => {
   let classContents = []
   if (CLASS_CONTENT_RES?.data) {
     console.log(CLASS_CONTENT_RES)
-    classContents = (CLASS_CONTENT_RES?.data?.class?.class_contents).map(
-      ({ name, id }) => ({
-        value: id,
-        label: name,
-      })
-    )
+    classContents = (CLASS_CONTENT_RES?.data?.class?.class_contents).map(({ name, id }) => ({
+      value: id,
+      label: name,
+    }))
   }
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [createClassForum, { error, loading }] = useMutation(
-    CREATE_FORUM_MUTATION,
-    {
-      variables: {
-        ...inputs,
-        classId: props.id,
-        classContentId: form?.classContentId?.value,
-      },
-    }
-  )
+  const [createClassForum, { error, loading }] = useMutation(CREATE_FORUM_MUTATION, {
+    variables: {
+      ...inputs,
+      classId: props.id,
+      classContentId: form?.classContentId?.value,
+    },
+  })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   if (error) return `Error! ${error}`
 
   return (
@@ -103,14 +99,7 @@ const CreateClassForum = (props) => {
                   <Col md="12">
                     <FormGroup>
                       <Label>Title</Label>
-                      <Input
-                        placeholder="Title"
-                        type="text"
-                        name="title"
-                        value={inputs.title}
-                        onChange={handleChange}
-                        required
-                      />
+                      <Input placeholder="Title" type="text" name="title" value={inputs.title} onChange={handleChange} required />
                     </FormGroup>
                   </Col>
 
@@ -135,24 +124,12 @@ const CreateClassForum = (props) => {
                   <Col md="12">
                     <FormGroup>
                       <Label>Description</Label>
-                      <Input
-                        placeholder="Description"
-                        type="text"
-                        name="description"
-                        value={inputs.description}
-                        onChange={handleChange}
-                        required
-                      />
+                      <Input placeholder="Description" type="text" name="description" value={inputs.description} onChange={handleChange} required />
                     </FormGroup>
                   </Col>
 
                   <Col md="12" className="mt-1">
-                    <Button
-                      type="submit"
-                      className="btn-fill"
-                      color="primary"
-                      disabled={isButtonDisabled}
-                    >
+                    <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                       Post
                     </Button>
                   </Col>
