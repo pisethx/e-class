@@ -12,6 +12,7 @@ const ClassContentShow = (props) => {
       id: props.contentId,
     },
   })
+
   if (loading) return <p>Loading...</p>
   if (error) return console.log(error)
 

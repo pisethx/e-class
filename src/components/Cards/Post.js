@@ -1,11 +1,10 @@
 import React, { useState, createRef, useRef, forwardRef, useContext } from 'react'
 
-import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label } from 'reactstrap'
+import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label, Badge } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import Delete from 'components/Forms/Delete'
-import { DELETE_FORUM_MUTATION } from 'constants/forum'
 
-const PostCard = ({ id, refetch, deleteMutation, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
+const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
   console.log(id)
 
   return (

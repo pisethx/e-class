@@ -137,6 +137,18 @@ const AllRoutes = (props) => {
           ></ProtectedRoute>
           <ProtectedRoute
             exact={true}
+            {...props}
+            path="/class/:id/content/:contentId/edit"
+            render={(props) => (
+              <>
+                <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
+                  <ClassContentShow {...props} id={props.match.params.id} contentId={props.match.params.contentId} />
+                </AdminLayout>
+              </>
+            )}
+          ></ProtectedRoute>
+          <ProtectedRoute
+            exact={true}
             path="/class/:id/category"
             {...props}
             render={(props) => (

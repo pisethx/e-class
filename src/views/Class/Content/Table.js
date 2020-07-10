@@ -46,6 +46,7 @@ const ClassContentTable = (props) => {
                             deleteMutation={DELETE_CLASS_CONTENT_MUTATION}
                             title={name}
                             deleteBtn={role.name === 'teacher'}
+                            editBtn={{ name: 'Edit', path: `content/${id}/edit` }}
                             showBtn={{ name: 'Show', path: `content/${id}` }}
                           />
                         </Col>

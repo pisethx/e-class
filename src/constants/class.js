@@ -437,7 +437,7 @@ export const UPDATE_CLASS_CATEGORY_MUTATION = gql`
 `
 
 export const DELETE_CLASS_CATEGORY_MUTATION = gql`
-  mutation DELETE_CLASS_CATEGORY_MUTATION($id: Int!) {
+  mutation DELETE_CLASS_CATEGORY_MUTATION($id: ID!) {
     deleteClassCategory(id: $id) {
       id
       name

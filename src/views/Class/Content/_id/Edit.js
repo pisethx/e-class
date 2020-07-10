@@ -1,33 +1,65 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
-import { USER_QUERY, UPDATE_USER_QUERY } from 'constants/user'
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/react-hooks'
 import useForm from 'lib/useForm'
+import { CREATE_CLASS_CONTENT_MUTATION } from 'constants/class'
+import Error from 'views/shared/ErrorMessage'
+import Success from 'views/shared/SuccessMessage'
+import { Editor } from '@tinymce/tinymce-react'
 
-const UserEdit = (props) => {
-  const client = useApolloClient()
+// reactstrap components
+import {
+  Alert,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardText,
+  FormGroup,
+  FormFeedback,
+  FormText,
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+} from 'reactstrap'
+import { H3 } from 'views/Styled'
 
-  const [form, setForm] = useForm({})
-  const { inputs, handleChange, resetForm } = useForm(form)
-
-  const { loading, error, data } = useQuery(USER_QUERY, {
-    variables: {
-      id: props.id,
-    },
+const EditClassContent = (props) => {
+  const [success, setSuccess] = useState('')
+  const { inputs, handleChange, resetForm } = useForm({
+    name: '',
+    description: '',
+    file: null,
   })
 
-  const [updateUser] = useMutation(UPDATE_USER_QUERY, {
+  const [file, setFile] = useState(null)
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+  const [uploadedFile, setUploadedFile] = useState(false)
+
+  const [createClassContent, { error, loading }] = useMutation(CREATE_CLASS_CONTENT_MUTATION, {
     variables: {
-      id: props.id,
-      ...form,
+      ...inputs,
+      classId: props.id,
+      file: file,
     },
   })
 
   if (loading) return <p>Loading...</p>
-  if (error) return console.log(error)
+  // if (error) return `Error! ${error}`
 
-  if (data) {
-    setForm(data?.user)
+  const uploadFile = ({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) => {
+    setFile(file)
+    setUploadedFile(true)
   }
+
   return (
     <>
       <div className="content">
@@ -35,83 +67,80 @@ const UserEdit = (props) => {
           <Col md="12">
             <Card>
               <CardHeader>
-                <H3 className="title">Edit Class</H3>
+                <H3 className="title">Create Class Content</H3>
               </CardHeader>
               <Error error={error} />
               <Success success={success} />
               <CardBody>
-                {Object.values(form) && (
-                  <Form
-                    onSubmit={async (e) => {
-                      e.preventDefault()
-                      setIsButtonDisabled(true)
-                      // setValidation(true)
-                      try {
-                        const { data } = await updateUser(form)
-                        setSuccess('Success')
-                      } catch (err) {
-                        console.log(err)
-                      }
+                <Form
+                  onSubmit={async (e) => {
+                    e.preventDefault()
+                    setIsButtonDisabled(true)
+                    // setValidation(true)
+                    try {
+                      await createClassContent(inputs)
+                      setSuccess('Success')
+                      resetForm()
+                      props.history.push(`/class/${props.id}/content`)
+                    } catch (err) {
+                      setUploadedFile(false)
+                    }
 
-                      setIsButtonDisabled(false)
-                    }}
-                  >
-                    <Row className="p-3">
-                      <Col md="12">
-                        <FormGroup>
-                          <Label>Username</Label>
-                          <Input
-                            placeholder="Username"
-                            type="text"
-                            name="username"
-                            value={inputs.username}
-                            onChange={handleChange}
-                            required
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col md="12">
-                        <FormGroup>
-                          <Label>Email</Label>
-                          <Input
-                            placeholder="email"
-                            type="email"
-                            name="email"
-                            value={inputs.email}
-                            onChange={handleChange}
-                            required
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col md="12">
-                        <FormGroup>
-                          <Label>UUID</Label>
-                          <Input
-                            placeholder="uuid"
-                            type="text"
-                            name="uuid"
-                            value={inputs.uuid}
-                            onChange={handleChange}
-                            required
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col md="12">
-                        <FormGroup>
-                          <Label>Password</Label>
-                          <Input
-                            placeholder="password"
-                            type="password"
-                            name="password"
-                            value={inputs.password}
-                            onChange={handleChange}
-                            required
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
-                )}
+                    setIsButtonDisabled(false)
+
+                    // props.history.goBack()
+                  }}
+                >
+                  <Row className="p-3">
+                    <Col md="12">
+                      <FormGroup>
+                        <Label>Name</Label>
+                        <Input placeholder="Name" type="text" name="name" value={inputs.name} onChange={handleChange} required />
+                      </FormGroup>
+                    </Col>
+                    <Col md="12">
+                      {/* <FormGroup>
+                        <Label>Description</Label>
+                        <Input placeholder="Description" type="text" name="description" value={inputs.description} onChange={handleChange} required />
+                      </FormGroup> */}
+                      <Editor
+                        initialValue={inputs.description}
+                        init={{
+                          height: 500,
+                          menubar: false,
+                          plugins: [
+                            'advlist autolink lists link image charmap print preview anchor',
+                            'searchreplace visualblocks code fullscreen',
+                            'insertdatetime media table paste code help wordcount',
+                          ],
+                          toolbar: `undo redo | formatselect | bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist outdent indent | removeformat | help`,
+                        }}
+                        onEditorChange={(val) => {
+                          inputs.description = val
+                        }}
+                      />
+                    </Col>
+
+                    <Col md="12">
+                      <FormGroup>
+                        {/* <Label>File</Label> */}
+                        <Input placeholder="File" type="file" name="file" onChange={uploadFile} required />
+
+                        <Button className="btn-simple" color={uploadedFile ? 'success' : 'warning'}>
+                          Upload File{uploadedFile ? ' Successfully' : ''}
+                        </Button>
+                      </FormGroup>
+                    </Col>
+
+                    <Col md="12" className="mt-1">
+                      <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
+                        Create Content
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
               </CardBody>
             </Card>
           </Col>
@@ -121,4 +150,4 @@ const UserEdit = (props) => {
   )
 }
 
-export default UserEdit
+export default EditClassContent
