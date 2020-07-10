@@ -7,8 +7,10 @@ import { H3, IMG } from 'views/Styled/index'
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col } from 'reactstrap'
 import { from } from 'apollo-boost'
+import role from '../../../constants/data';
 
 const ClassShow = (props) => {
+  const roleName = role.name;
   const { loading, error, data } = useQuery(CLASS_QUERY, {
     variables: {
       id: props.id,
@@ -68,7 +70,7 @@ const ClassShow = (props) => {
                         </span>
                       ))}
                     </Col>
-                    <Col col="12" className="my-3">
+                    {roleName !== 'admin' && <Col col="12" className="my-3">
                       <NavLink to={`/class/${props.id}/content`}>
                         <Button className="btn-simple m-2" color="success">
                           Contents
@@ -94,7 +96,7 @@ const ClassShow = (props) => {
                           Schedule
                         </Button>
                       </NavLink> */}
-                    </Col>
+                    </Col>}
                     <hr />
                     <Col xs="12">List of Students :</Col>
                     <Col xs="12" className="mt-2 pa-2">
@@ -102,7 +104,12 @@ const ClassShow = (props) => {
                         <Row className="mx-2 my-3" key={student.id}>
                           <IMG alt="..." src={student.identity.photo_url} />
                           <span className="mx-3">{student.id}</span>
-                          <p>{`${student.identity.first_name} ${student.identity.last_name}`}</p>
+                          <NavLink
+                            style={{ fontWeight: 'bold' }}
+                            to={`/user/${student.id}`}
+                          >
+                            {`${student.identity.first_name} ${student.identity.last_name}`}
+                          </NavLink>
                         </Row>
                       ))}
                     </Col>

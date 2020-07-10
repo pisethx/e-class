@@ -6,8 +6,10 @@ import ChangePassword from '../Forms/ChangePassword'
 import { AuthContext } from 'contexts/auth'
 import EditProfile from 'components/Forms/EditProfile'
 import { NavLink } from 'react-router-dom'
+import Delete from 'components/Forms/Delete'
+import { DELETE_FORUM_MUTATION } from 'constants/forum'
 
-const PostCard = ({ title, info, date, badge, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
+const PostCard = ({ id, title, info, date, badge, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
   return (
     <Card
       style={{
@@ -52,13 +54,7 @@ const PostCard = ({ title, info, date, badge, description, anchorBtn, showBtn, e
             </Button>
           </NavLink>
         )}
-        {deleteBtn && (
-          <NavLink to={deleteBtn.path}>
-            <Button size="sm" className="mr-3 my-1 animation-on-hover " color="danger">
-              {deleteBtn.name}
-            </Button>
-          </NavLink>
-        )}
+        {deleteBtn && <Delete name={title} id={id} deleteMutation={DELETE_FORUM_MUTATION} />}
       </CardBody>
     </Card>
   )

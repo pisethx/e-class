@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { H3 } from 'views/Styled/index'
 import { FORUMS_IN_CLASS_QUERY } from 'constants/forum'
@@ -7,8 +7,13 @@ import { NavLink } from 'react-router-dom'
 // reactstrap components
 import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
+import Delete from 'components/Forms/Delete'
+import { DELETE_FORUM_MUTATION } from '../../../constants/forum';
+import { AuthContext } from 'contexts/auth';
+import role from '../../../constants/data';
 
 const ClassForumTable = (props) => {
+  const authContext = useContext(AuthContext);
   const { loading, error, data } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
       classId: props?.id,
@@ -40,6 +45,7 @@ const ClassForumTable = (props) => {
                   <PostCard
                     key={id}
                     title={title}
+                    id={id}
                     info={`${author.identity.first_name} ${author.identity.last_name}@${author.username}`}
                     date={created_at}
                     description={description}
@@ -52,10 +58,7 @@ const ClassForumTable = (props) => {
                       name: 'Edit',
                       path: `forum/${id}`,
                     }}
-                    deleteBtn={{
-                      name: 'Delete',
-                      path: `forum/${id}`,
-                    }}
+                    deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}
                   />
                 ))}
               </CardBody>

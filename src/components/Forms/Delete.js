@@ -1,8 +1,7 @@
-import React, { useState, useRef, useContext } from 'react'
-import { Form, Col, FormGroup, Label, Input, Row, Button, ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap'
-import CustomModal from '../Modals/CustomModal'
+import React, { useState} from 'react'
+import {Row, Button, ModalHeader, ModalBody, ModalFooter, Modal } from 'reactstrap'
 import { useApolloClient } from 'react-apollo'
-import Error from 'views/shared/ErrorMessage'
+import Error from '../../views/shared/ErrorMessage'
 
 const Delete = (props) => {
   const [modalShow, setModalShow] = useState(false)
@@ -32,11 +31,13 @@ const Delete = (props) => {
       <Button className="mr-3 my-1 animation-on-hover" color="danger" size="sm" onClick={() => setModalShow(true)}>
         Delete
       </Button>
-      <Modal isOpen={modalShow} backdrop={false} toggle={() => setModalShow((prev) => !prev)}>
+      <Modal isOpen={modalShow} backdrop={true} toggle={() => setModalShow((prev) => !prev)} contentClassName="bg-dark text-light">
         <Row>
           <Error error={error} />
         </Row>
-        <ModalHeader toggle={() => setModalShow(false)}>Confirmation</ModalHeader>
+        <ModalHeader toggle={() => setModalShow(false)}>
+          <span className="text-light">Confirmation</span>
+        </ModalHeader>
         <ModalBody>Do you really want to delete {props.name}?</ModalBody>
         <ModalFooter>
           <Button className="mr-3 my-1 animation-on-hover" color="danger" onClick={onDelete}>
