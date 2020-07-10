@@ -44,13 +44,16 @@ const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, descr
             </Button>
           </NavLink>
         )}
-        {editBtn && (
-          <NavLink to={editBtn.path}>
-            <Button size="sm" className="mr-3 my-1 animation-on-hover " color="success">
-              {editBtn.name}
-            </Button>
-          </NavLink>
-        )}
+        {editBtn &&
+          (editBtn.name ? (
+            <NavLink to={editBtn.path}>
+              <Button size="sm" className="mr-3 my-1 animation-on-hover " color="success">
+                {editBtn.name}
+              </Button>
+            </NavLink>
+          ) : (
+            editBtn.modal
+          ))}
         {deleteBtn && <Delete name={title} id={id} deleteMutation={deleteMutation} refetch={refetch} />}
       </CardBody>
     </Card>

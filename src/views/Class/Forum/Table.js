@@ -11,6 +11,7 @@ import Delete from 'components/Forms/Delete'
 import { DELETE_FORUM_MUTATION } from '../../../constants/forum'
 import { AuthContext } from 'contexts/auth'
 import role from '../../../constants/data'
+import EditForum from 'components/Forms/EditForum'
 
 const ClassForumTable = (props) => {
   const authContext = useContext(AuthContext)
@@ -56,8 +57,7 @@ const ClassForumTable = (props) => {
                       path: `forum/${id}`,
                     }}
                     editBtn={{
-                      name: 'Edit',
-                      path: `forum/${id}`,
+                      modal: <EditForum title={title} description={description} id={id} refetch={refetch}/>
                     }}
                     refetch={refetch}
                     deleteBtn={author.id === authContext.user.id || role.name === 'teacher'}

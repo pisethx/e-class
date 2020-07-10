@@ -23,6 +23,7 @@ import {
   Nav,
   Spinner,
 } from 'reactstrap'
+import role from 'constants/data'
 
 const ClassAttendanceTable = (props) => {
   const { loading, error, data } = useQuery(ATTENDANCE_IN_CLASS_QUERY, {
@@ -62,9 +63,22 @@ const ClassAttendanceTable = (props) => {
                         }}
                       >
                         <CardHeader className="px-4 py-2">
-                          <NavLink to={`attendance/${id}`} style={{ fontWeight: 'bold' }}>
-                            {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
-                          </NavLink>
+                          <Row>
+                            {role.name === 'teacher' ? (
+                              <NavLink to={`attendance/${id}`} style={{ fontWeight: 'bold' }}>
+                                {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
+                              </NavLink>
+                            ) : (
+                              <>
+                                <Col xs="6">
+                                {date} ({`${schedule_session.start_time} - ${schedule_session.end_time}`})
+                                </Col>
+                                <Col xs="6">
+                                  123
+                                </Col>
+                              </>
+                            )}
+                          </Row>
                         </CardHeader>
                       </Card>
                     ))}
