@@ -42,7 +42,7 @@ const ChangePassword = (props) => {
       error={error}
       success={success}
       header="Change Password"
-      size="lg"
+      size="sm"
       body={
         <Form onSubmit={onSubmit}>
           <Row>

@@ -46,7 +46,7 @@ export const CREATE_FORUM_MUTATION = gql`
 
 export const DELETE_FORUM_MUTATION = gql`
   mutation DELETE_FORUM_MUTATION($id: ID!) {
-    deleteForum(input: { id: $id }) {
+    deleteForum(id: $id) {
       id
     }
   }
@@ -111,6 +111,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
         id
         username
         identity {
+          id
           first_name
           last_name
           photo_url
@@ -123,6 +124,7 @@ export const FORUMS_IN_CLASS_QUERY = gql`
           id
           username
           identity {
+            id
             first_name
             last_name
             photo_url
@@ -149,6 +151,7 @@ export const FORUM_QUERY = gql`
       author {
         id
         identity {
+          id
           first_name
           last_name
           photo_url
@@ -159,6 +162,7 @@ export const FORUM_QUERY = gql`
         author {
           id
           identity {
+            id
             first_name
             last_name
             photo_url

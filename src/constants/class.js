@@ -8,25 +8,129 @@ export const CLASS_QUERY = gql`
       code
       teacher {
         id
-        identity {
-          first_name
-          last_name
-          photo_url
+      username
+      email
+      uuid
+      unreadNotificationsCount
+      roles {
+        id
+        name
+      }
+      identity {
+        id
+        first_name
+        last_name
+        gender
+        contact_number
+        photo_url
+      }
+      learnings {
+        id
+        code
+        name
+        teacher {
+          id
+          identity {
+            id
+            first_name
+            last_name
+          }
         }
+        schedules {
+          id
+          day
+          sessions {
+            id
+            start_time
+            end_time
+          }
+        }
+      }
+      teachings {
+        id
+        code
+        name
+        teacher {
+          id
+          identity {
+            id
+            first_name
+            last_name
+          }
+        }
+        schedules {
+          id
+          day
+          sessions {
+            id
+            start_time
+            end_time
+          }
+        }
+      }
       }
       students {
         id
-        identity {
-          first_name
-          last_name
-          photo_url
+      username
+      email
+      uuid
+      unreadNotificationsCount
+      roles {
+        id
+        name
+      }
+      identity {
+        id
+        first_name
+        last_name
+        gender
+        contact_number
+        photo_url
+      }
+      learnings {
+        id
+        code
+        name
+        teacher {
+          id
+          identity {
+            id
+            first_name
+            last_name
+          }
         }
-        # learnings {
-        #   id
-        #   pivot {
-        #     score
-        #   }
-        # }
+        schedules {
+          id
+          day
+          sessions {
+            id
+            start_time
+            end_time
+          }
+        }
+      }
+      teachings {
+        id
+        code
+        name
+        teacher {
+          id
+          identity {
+            id
+            first_name
+            last_name
+          }
+        }
+        schedules {
+          id
+          day
+          sessions {
+            id
+            start_time
+            end_time
+          }
+        }
+      }
       }
       class_contents {
         id
