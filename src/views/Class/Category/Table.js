@@ -67,7 +67,7 @@ const ClassCategoryTable = (props) => {
                               }}
                             >
                               <Button size="sm" className="mr-3 my-1 animation-on-hover " color="info">
-                                Go To Exam
+                                View All Exams
                               </Button>
                             </NavLink>
                             {roleName === 'teacher' && (

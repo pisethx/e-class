@@ -194,6 +194,9 @@ export const MY_FORUMS_QUERY = gql`
         comment
       }
       created_at
+      class {
+        id
+      }
     }
   }
 `

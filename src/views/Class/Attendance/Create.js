@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import { FormWrapper, H3 } from 'views/Styled/index'
 import { USERS_QUERY } from 'constants/user'
-import { CREATE_CLASS_ATTENDANCE_MUTATION, CLASS_QUERY } from 'constants/class'
+import { CREATE_CLASS_ATTENDANCE_MUTATION, UPDATE_CLASS_ATTENDANCE_MUTATION, CLASS_QUERY } from 'constants/class'
 import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 import { selectable } from 'lib/util'
@@ -19,7 +19,7 @@ import Select from 'react-select'
 const ClassAttendanceCreate = (props) => {
   const [form, setForm] = useState({
     schedule_session_id: '',
-    date: null,
+    date: new Date(),
     student_attendances: [],
   })
 
@@ -59,19 +59,36 @@ const ClassAttendanceCreate = (props) => {
           .flat(),
       })
 
-      setForm((prevState) => ({
-        ...prevState,
-        student_attendances: eachClass?.students?.map(({ id }) => ({
-          student_id: id,
-          attendance_type: ATTENDANCE_TYPE?.data?.__type?.enumValues[0]?.name,
-        })),
-      }))
+      if (!props.attendance)
+        setForm((prevState) => ({
+          ...prevState,
+          student_attendances: eachClass?.students?.map(({ id }) => ({
+            student_id: id,
+            attendance_type: ATTENDANCE_TYPE?.data?.__type?.enumValues[0]?.name,
+          })),
+        }))
     }
   }, [data, ATTENDANCE_TYPE])
 
+  useEffect(() => {
+    if (props.attendance) {
+      console.log(props.attendance)
+      const { schedule_session, date, student_attendances } = props.attendance
+
+      setForm((prev) => ({
+        schedule_session_id: schedule_session?.id,
+        date: moment(date).toDate(),
+        student_attendances: student_attendances?.map((att) => ({
+          attendance_type: att.attendance_type,
+          student_id: att.student.id,
+        })),
+      }))
+    }
+  }, [props.attendance])
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const [createClassAttendance, { loading, error }] = useMutation(CREATE_CLASS_ATTENDANCE_MUTATION, {
+  const [createClassAttendance, createRes] = useMutation(CREATE_CLASS_ATTENDANCE_MUTATION, {
     variables: {
       id: props.id,
       ...form,
@@ -79,18 +96,29 @@ const ClassAttendanceCreate = (props) => {
     },
   })
 
+  const [updateClassAttendance, updateRes] = useMutation(UPDATE_CLASS_ATTENDANCE_MUTATION, {
+    variables: {
+      id: props?.attendance?.id,
+      ...form,
+      date: moment(form.date).format('YYYY-MM-DD'),
+    },
+  })
+
+  let error = createRes?.error || updateRes?.error
+  let loading = createRes?.loading || updateRes?.loading
+
   const { schedules, students } = classData
   if (loading) return <p>Loading...</p>
 
   return (
     <>
-      {students.length && schedules.length && form.student_attendances.length && (
+      {students.length && schedules.length && form.student_attendances.length ? (
         <div className="content">
           <Row>
             <Col md="12">
               <Card>
                 <CardHeader>
-                  <H3 className="title">Create Class Attendance</H3>
+                  <H3 className="title">{props.attendance ? 'Update' : 'Create'} Class Attendance</H3>
                 </CardHeader>
                 <Error error={error} />
                 <Success success={success} />
@@ -100,9 +128,12 @@ const ClassAttendanceCreate = (props) => {
                       onSubmit={async (e) => {
                         e.preventDefault()
                         setIsButtonDisabled(true)
+
                         // setValidation(true)
                         try {
-                          await createClassAttendance()
+                          if (props.attendance) await updateClassAttendance()
+                          else await createClassAttendance()
+
                           setSuccess('Success')
                         } catch (err) {
                           console.log(err)
@@ -117,6 +148,10 @@ const ClassAttendanceCreate = (props) => {
                             <Label>Schedule Session</Label>{' '}
                             <Select
                               options={schedules}
+                              value={{
+                                label: schedules.find((sch) => sch.value === form.schedule_session_id)?.label,
+                                value: form.schedule_session_id,
+                              }}
                               onChange={(e) => {
                                 setForm((prevState) => ({
                                   ...prevState,
@@ -129,6 +164,7 @@ const ClassAttendanceCreate = (props) => {
                         <Col md="12">
                           <Label>Date</Label>
                           <DatePicker
+                            dateFormat="yyyy-MM-dd"
                             selected={form.date}
                             onChange={(date) => {
                               setForm((prevState) => ({
@@ -171,7 +207,7 @@ const ClassAttendanceCreate = (props) => {
 
                         <Col md="12" className="mt-4">
                           <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
-                            Create Class Attendance
+                            {props.attendance ? 'Update' : 'Create'} Class Attendance
                           </Button>
                         </Col>
                       </Row>
@@ -182,6 +218,8 @@ const ClassAttendanceCreate = (props) => {
             </Col>
           </Row>
         </div>
+      ) : (
+        <p>Loading...</p>
       )}
     </>
   )

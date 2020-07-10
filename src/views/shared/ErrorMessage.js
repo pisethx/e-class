@@ -20,27 +20,7 @@ const ErrorStyles = styled.div`
 
 const DisplayError = ({ error = null }) => {
   if (!error) return null
-  if (error.message) {
-    return (
-      <>
-        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-          {error.message}
-        </Alert>
-      </>
-    )
-  }
-  if (!error.message) {
-    return (
-      <>
-        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
-          Something went wrong
-        </Alert>
-      </>
-    )
-  }
-
-  const errorMsg = error?.graphQLErrors[0]?.extensions?.reason
-
+  const errorMsg = error?.graphQLErrors[0]?.debugMessage
   return (
     <>
       {errorMsg && (
@@ -51,11 +31,27 @@ const DisplayError = ({ error = null }) => {
     </>
   )
 
-  if (
-    error.networkError &&
-    error.networkError.result &&
-    error.networkError.result.errors.length
-  ) {
+  if (error.message) {
+    return (
+      <>
+        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+          {error.message.replace(/GraphQL error:/g, '')}
+        </Alert>
+      </>
+    )
+  }
+
+  if (!error.message) {
+    return (
+      <>
+        <Alert style={{ margin: 30, marginBottom: 0 }} color="danger">
+          Something went wrong
+        </Alert>
+      </>
+    )
+  }
+
+  if (error.networkError && error.networkError.result && error.networkError.result.errors.length) {
     return error.networkError.result.errors.map((error, i) => (
       <ErrorStyles key={i}>
         <p data-testid="graphql-error">
