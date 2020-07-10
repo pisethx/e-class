@@ -191,6 +191,9 @@ export const MY_COMMENTS_QUERY = gql`
           id
           title
           comments_count
+          class {
+            id
+          }
           answer {
             id
             comment

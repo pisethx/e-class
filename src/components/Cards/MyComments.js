@@ -7,6 +7,7 @@ import { H3 } from 'views/Styled/index'
 import { Card, CardHeader, CardBody, CardTitle, Table, Col, Spinner } from 'reactstrap'
 // import CustomPagination from 'components/CustomPagination'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
+import { NavLink, Link } from 'react-router-dom'
 
 const MyComments = (props) => {
   const client = useApolloClient()
@@ -29,7 +30,7 @@ const MyComments = (props) => {
       setMyComments(comments)
       console.log(comments)
     })
-  }, [page])
+  }, [])
 
   if (!myComments) return <Spinner />
 
@@ -45,20 +46,19 @@ const MyComments = (props) => {
           <thead className="text-primary">
             <tr>
               <th>Comment</th>
-              <th>Forum</th>
+              <th>Time</th>
             </tr>
           </thead>
           <tbody>
-            {props.myComments &&
-              props.myComments.map((comment) => {
+            {myComments &&
+              myComments.map((comment) => {
                 return (
-                  <tr>
+                  <tr key={comment.id}>
                     <td>
-                      <a href="#">{comment.comment}</a>
+                      <Link className="font-weight-bold" 
+                      to={`/class/${comment.commentable?.class.id}/forum/${comment.commentable?.id}`}>{comment.comment.length > 15 ? comment.comment.substr(0, 14) + '...' : comment.comment}</Link>
                     </td>
-                    <td>
-                      <a href="#">{comment.commentable.title}</a>
-                    </td>
+                    <td>{comment.created_at}</td>
                   </tr>
                 )
               })}
