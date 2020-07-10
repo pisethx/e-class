@@ -31,6 +31,7 @@ import {
   Label,
   Row,
   Col,
+  Spinner,
 } from 'reactstrap'
 
 const CreateClass = (props) => {
@@ -47,14 +48,10 @@ const CreateClass = (props) => {
 
   if (USERS_QUERY_RES?.data) {
     users = USERS_QUERY_RES?.data?.users
-    students = users?.filter((user) =>
-      user.roles.map((role) => role.name).includes('student')
-    )
+    students = users?.filter((user) => user.roles.map((role) => role.name).includes('student'))
 
     teachers = users?.filter(
-      (user) =>
-        user.roles.map((role) => role.name).includes('teacher') ||
-        user.roles.map((role) => role.name).includes('admin')
+      (user) => user.roles.map((role) => role.name).includes('teacher') || user.roles.map((role) => role.name).includes('admin')
     )
     if (students && students.length) students = selectable(students)
     if (teachers && teachers.length) teachers = selectable(teachers)
@@ -90,15 +87,11 @@ const CreateClass = (props) => {
       ...inputs,
       teacher: form.teacher.value,
       students: form.students.map((student) => student.value),
-      schedule_session: form.schedule_session.filter(
-        (ss) =>
-          !Object.values(ss).includes(null) ||
-          !Object.values(Object.values(ss)).includes(null)
-      ),
+      schedule_session: form.schedule_session.filter((ss) => !Object.values(ss).includes(null) || !Object.values(Object.values(ss)).includes(null)),
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   return (
     <div className="content">
       <Row>
@@ -137,27 +130,13 @@ const CreateClass = (props) => {
                     <Col md="12">
                       <FormGroup>
                         <Label>Name</Label>
-                        <Input
-                          placeholder="name"
-                          type="text"
-                          name="name"
-                          value={inputs.name}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="name" type="text" name="name" value={inputs.name} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
                     <Col md="12">
                       <FormGroup>
                         <Label>Code</Label>
-                        <Input
-                          placeholder="code"
-                          type="text"
-                          name="code"
-                          value={inputs.code}
-                          onChange={handleChange}
-                          required
-                        />
+                        <Input placeholder="code" type="text" name="code" value={inputs.code} onChange={handleChange} required />
                       </FormGroup>
                     </Col>
 
@@ -212,10 +191,8 @@ const CreateClass = (props) => {
                                 value={
                                   form.schedule_session[i].start_time
                                     ? {
-                                        value:
-                                          form.schedule_session[i].start_time,
-                                        label:
-                                          form.schedule_session[i].start_time,
+                                        value: form.schedule_session[i].start_time,
+                                        label: form.schedule_session[i].start_time,
                                       }
                                     : null
                                 }
@@ -244,10 +221,8 @@ const CreateClass = (props) => {
                                 value={
                                   form.schedule_session[i].end_time
                                     ? {
-                                        value:
-                                          form.schedule_session[i].end_time,
-                                        label:
-                                          form.schedule_session[i].end_time,
+                                        value: form.schedule_session[i].end_time,
+                                        label: form.schedule_session[i].end_time,
                                       }
                                     : null
                                 }
@@ -273,12 +248,7 @@ const CreateClass = (props) => {
                         ))}
                     </Col>
                     <Col md="12" className="mt-1">
-                      <Button
-                        type="submit"
-                        className="btn-fill"
-                        color="primary"
-                        disabled={isButtonDisabled}
-                      >
+                      <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                         Create Class
                       </Button>
                     </Col>

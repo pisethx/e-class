@@ -80,10 +80,12 @@ export const DELETE_COMMENT_MUTATION = gql`
 `
 
 export const MARK_COMMENT_AS_ANSWER_MUTATION = gql`
-  mutation MARK_COMMENT_AS_ANSWER_MUTATION($id: Int!, $classId: Int!) {
-    updateForum(input: { id: $id, answer: { connect: $classId } }) {
+  mutation MARK_COMMENT_AS_ANSWER_MUTATION($id: ID!, $commentId: ID!) {
+    updateForum(input: { id: $id, answer: { connect: $commentId } }) {
+      id
       title
       answer {
+        id
         comment
       }
     }
@@ -91,10 +93,12 @@ export const MARK_COMMENT_AS_ANSWER_MUTATION = gql`
 `
 
 export const UNMARK_COMMENT_AS_ANSWER_MUTATION = gql`
-  mutation UNMARK_COMMENT_AS_ANSWER_MUTATION($id: Int!) {
+  mutation UNMARK_COMMENT_AS_ANSWER_MUTATION($id: ID!) {
     updateForum(input: { id: $id, answer: { disconnect: true } }) {
+      id
       title
       answer {
+        id
         comment
       }
     }

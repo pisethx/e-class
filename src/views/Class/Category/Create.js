@@ -9,7 +9,23 @@ import Error from 'views/shared/ErrorMessage'
 import Success from 'views/shared/SuccessMessage'
 
 // reactstrap components
-import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Label, Row, Col } from 'reactstrap'
+import {
+  Alert,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardText,
+  FormGroup,
+  FormFeedback,
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+  Spinner,
+} from 'reactstrap'
 
 const CreateClassCategory = (props) => {
   const [success, setSuccess] = useState('')
@@ -27,7 +43,7 @@ const CreateClassCategory = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
 
   return (
     <div className="content">

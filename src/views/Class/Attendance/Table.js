@@ -6,7 +6,23 @@ import { ATTENDANCE_IN_CLASS_QUERY } from 'constants/class'
 import { NavLink } from 'react-router-dom'
 
 // reactstrap components
-import { Button, Card, CardHeader, CardBody, CardTitle, CardFooter, CardText, FormGroup, Form, Input, Table, Row, Col, Nav } from 'reactstrap'
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  CardFooter,
+  CardText,
+  FormGroup,
+  Form,
+  Input,
+  Table,
+  Row,
+  Col,
+  Nav,
+  Spinner,
+} from 'reactstrap'
 
 const ClassAttendanceTable = (props) => {
   const { loading, error, data } = useQuery(ATTENDANCE_IN_CLASS_QUERY, {
@@ -15,7 +31,7 @@ const ClassAttendanceTable = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
 
   const attendances = data?.class?.class_attendances
 

@@ -4,8 +4,7 @@ import { setAuthContext, AuthContext, useAuthContext } from '../contexts/auth'
 import { useMutation, Mutation, useQuery, useLazyQuery, useApolloClient } from 'react-apollo'
 import { REFRESH_TOKEN_MUTATION } from 'views/Unauthenticated/Api'
 import { ME_QUERY } from 'constants/user'
-
-import { Spinner } from 'reactstrap'
+import Loading from 'components/Loading'
 
 const ProtectedRoute = (props) => {
   const client = useApolloClient()
@@ -59,7 +58,7 @@ const ProtectedRoute = (props) => {
 
   if (auth.isLogin && auth.user !== undefined) {
     return <Route {...props} path={path} render={props.render} />
-  } else return <Spinner animation="grow" variant="info" />
+  } else return <Loading />
 }
 
 export default withRouter(ProtectedRoute)

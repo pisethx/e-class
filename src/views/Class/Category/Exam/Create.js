@@ -12,7 +12,23 @@ import { GET_ENUM_QUERY } from 'views/Unauthenticated/Api'
 import moment from 'moment'
 
 // reactstrap components
-import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Label, Row, Col } from 'reactstrap'
+import {
+  Alert,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardText,
+  FormGroup,
+  FormFeedback,
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+  Spinner,
+} from 'reactstrap'
 
 const ClassCategoryExamCreate = (props) => {
   const [success, setSuccess] = useState('')
@@ -52,7 +68,7 @@ const ClassCategoryExamCreate = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   // if (error) return `Error! ${error}`
 
   const updateQuestion = (updatedQuestions) => {

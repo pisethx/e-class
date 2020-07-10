@@ -23,6 +23,7 @@ import {
   Label,
   Row,
   Col,
+  Spinner,
 } from 'reactstrap'
 import { H3 } from 'views/Styled'
 
@@ -47,7 +48,7 @@ const CreateClassContent = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
   // if (error) return `Error! ${error}`
 
   const uploadFile = ({

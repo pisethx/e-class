@@ -26,6 +26,7 @@ import {
   Label,
   Row,
   Col,
+  Spinner,
 } from 'reactstrap'
 import Select from 'react-select'
 
@@ -50,14 +51,10 @@ const EditClass = (props) => {
   if (USERS_QUERY_RES) {
     users = USERS_QUERY_RES?.data?.users
 
-    students = users?.filter((user) =>
-      user.roles.map((role) => role.name).includes('student')
-    )
+    students = users?.filter((user) => user.roles.map((role) => role.name).includes('student'))
 
     teachers = users?.filter(
-      (user) =>
-        user.roles.map((role) => role.name).includes('teacher') ||
-        user.roles.map((role) => role.name).includes('admin')
+      (user) => user.roles.map((role) => role.name).includes('teacher') || user.roles.map((role) => role.name).includes('admin')
     )
     if (students && students.length) students = selectable(students)
     if (teachers && teachers.length) teachers = selectable(teachers)
@@ -102,7 +99,7 @@ const EditClass = (props) => {
     },
   })
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
 
   return (
     <>
@@ -126,9 +123,7 @@ const EditClass = (props) => {
                         const { data } = await updateClass({
                           ...form,
                           teacher: form.teacher.value,
-                          students: form.students.map(
-                            (student) => student.value
-                          ),
+                          students: form.students.map((student) => student.value),
                         })
                         setSuccess('Success')
                       } catch (err) {
@@ -217,12 +212,7 @@ const EditClass = (props) => {
                       </Col>
 
                       <Col md="12" className="mt-1">
-                        <Button
-                          type="submit"
-                          className="btn-fill"
-                          color="primary"
-                          disabled={isButtonDisabled}
-                        >
+                        <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
                           Update Class
                         </Button>
                       </Col>

@@ -13,7 +13,23 @@ import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
 
 // reactstrap components
-import { Alert, Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup, FormFeedback, Form, Input, Label, Row, Col } from 'reactstrap'
+import {
+  Alert,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardText,
+  FormGroup,
+  FormFeedback,
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+  Spinner,
+} from 'reactstrap'
 import Select from 'react-select'
 
 const ClassAttendanceCreate = (props) => {
@@ -108,7 +124,7 @@ const ClassAttendanceCreate = (props) => {
   let loading = createRes?.loading || updateRes?.loading
 
   const { schedules, students } = classData
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner />
 
   return (
     <>
@@ -219,7 +235,7 @@ const ClassAttendanceCreate = (props) => {
           </Row>
         </div>
       ) : (
-        <p>Loading...</p>
+        <Spinner />
       )}
     </>
   )

@@ -10,15 +10,13 @@ const MyProfile = (props) => {
   const { user } = useAuthContext()
   // const { loading, error, data } = useQuery(CURRENT_USER_QUERY)
 
-  // if (loading) return <p>Loading...</p>
+  // if (loading) return <Spinner />
   // if (error) return `Error! ${error}`
   // useEffect(() => {
   //   setUser(() => authContext.user)
   // }, [authContext])
 
-  return (
-    <>{user && Object.values(user).length > 0 && <UserProfile user={user} />}</>
-  )
+  return <>{user && Object.values(user).length > 0 && <UserProfile user={user} />}</>
 }
 
 export default MyProfile

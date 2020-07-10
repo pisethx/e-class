@@ -68,6 +68,9 @@ const App = () => {
         credentials: 'same-origin',
       }),
     ]),
+    fetchOptions: {
+      mode: 'no-cors',
+    },
     cache: new InMemoryCache(),
   })
 

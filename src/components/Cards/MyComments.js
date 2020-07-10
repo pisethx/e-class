@@ -4,15 +4,7 @@ import { useApolloClient } from 'react-apollo'
 import { H3 } from 'views/Styled/index'
 
 // reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Table,
-  Col,
-  Spinner,
-} from 'reactstrap'
+import { Card, CardHeader, CardBody, CardTitle, Table, Col, Spinner } from 'reactstrap'
 // import CustomPagination from 'components/CustomPagination'
 import { MY_COMMENTS_QUERY } from 'constants/forum'
 
