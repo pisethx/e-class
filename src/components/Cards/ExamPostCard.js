@@ -46,7 +46,7 @@ const ExamPostCard = ({
 
       <CardBody>
         <CardText className="mb-3">{description}</CardText>
-        {anchorBtn && (
+        {anchorBtn && moment(due_at).isBefore() && (
           <a href={anchorBtn.path} target="_blank">
             <Button size="sm" className="btn-simple mr-3 my-1 animation-on-hover " color="info">
               {anchorBtn.name}
@@ -61,6 +61,7 @@ const ExamPostCard = ({
           </NavLink>
         )}
         {editBtn &&
+          moment(publishes_at).isBefore() &&
           (editBtn.custom ? (
             editBtn.modal
           ) : (
