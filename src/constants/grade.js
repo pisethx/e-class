@@ -7,6 +7,7 @@ export const STUDENT_EXAM_IDS_QUERY = gql`
       attempts
       created_at
       updated_at
+      points
       answer {
         id
         answers

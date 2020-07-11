@@ -37,8 +37,9 @@ const ClassExamShow = (props) => {
 
   useEffect(() => {
     if (studentExams?.length) {
+      console.log(studentExams)
       const studentTakesExam = studentExams?.map((exam) => ({
-        label: `${exam.student.identity.first_name} ${exam.student.identity.last_name}`,
+        label: `${exam.student.identity.first_name} ${exam.student.identity.last_name} Score: ${exam.points ? exam.points : 'Not Graded Yet'}`,
         value: exam.student.id,
       }))
       if (studentTakesExam?.length) {

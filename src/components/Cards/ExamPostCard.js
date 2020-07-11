@@ -29,7 +29,7 @@ const ExamPostCard = ({
       }}
     >
       <CardHeader style={{ fontWeight: 'bold' }}>{title}</CardHeader>
-      <CardFooter style={{ fontWeight: 'bold' }}>
+      <CardFooter className="py-0" style={{ fontWeight: 'bold' }}>
         <span className="ml-2">
           <Row className="ml-1">Allowed Attempts : {attempts}</Row>
           <Row className="ml-1">Publishes at : {publishes_at ? moment(publishes_at).format('llll') : 'Not Specified'}</Row>
