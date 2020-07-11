@@ -14,7 +14,7 @@ import { STUDENT_EXAM_IDS_QUERY } from 'constants/grade'
 import Loading from 'components/Loading'
 
 const StudentExam = (props) => {
-  const [exam, setExam] = useState(props.exam)
+  const [exam, setExam] = useState(props.selectedStudentExam)
   const [form, setForm] = useState([])
 
   useEffect(() => {
