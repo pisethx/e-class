@@ -45,7 +45,7 @@ const ClassContentTable = (props) => {
                           deleteMutation={DELETE_CLASS_CONTENT_MUTATION}
                           title={name.length > 37 ? name.substr(0, 38) + '...' : name}
                           deleteBtn={role.name === 'teacher'}
-                          editBtn={{ name: 'Edit', path: `content/${id}/edit` }}
+                          editBtn={role.name === 'teacher' ? { name: 'Edit', path: `content/${id}/edit` } : undefined}
                           showBtn={{ name: 'Show', path: `content/${id}` }}
                         />
                       </Col>

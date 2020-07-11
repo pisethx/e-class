@@ -131,7 +131,7 @@ const AllRoutes = (props) => {
             render={(props) => (
               <>
                 <AdminLayout img={getImg(authContext)} {...props} routes={routesProp}>
-                  <ClassContentEdit {...props} id={props.match.params.id} contentId={props.match.params.contentId} />
+                  <ClassContentShow {...props} id={props.match.params.id} contentId={props.match.params.contentId} />
                 </AdminLayout>
               </>
             )}

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { CLASS_QUERY } from 'constants/class'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { H3, IMG } from 'views/Styled/index'
 
 // reactstrap components
@@ -60,12 +60,14 @@ const ClassShow = (props) => {
                     <Col xs="4">Code :</Col>
                     <Col xs="8">{eachClass.code}</Col>
                     <Col xs="4">Teacher :</Col>
-                    <Col xs="8">{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</Col>
-                    <Col xs="4">Class Categories :</Col>
                     <Col xs="8">
-                      {eachClass.class_categories.map((category) => (
-                        <span key={category.id}>{category.name}, </span>
-                      ))}
+                      {role.name === 'student' ? (
+                        <span>{`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}</span>
+                      ) : (
+                        <NavLink style={{ fontWeight: 'bold' }} to={`/user/${eachClass?.teacher?.id}`}>
+                          {`${eachClass?.teacher?.identity?.first_name} ${eachClass?.teacher?.identity?.last_name}`}
+                        </NavLink>
+                      )}
                     </Col>
                     <Col xs="4">Schedule: </Col>
                     <Col xs="8">
@@ -73,7 +75,7 @@ const ClassShow = (props) => {
                         <span key={id}>
                           <span>
                             {sessions.map(({ id: _id, start_time, end_time }) => (
-                              <span className="mr-2" key={_id}>{`${day} (${start_time}-${end_time}).`}</span>
+                              <p className="mr-2" key={_id}>{`${day} (${start_time}-${end_time})`}</p>
                             ))}
                           </span>
                         </span>
@@ -113,12 +115,22 @@ const ClassShow = (props) => {
                     <Col xs="12" className="mt-2 pa-2">
                       {eachClass?.students?.map((student) => (
                         <Row className="mx-2 my-3" key={student.id}>
-                          <IMG alt="..." src={student.identity.photo_url} />
-                          <span className="mx-3">{student.id}</span>
-                          <NavLink style={{ fontWeight: 'bold' }} to={`/user/${student.id}`}>
-                            {`${student.identity.first_name} ${student.identity.last_name}`}
-                          </NavLink>
-                          <span className="ml-6">{student.score}</span>
+                          <Col xs="9" md="6">
+                            <IMG alt="..." src={student.identity.photo_url} />
+                            <span className="mx-3">{student.id}</span>
+                            {role.name === 'student' ? (
+                              <span>{`${student.identity.first_name} ${student.identity.last_name}`}</span>
+                            ) : (
+                              <NavLink style={{ fontWeight: 'bold' }} to={`/user/${student.id}`}>
+                                {`${student.identity.first_name} ${student.identity.last_name}`}
+                              </NavLink>
+                            )}
+                          </Col>
+                          {role.name !== 'student' && (
+                            <Col xs="3" md="6">
+                              <span>{student.score}</span>
+                            </Col>
+                          )}
                         </Row>
                       ))}
                     </Col>

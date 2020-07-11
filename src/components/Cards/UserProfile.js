@@ -72,10 +72,18 @@ const UserProfile = ({ user }) => {
                       <Col xs="6">Studying :</Col>
                       <Col xs="6">
                         {user.learnings.map((course) => (
-                          <NavLink to={`/class/${course.id}`} className="text-bold" key={course.id}>
-                            <b>{course.code}</b>
+                          <>
+                            {role.name === 'admin' ||
+                            authContext.user.learnings.find((c) => c.id === course.id) ||
+                            authContext.user.teachings.find((c) => c.id === course.id) ? (
+                              <NavLink to={`/class/${course.id}`} className="text-bold">
+                                <b>{course.code}</b>
+                              </NavLink>
+                            ) : (
+                              <b>{course.code}</b>
+                            )}
                             <br />
-                          </NavLink>
+                          </>
                         ))}
                       </Col>
                     </>
@@ -85,10 +93,18 @@ const UserProfile = ({ user }) => {
                       <Col xs="6">Lecturing :</Col>
                       <Col xs="6">
                         {user.teachings.map((course) => (
-                          <NavLink to={`/class/${course.id}`} className="text-bold">
-                            <b>{course.code}</b>
+                          <>
+                            {role.name === 'admin' ||
+                            authContext.user.learnings.find((c) => c.id === course.id) ||
+                            authContext.user.teachings.find((c) => c.id === course.id) ? (
+                              <NavLink to={`/class/${course.id}`} className="text-bold">
+                                <b>{course.code}</b>
+                              </NavLink>
+                            ) : (
+                              <b>{course.code}</b>
+                            )}
                             <br />
-                          </NavLink>
+                          </>
                         ))}
                       </Col>
                     </>

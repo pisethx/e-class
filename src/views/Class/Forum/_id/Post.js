@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useQuery, useMutation, useApolloClient } from '@apollo/react-hooks'
 import { FORUMS_IN_CLASS_QUERY, CREATE_COMMENT_MUTATION, MARK_COMMENT_AS_ANSWER_MUTATION } from 'constants/forum'
 import { NavLink } from 'react-router-dom'
@@ -31,9 +31,14 @@ import {
   DropdownItem,
   DropdownMenu,
 } from 'reactstrap'
+import { UNMARK_COMMENT_AS_ANSWER_MUTATION } from 'constants/forum'
+import { DELETE_COMMENT_MUTATION } from 'constants/forum'
+import { AuthContext } from 'contexts/auth'
+import role from 'constants/data'
 
 const ClassForumPost = (props) => {
   const client = useApolloClient()
+  const authContext = useContext(AuthContext)
 
   const { data, refetch } = useQuery(FORUMS_IN_CLASS_QUERY, {
     variables: {
@@ -102,7 +107,7 @@ const ClassForumPost = (props) => {
                 </CardBody>
               </Card>
               {comments?.map(({ id: _id, comment, author: _author, created_at }, j) => (
-                <Card key={j} style={{ padding: '.6rem', position: 'relative' }} className={_id === answer.id ? 'card-success' : ''}>
+                <Card key={j} id={_id} style={{ padding: '.6rem', position: 'relative' }} className={_id === answer?.id ? 'card-success' : ''}>
                   <CardHeader>
                     <IMG src={_author.identity.photo_url}></IMG>
                     {/* <NavLink to={`/users/${_author.id}`}> */}
@@ -116,34 +121,58 @@ const ClassForumPost = (props) => {
                   <CardBody>
                     <CardText>{comment}</CardText>
                   </CardBody>
-                  <UncontrolledDropdown style={{ position: 'absolute', top: '5px', right: '5px' }}>
-                    <DropdownToggle color="default" data-toggle="dropdown" nav onClick={(e) => e.preventDefault()}>
-                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
-                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
-                      <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-navbar" right>
-                      <DropdownItem
-                        className="nav-item"
-                        onClick={async (e) => {
-                          try {
-                            await client.mutate({
-                              mutation: MARK_COMMENT_AS_ANSWER_MUTATION,
-                              variables: {
-                                id: props.forumId,
-                                commentId: _id,
-                              },
-                            })
-                          } catch (e) {
-                            console.log(e)
-                          }
-                        }}
-                      >
-                        Mark as Correct
-                      </DropdownItem>
-                      <DropdownItem className="nav-item">Delete</DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+                  {(authContext.user.id === _author.id || role.name === 'teacher' || authContext.user.id === author.id) && (
+                    <UncontrolledDropdown style={{ position: 'absolute', top: '5px', right: '5px' }}>
+                      <DropdownToggle color="default" data-toggle="dropdown" nav onClick={(e) => e.preventDefault()}>
+                        <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                        <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                        <p style={{ lineHeight: 0, fontSize: '1rem', fontWeight: 'bold' }}>.</p>
+                      </DropdownToggle>
+                      <DropdownMenu className="dropdown-navbar" right>
+                        {(role.name === 'teacher' || authContext.user.id === author.id) && (
+                          <DropdownItem
+                            className="nav-item"
+                            onClick={async (e) => {
+                              try {
+                                await client.mutate({
+                                  mutation: _id !== answer?.id ? MARK_COMMENT_AS_ANSWER_MUTATION : UNMARK_COMMENT_AS_ANSWER_MUTATION,
+                                  variables: {
+                                    id: props.forumId,
+                                    commentId: _id,
+                                  },
+                                })
+                                refetch()
+                              } catch (e) {
+                                console.log(e)
+                              }
+                            }}
+                          >
+                            {_id !== answer?.id ? `Mark as Correct` : `Unmark`}
+                          </DropdownItem>
+                        )}
+                        {(authContext.user.id === _author.id || role.name === 'teacher' || authContext.user.id === author.id) && (
+                          <DropdownItem
+                            className="nav-item"
+                            onClick={async (e) => {
+                              try {
+                                await client.mutate({
+                                  mutation: DELETE_COMMENT_MUTATION,
+                                  variables: {
+                                    id: _id,
+                                  },
+                                })
+                                refetch()
+                              } catch (e) {
+                                console.log(e)
+                              }
+                            }}
+                          >
+                            Delete
+                          </DropdownItem>
+                        )}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                  )}
                 </Card>
               ))}
             </Col>

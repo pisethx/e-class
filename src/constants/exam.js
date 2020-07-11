@@ -33,10 +33,21 @@ export const CREATE_EXAM_MUTATION = gql`
   }
 `
 
+export const DELETE_EXAM_MUTATION = gql`
+  mutation DELETE_EXAM_MUTATION($id: ID!) {
+    deleteExam(id: $id) {
+      id
+    }
+  }
+`
+
 export const MY_EXAMS_IN_CLASS_QUERY = gql`
   query MY_EXAMS_IN_CLASS_QUERY($class_id: ID!) {
     myExamsInClass(class_id: $class_id) {
       id
+      exam {
+        id
+      }
       answer {
         answers
         file {

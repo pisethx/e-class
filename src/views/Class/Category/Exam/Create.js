@@ -198,7 +198,7 @@ const ClassCategoryExamCreate = (props) => {
                                   onClick={(e) => {
                                     setForm((prevState) => ({
                                       ...prevState,
-                                      questions: prevState.questions.filter((_, idx) => idx !== i),
+                                      questions: prevState.questions?.filter((_, idx) => idx !== i),
                                     }))
                                   }}
                                 >

@@ -18,7 +18,7 @@ const Delete = (props) => {
       })
       props.refetch()
     } catch (e) {
-      setError('Something went wrong')
+      setError(e)
       console.log(e)
     }
 

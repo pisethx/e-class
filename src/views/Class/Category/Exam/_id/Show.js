@@ -36,7 +36,7 @@ const ClassExamShow = (props) => {
   const [submitExam, { loading, error }] = useMutation(STUDENT_TAKES_EXAM_MUTATION, {
     variables: {
       exam_id: props.examId,
-      ...form,
+      answers: [...form],
     },
   })
 
@@ -84,7 +84,7 @@ const ClassExamShow = (props) => {
                           padding: '.5rem',
                         }}
                       >
-                        <CardHeader style={{ fontWeight: 'bold' }}>{`${_id}. ${question}`}</CardHeader>
+                        <CardHeader style={{ fontWeight: 'bold' }}>{`${i + 1}. ${question}`}</CardHeader>
                         <CardFooter style={{ fontWeight: 'bold' }}>
                           {`Points: ${points}`} <br />
                           {`Type: ${type}`}

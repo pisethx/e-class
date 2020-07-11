@@ -3,8 +3,23 @@ import React, { useState, createRef, useRef, forwardRef, useContext } from 'reac
 import { Button, Card, CardBody, CardFooter, CardText, FormGroup, Form, Input, Row, Col, CardHeader, Label, Badge } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import Delete from 'components/Forms/Delete'
+import moment from 'moment'
 
-const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
+const ExamPostCard = ({
+  id,
+  badge,
+  refetch,
+  deleteMutation,
+  title,
+  publishes_at,
+  due_at,
+  attempts,
+  description,
+  anchorBtn,
+  showBtn,
+  editBtn,
+  deleteBtn,
+}) => {
   console.log(id)
 
   return (
@@ -14,23 +29,24 @@ const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, descr
       }}
     >
       <CardHeader style={{ fontWeight: 'bold' }}>{title}</CardHeader>
-      {info && (
-        <CardFooter style={{ fontWeight: 'bold' }}>
-          {info}
-          <span className="ml-2">( {date} )</span>
-          {badge && (
-            <div>
-              <Badge color="primary" pill>
-                {badge}
-              </Badge>
-            </div>
-          )}
-        </CardFooter>
-      )}
+      <CardFooter style={{ fontWeight: 'bold' }}>
+        <span className="ml-2">
+          <Row className="ml-1">Allowed Attempts : {attempts}</Row>
+          <Row className="ml-1">Publishes at : {publishes_at ? moment(publishes_at).format('llll') : 'Not Specified'}</Row>
+          <Row className="ml-1">Dues at : {due_at ? moment(due_at).format('llll') : 'Not Specified'}</Row>
+        </span>
+        {badge && (
+          <div>
+            <Badge color="primary" pill>
+              {badge}
+            </Badge>
+          </div>
+        )}
+      </CardFooter>
 
       <CardBody>
         <CardText className="mb-3">{description}</CardText>
-        {anchorBtn && (
+        {anchorBtn && moment(due_at).isBefore() && (
           <a href={anchorBtn.path} target="_blank">
             <Button size="sm" className="btn-simple mr-3 my-1 animation-on-hover " color="info">
               {anchorBtn.name}
@@ -45,6 +61,7 @@ const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, descr
           </NavLink>
         )}
         {editBtn &&
+          moment(publishes_at).isBefore() &&
           (editBtn.custom ? (
             editBtn.modal
           ) : (
@@ -60,4 +77,4 @@ const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, descr
   )
 }
 
-export default PostCard
+export default ExamPostCard
