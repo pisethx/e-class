@@ -189,7 +189,7 @@ const ClassCategoryExamCreate = (props) => {
                           <Col md="12" key={i}>
                             <Row>
                               <Col xs="10">
-                                <Label>Question {i}</Label>
+                                <Label>Question {i + 1}</Label>
                               </Col>
                               <Col xs="2" className="align-self-end">
                                 <Button
@@ -279,7 +279,9 @@ const ClassCategoryExamCreate = (props) => {
 
                               {form.questions[i].type === 'QCM' && (
                                 <>
-                                  <Label>Possibles</Label>
+                                  <Col xs="12">
+                                    <Label>Possibles</Label>
+                                  </Col>
                                   {form.questions[i].possibles.map((p, j) => (
                                     <Col xs="12" key={j}>
                                       <FormGroup>
@@ -295,7 +297,7 @@ const ClassCategoryExamCreate = (props) => {
                                           }}
                                         />
                                       </FormGroup>
-                                      <FormGroup check>
+                                      <FormGroup check className="m-0 mb-3">
                                         <Label check>
                                           <Input
                                             type="checkbox"
@@ -352,7 +354,7 @@ const ClassCategoryExamCreate = (props) => {
                     <Col md="12">
                       <Button
                         className="btn-simple m-2"
-                        color="success"
+                        color="primary"
                         onClick={() => {
                           let updatedQuestions = form.questions
                           updatedQuestions.push({
@@ -369,9 +371,9 @@ const ClassCategoryExamCreate = (props) => {
                       </Button>
                     </Col>
 
-                    <Col md="12" className="mt-1">
+                    <Col md="12" className="mt-4">
                       <Button type="submit" className="btn-fill" color="primary" disabled={isButtonDisabled}>
-                        Create Content
+                        Create Exam
                       </Button>
                     </Col>
                   </Row>

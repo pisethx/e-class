@@ -4,12 +4,31 @@ export const STUDENT_EXAM_IDS_QUERY = gql`
   query STUDENT_EXAM_IDS_QUERY($exam_id: ID!) {
     studentExams(exam_id: $exam_id) {
       id
+      attempts
+      created_at
+      updated_at
+      answer {
+        id
+        answers
+        file {
+          url
+          name
+        }
+        points
+      }
+      student {
+        id
+        identity {
+          first_name
+          last_name
+        }
+      }
     }
   }
 `
 
 export const GRADE_STUDENT_EXAM_MUTATION = gql`
-  mutation GRADE_STUDENT_EXAM_MUTATION($id: ID!, $answer: [GradeExamAnswerInput]) {
+  mutation GRADE_STUDENT_EXAM_MUTATION($id: ID!, $answer: [GradeExamAnswerInput!]) {
     gradeStudentExam(input: { id: $id, answer: $answer }) {
       id
     }

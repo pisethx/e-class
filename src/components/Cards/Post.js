@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom'
 import Delete from 'components/Forms/Delete'
 
 const PostCard = ({ id, badge, refetch, deleteMutation, title, info, date, description, anchorBtn, showBtn, editBtn, deleteBtn }) => {
-  console.log(id)
-
   return (
     <Card
       style={{

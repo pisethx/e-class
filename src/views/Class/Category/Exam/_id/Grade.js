@@ -11,6 +11,9 @@ import moment from 'moment'
 import { Button, Card, CardHeader, CardBody, Row, Col, Form, FormGroup, Label, Input, CardFooter, Spinner } from 'reactstrap'
 import PostCard from 'components/Cards/Post'
 import { STUDENT_EXAM_IDS_QUERY } from 'constants/grade'
+import StudentExam from './StudentExam'
+import Select from 'react-select'
+import Loading from 'components/Loading'
 
 const ClassExamShow = (props) => {
   const { data } = useQuery(CLASS_CATEGORIES_QUERY, {
@@ -19,16 +22,30 @@ const ClassExamShow = (props) => {
     },
   })
 
+  const [selectedStudentExam, setSelectedStudentExam] = useState(null)
+
   const STUDENT_EXAM_ID_RES = useQuery(STUDENT_EXAM_IDS_QUERY, {
     variables: {
       exam_id: props.examId,
     },
   })
 
+  const [students, setStudents] = useState(null)
+
   let studentExams = []
-  if (STUDENT_EXAM_ID_RES) {
-    studentExams = STUDENT_EXAM_ID_RES?.data?.studentExams
-  }
+  if (STUDENT_EXAM_ID_RES) studentExams = STUDENT_EXAM_ID_RES?.data?.studentExams
+
+  useEffect(() => {
+    if (studentExams?.length) {
+      const studentTakesExam = studentExams?.map((exam) => ({
+        label: `${exam.student.identity.first_name} ${exam.student.identity.last_name}`,
+        value: exam.student.id,
+      }))
+      if (studentTakesExam?.length) {
+        setStudents(studentTakesExam)
+      }
+    }
+  }, [studentExams])
 
   const [success, setSuccess] = useState(null)
   const exam = data?.class?.class_categories.find((category) => category.id === props.categoryId)?.exams?.find((exam) => exam.id === props.examId)
@@ -41,13 +58,12 @@ const ClassExamShow = (props) => {
     },
   })
 
-  const onSubmit = async () => {
-    try {
-      // await gradeExam()
-    } catch (e) {}
-  }
+  const [selected, setSelected] = useState(null)
 
-  console.log(studentExams)
+  useEffect(() => {
+    setSelectedStudentExam(() => selected)
+  }, [selected])
+
   if (loading) return <Spinner />
 
   return (
@@ -63,7 +79,7 @@ const ClassExamShow = (props) => {
               <Success success={success} />
               <CardBody style={{ padding: '1rem 2rem' }}>
                 {exam && Object.values(exam).length && (
-                  <Form onSubmit={onSubmit}>
+                  <>
                     <PostCard
                       key={exam.id}
                       title={exam.name}
@@ -71,69 +87,27 @@ const ClassExamShow = (props) => {
                       date={`Due Date: ${exam.due_at ? moment(exam.due_at).format('YYYY-MM-DD') : 'Not Specified'}`}
                       description={exam.description}
                     />
-                    {exam.qa.map(({ id: _id, question, answers, possibles, points, type }, i) => (
-                      <Card
-                        key={_id}
-                        style={{
-                          padding: '.5rem',
-                        }}
-                      >
-                        <CardHeader style={{ fontWeight: 'bold' }}>{`${_id}. ${question}`}</CardHeader>
-                        <CardFooter style={{ fontWeight: 'bold' }}>
-                          {`Points: ${points}`} <br />
-                          {`Type: ${type}`}
-                        </CardFooter>
-                        <CardBody>
-                          {type === 'QCM' && (
-                            <>
-                              <Label>X's answer:</Label>
-                              {possibles?.map((possible, j) => (
-                                <FormGroup check key={j}>
-                                  <Label check>
-                                    <Input type="checkbox" />
-                                    {possible}
-                                    <span className="form-check-sign">
-                                      <span className="check"></span>
-                                    </span>
-                                  </Label>
-                                </FormGroup>
-                              ))}
-                            </>
-                          )}
-
-                          {type === 'ESSAY' && (
-                            <FormGroup>
-                              <Label for="textarea">X's answer: </Label>
-                              <Input type="textarea" name="text" id="textarea" />
-                            </FormGroup>
-                          )}
-                          {type === 'UPLOAD' && (
-                            <FormGroup>
-                              {/* <Input placeholder="File" type="file" name="file" required />
-                              <Button className="btn-simple" color={uploadedFile ? 'success' : 'warning'}>
-                                Upload File{uploadedFile ? ' Successfully' : ''}
-                              </Button> */}
-                            </FormGroup>
-                          )}
-                        </CardBody>
-                      </Card>
-                    ))}
-
-                    <FormGroup>
-                      <Label>Points (Max: {exam.qa.map((q) => q.points).reduce((a, b) => a + b)} Points)</Label>
-                      <Input placeholder="Points" type="number" name="points" onChange={handleChange} required />
-                    </FormGroup>
-                    <Button className="btn-simple" type="submit" color="primary">
-                      Submit
-                    </Button>
-                  </Form>
+                  </>
+                )}
+                {students?.length ? (
+                  <>
+                    <Select
+                      options={students}
+                      onChange={(e) => {
+                        const selected = studentExams.find((s) => s?.student?.id === e.value)
+                        if (selected) setSelected(() => selected)
+                      }}
+                    />
+                    {selectedStudentExam && <StudentExam exam={{ ...exam, ...selectedStudentExam }} />}
+                  </>
+                ) : (
+                  <Loading />
                 )}
               </CardBody>
             </Card>
           </Col>
         </Row>
       </div>
-      )
     </>
   )
 }
