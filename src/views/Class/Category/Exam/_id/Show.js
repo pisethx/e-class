@@ -27,6 +27,7 @@ const ClassExamShow = (props) => {
       setForm(
         exam?.qa.map(({ id, type }) => ({
           id,
+          file: type === 'UPLOAD' ? null : undefined,
           answers: type === 'QCM' ? [] : '',
         }))
       )
@@ -36,7 +37,7 @@ const ClassExamShow = (props) => {
   const [submitExam, { loading, error }] = useMutation(STUDENT_TAKES_EXAM_MUTATION, {
     variables: {
       exam_id: props.examId,
-      answers: [...form],
+      answers: form,
     },
   })
 
@@ -45,6 +46,7 @@ const ClassExamShow = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
+      console.log(form)
       await submitExam()
       setSuccess('Success')
     } catch (e) {}
@@ -52,7 +54,8 @@ const ClassExamShow = (props) => {
 
   const updateForm = (idx, newValue) => {
     let updatedState = form
-    updatedState[idx].answers = newValue
+
+    updatedState[idx].file = newValue
     setForm(updatedState)
   }
 
@@ -124,7 +127,10 @@ const ClassExamShow = (props) => {
                                 name="text"
                                 id="textarea"
                                 onChange={(e) => {
-                                  updateForm(i, e.target.value)
+                                  let updatedState = form
+
+                                  updatedState[i].answers = e.target.value
+                                  setForm(updatedState)
                                 }}
                               />
                             </FormGroup>

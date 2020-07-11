@@ -37,11 +37,11 @@ const ClassExamShow = (props) => {
 
   useEffect(() => {
     if (studentExams?.length) {
-      console.log(studentExams)
       const studentTakesExam = studentExams?.map((exam) => ({
         label: `${exam.student.identity.first_name} ${exam.student.identity.last_name} Score: ${exam.points ? exam.points : 'Not Graded Yet'}`,
         value: exam.student.id,
       }))
+
       if (studentTakesExam?.length) {
         setStudents(studentTakesExam)
       }
@@ -62,10 +62,18 @@ const ClassExamShow = (props) => {
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
+    console.log(selected)
     setSelectedStudentExam(() => selected)
   }, [selected])
 
   if (loading) return <Spinner />
+
+  const setNext = () => {
+    if (studentExams)
+      setSelected(() => {
+        return studentExams[studentExams.indexOf(studentExams.find((ex) => ex === selected)) + 1]
+      })
+  }
 
   return (
     <>
@@ -94,15 +102,26 @@ const ClassExamShow = (props) => {
                   <>
                     <Select
                       options={students}
+                      value={
+                        selected
+                          ? {
+                              label: `${selected?.student?.identity?.first_name} ${selected?.student?.identity?.last_name} Score: ${
+                                selected.points ? selected.points : 'Not Graded Yet'
+                              }`,
+                              value: selected?.id,
+                            }
+                          : null
+                      }
                       onChange={(e) => {
                         const selected = studentExams.find((s) => s?.student?.id === e.value)
                         if (selected) setSelected(() => selected)
+                        console.log(selected)
                       }}
                     />
-                    {selectedStudentExam && <StudentExam exam={{ ...exam, ...selectedStudentExam }} />}
+                    {selectedStudentExam && <StudentExam setNext={setNext} exam={{ ...exam, ...selectedStudentExam }} />}
                   </>
                 ) : (
-                  <Loading />
+                  'No Submission Found'
                 )}
               </CardBody>
             </Card>

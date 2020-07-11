@@ -14,13 +14,16 @@ import { STUDENT_EXAM_IDS_QUERY } from 'constants/grade'
 import Loading from 'components/Loading'
 
 const StudentExam = (props) => {
-  const [exam, setExam] = useState({})
+  const [exam, setExam] = useState(props.exam)
   const [form, setForm] = useState([])
 
   useEffect(() => {
     if (props.exam) {
       setExam((prevState) => props.exam)
-      setForm((prevState) => props.exam.qa.map((q) => ({ id: q.id, points: null })))
+      console.log(exam)
+      setForm((prevState) =>
+        props.exam.qa.map((q) => ({ id: q.id, points: props.exam.answer.find((ans) => ans.id === q.id)?.points?.toString() || '' }))
+      )
     }
   }, [props.exam])
 
@@ -39,6 +42,7 @@ const StudentExam = (props) => {
     try {
       await gradeExam(form)
       setSuccess('Success')
+      props.setNext()
     } catch (e) {
       console.log(e)
     }
@@ -93,15 +97,15 @@ const StudentExam = (props) => {
                         {type === 'ESSAY' && (
                           <FormGroup>
                             <Label for="textarea">{exam.student.identity.first_name}'s answer: </Label>
-                            <Input type="textarea" name="text" id="textarea" value={exam?.answer?.find((ans) => ans?.id === _id).answers} />
+                            <Input readOnly type="textarea" name="text" id="textarea" value={exam?.answer?.find((ans) => ans?.id === _id).answers} />
                           </FormGroup>
                         )}
 
                         {type === 'UPLOAD' && (
                           <FormGroup>
                             <Label for="textarea">{exam.student.identity.first_name}'s answer: </Label>
-                            <a href={exam.answer.file.url} target="_blank">
-                              {exam.answer.file.name}
+                            <a href={exam?.answer?.find((ans) => ans?.id === _id).file.url} target="_blank">
+                              {exam?.answer?.find((ans) => ans?.id === _id).file.name}
                             </a>
                           </FormGroup>
                         )}
@@ -110,13 +114,15 @@ const StudentExam = (props) => {
                           <Label>Points: </Label>
                           <Input
                             placeholder="Points"
-                            type="number"
+                            type="text"
                             name="points"
-                            value={exam?.answer?.find((ans) => ans?.id === _id)?.points || ''}
+                            defaultValue={form.find((f) => f?.id === _id)?.points}
                             onChange={(e) => {
+                              console.log(form.find((f) => f?.id === _id)?.points)
                               const points = form
                               const idx = points.indexOf(points.find((p) => p.id === _id))
                               points[idx].points = e.target.value
+                              console.log(points)
                               setForm((prevState) => points)
                             }}
                             required
