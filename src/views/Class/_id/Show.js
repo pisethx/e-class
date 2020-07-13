@@ -85,12 +85,12 @@ const ClassShow = (props) => {
                       <Col col="12" className="my-3">
                         <NavLink to={`/class/${props.id}/content`}>
                           <Button className="btn-simple m-2" color="success">
-                            Contents
+                            Lessons
                           </Button>
                         </NavLink>
                         <NavLink to={`/class/${props.id}/category`}>
                           <Button className="btn-simple m-2" color="warning">
-                            Categories
+                            Exams
                           </Button>
                         </NavLink>
                         <NavLink to={`/class/${props.id}/forum`}>
